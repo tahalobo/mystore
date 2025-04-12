@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/home/HeroSection";
@@ -13,10 +13,26 @@ import ProductCard from "@/components/ProductCard";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Product } from "@/types";
+import ProductDetailModal from "@/components/ProductDetailModal";
+import BrandsSection from "@/components/home/BrandsSection";
+import TrendingSection from "@/components/home/TrendingSection";
 
 const Index: React.FC = () => {
   const bestSellers = getBestSellers().slice(0, 4);
   const newArrivals = getNewArrivals().slice(0, 4);
+  
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openProductModal = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeProductModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -25,7 +41,7 @@ const Index: React.FC = () => {
       <main className="flex-grow">
         <HeroSection />
         <CategoriesSection />
-        <FeaturedProducts />
+        <FeaturedProducts onProductClick={openProductModal} />
         
         {/* Best Sellers Section */}
         <section className="section-padding bg-gray-50">
@@ -46,13 +62,17 @@ const Index: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {bestSellers.map((product, index) => (
                 <div key={product.id} className={`animate-fade-up [animation-delay:${index * 100}ms]`}>
-                  <ProductCard product={product} />
+                  <ProductCard 
+                    product={product} 
+                    onProductClick={openProductModal}
+                  />
                 </div>
               ))}
             </div>
           </div>
         </section>
         
+        <BrandsSection />
         <PromotionSection />
         
         {/* New Arrivals Section */}
@@ -74,18 +94,28 @@ const Index: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {newArrivals.map((product, index) => (
                 <div key={product.id} className={`animate-fade-up [animation-delay:${index * 100}ms]`}>
-                  <ProductCard product={product} />
+                  <ProductCard 
+                    product={product}
+                    onProductClick={openProductModal}
+                  />
                 </div>
               ))}
             </div>
           </div>
         </section>
         
+        <TrendingSection onProductClick={openProductModal} />
         <TestimonialsSection />
         <NewsletterSection />
       </main>
       
       <Footer />
+      
+      <ProductDetailModal 
+        product={selectedProduct} 
+        isOpen={isModalOpen} 
+        onClose={closeProductModal} 
+      />
     </div>
   );
 };

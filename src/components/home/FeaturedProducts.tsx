@@ -5,8 +5,13 @@ import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard";
 import { getFeaturedProducts } from "@/data/products";
 import { ChevronRight } from "lucide-react";
+import { Product } from "@/types";
 
-const FeaturedProducts: React.FC = () => {
+interface FeaturedProductsProps {
+  onProductClick?: (product: Product) => void;
+}
+
+const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) => {
   const featuredProducts = getFeaturedProducts();
 
   return (
@@ -28,7 +33,10 @@ const FeaturedProducts: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {featuredProducts.map((product, index) => (
             <div key={product.id} className={`animate-fade-up [animation-delay:${index * 100}ms]`}>
-              <ProductCard product={product} />
+              <ProductCard 
+                product={product} 
+                onProductClick={onProductClick}
+              />
             </div>
           ))}
         </div>

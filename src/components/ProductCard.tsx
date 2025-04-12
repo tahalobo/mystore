@@ -10,9 +10,10 @@ import { cn } from "@/lib/utils";
 interface ProductCardProps {
   product: Product;
   className?: string;
+  onProductClick?: (product: Product) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProductClick }) => {
   const { addToCart } = useCart();
   
   const renderStars = (rating: number) => {
@@ -33,8 +34,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
     return stars;
   };
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (onProductClick) {
+      e.preventDefault();
+      onProductClick(product);
+    }
+  };
+
   return (
-    <div className={cn("product-card group", className)}>
+    <div 
+      className={cn("product-card group hover:-translate-y-2 transition-all duration-300", className)}
+      onClick={handleCardClick}
+    >
       <div className="relative aspect-square overflow-hidden">
         <img 
           src={product.image} 
@@ -64,7 +75,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
           <Button 
             variant="outline" 
             size="icon" 
-            className="bg-white hover:bg-primary hover:text-white m-1"
+            className="bg-white hover:bg-primary hover:text-white m-1 animate-fade-in"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -77,7 +88,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
           <Button 
             variant="outline" 
             size="icon" 
-            className="bg-white hover:bg-primary hover:text-white m-1"
+            className="bg-white hover:bg-primary hover:text-white m-1 animate-fade-in"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              // Wishlist functionality will be implemented later
+            }}
           >
             <Heart className="h-4 w-4" />
           </Button>
@@ -85,11 +101,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
       </div>
       
       <div className="p-4">
-        <Link to={`/product/${product.id}`} className="block">
-          <h3 className="text-lg font-medium line-clamp-1 hover:text-primary transition-colors">
-            {product.name}
-          </h3>
-        </Link>
+        <h3 className="text-lg font-medium line-clamp-1 hover:text-primary transition-colors">
+          {product.name}
+        </h3>
         
         <div className="flex items-center mt-1">
           {renderStars(product.rating)}
@@ -103,7 +117,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
             variant="primary" 
             size="sm" 
             className="btn-hover-effect"
-            onClick={() => addToCart(product)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              addToCart(product);
+            }}
           >
             Add to Cart
           </Button>

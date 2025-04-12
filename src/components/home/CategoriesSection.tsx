@@ -45,7 +45,7 @@ const CategoriesSection: React.FC = () => {
                 id={category.id}
                 name={category.name}
                 image={category.image}
-                count={category.productCount || 0}
+                count={category.count || 0}
               />
             </motion.div>
           ))}

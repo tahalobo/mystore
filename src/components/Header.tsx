@@ -1,205 +1,188 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useMediaQuery } from "@/hooks/use-mobile";
 import { useCart } from "@/contexts/CartContext";
-import { ShoppingCart, User, Heart, Menu, X, Search } from "lucide-react";
+import { cn } from "@/lib/utils";
+import NavigationMenu from "./NavigationMenu";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { MainNav } from "@/components/NavigationMenu";
+import { ShoppingCart, User, Heart, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const { cartCount } = useCart();
   const location = useLocation();
 
-  // Handle scroll event to change header style on scroll
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
+  // Close mobile menu when location changes
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setSearchOpen(false);
-  }, [location.pathname]);
+    setIsMobileMenuOpen(false);
+  }, [location]);
 
   return (
     <header
-      className={`fixed w-full z-30 transition-all duration-300 ${
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         isScrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md py-2"
-          : "bg-transparent py-4"
-      }`}
+          ? "py-2 backdrop-blur-lg bg-white/80 shadow-sm"
+          : "py-4 bg-transparent"
+      )}
     >
-      <div className="container mx-auto px-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-primary flex items-center">
-          <span className="text-gradient">TechHaven</span>
-        </Link>
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="text-2xl font-bold text-primary">
+            TechBazaar
+          </Link>
 
-        {/* Desktop Navigation */}
-        <MainNav />
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <NavigationMenu />
+          </div>
 
-        {/* Search Bar - Desktop */}
-        <AnimatePresence>
-          {searchOpen ? (
-            <motion.div 
-              className="absolute inset-0 bg-white/95 flex items-center justify-center px-4 md:px-12 py-3"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
+          {/* Right Section */}
+          <div className="flex items-center space-x-1 md:space-x-2">
+            {/* Wishlist */}
+            <Button
+              variant="ghost"
+              size="icon"
+              asChild
+              className="relative rounded-full"
             >
-              <div className="relative w-full max-w-2xl">
-                <Input 
-                  type="text" 
-                  placeholder="Search for products..." 
-                  className="pr-8 py-6 text-lg"
-                  autoFocus
-                />
-                <Search className="absolute right-12 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                  onClick={() => setSearchOpen(false)}
-                >
-                  <X className="h-5 w-5" />
-                </Button>
-              </div>
-            </motion.div>
-          ) : (
-            <div className="hidden md:flex items-center space-x-1">
-              <Button variant="ghost" size="icon" onClick={() => setSearchOpen(true)}>
-                <Search className="h-5 w-5" />
-              </Button>
-              
-              <Button variant="ghost" size="icon" asChild>
-                <Link to="/wishlist">
-                  <Heart className="h-5 w-5" />
-                </Link>
-              </Button>
-              
-              <Button variant="ghost" size="icon" asChild>
-                <Link to="/account">
-                  <User className="h-5 w-5" />
-                </Link>
-              </Button>
-              
-              <Button variant="ghost" size="icon" className="relative" asChild>
-                <Link to="/cart">
-                  <ShoppingCart className="h-5 w-5" />
-                  {cartCount > 0 && (
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-primary">
-                      {cartCount}
-                    </Badge>
-                  )}
-                </Link>
-              </Button>
-            </div>
-          )}
-        </AnimatePresence>
+              <Link to="/wishlist">
+                <Heart className="h-5 w-5" />
+              </Link>
+            </Button>
 
-        {/* Mobile Menu Button */}
-        <div className="flex items-center space-x-3 md:hidden">
-          <Button variant="ghost" size="icon" onClick={() => setSearchOpen(!searchOpen)}>
-            <Search className="h-5 w-5" />
-          </Button>
-          
-          <Button variant="ghost" size="icon" className="relative" asChild>
-            <Link to="/cart">
-              <ShoppingCart className="h-5 w-5" />
-              {cartCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-primary">
-                  {cartCount}
-                </Badge>
+            {/* Account */}
+            <Button
+              variant="ghost"
+              size="icon"
+              asChild
+              className="relative rounded-full"
+            >
+              <Link to="/account">
+                <User className="h-5 w-5" />
+              </Link>
+            </Button>
+
+            {/* Cart */}
+            <Button
+              variant="ghost"
+              size="icon"
+              asChild
+              className="relative rounded-full"
+            >
+              <Link to="/cart">
+                <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                    {cartCount > 9 ? '9+' : cartCount}
+                  </span>
+                )}
+              </Link>
+            </Button>
+
+            {/* Mobile Menu Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden relative rounded-full"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
               )}
-            </Link>
-          </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Navigation */}
       <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            className="md:hidden bg-white shadow-lg overflow-hidden"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white/90 backdrop-blur-lg border-t border-gray-100 shadow-md"
           >
-            <div className="px-4 py-3">
-              <nav className="flex flex-col space-y-3">
-                <Link to="/" className="text-foreground hover:text-primary transition-colors py-2 border-b">
-                  Home
-                </Link>
-                <Link to="/shop" className="text-foreground hover:text-primary transition-colors py-2 border-b">
-                  Shop
-                </Link>
-                
-                <div className="py-2 border-b">
-                  <h3 className="font-medium mb-2">Categories</h3>
-                  <div className="grid grid-cols-2 gap-2 pl-3">
-                    <Link to="/category/phone-cases" className="text-foreground hover:text-primary transition-colors py-1 text-sm">
-                      Phone Cases
+            <div className="container mx-auto px-4 py-4">
+              <nav>
+                <ul className="space-y-2">
+                  <li>
+                    <Link
+                      to="/"
+                      className={cn(
+                        "block py-2 px-4 rounded-lg transition-colors hover:bg-gray-100",
+                        location.pathname === '/' && 'text-primary font-medium bg-primary/10'
+                      )}
+                    >
+                      Home
                     </Link>
-                    <Link to="/category/headphones" className="text-foreground hover:text-primary transition-colors py-1 text-sm">
-                      Headphones
+                  </li>
+                  <li>
+                    <Link
+                      to="/shop"
+                      className={cn(
+                        "block py-2 px-4 rounded-lg transition-colors hover:bg-gray-100",
+                        location.pathname === '/shop' && 'text-primary font-medium bg-primary/10'
+                      )}
+                    >
+                      Shop
                     </Link>
-                    <Link to="/category/chargers" className="text-foreground hover:text-primary transition-colors py-1 text-sm">
-                      Chargers
+                  </li>
+                  <li>
+                    <Link
+                      to="/deals"
+                      className={cn(
+                        "block py-2 px-4 rounded-lg transition-colors hover:bg-gray-100",
+                        location.pathname === '/deals' && 'text-primary font-medium bg-primary/10'
+                      )}
+                    >
+                      Deals
                     </Link>
-                    <Link to="/category/cables" className="text-foreground hover:text-primary transition-colors py-1 text-sm">
-                      Cables
+                  </li>
+                  <li>
+                    <Link
+                      to="/about"
+                      className={cn(
+                        "block py-2 px-4 rounded-lg transition-colors hover:bg-gray-100",
+                        location.pathname === '/about' && 'text-primary font-medium bg-primary/10'
+                      )}
+                    >
+                      About
                     </Link>
-                    <Link to="/category/speakers" className="text-foreground hover:text-primary transition-colors py-1 text-sm">
-                      Speakers
+                  </li>
+                  <li>
+                    <Link
+                      to="/contact"
+                      className={cn(
+                        "block py-2 px-4 rounded-lg transition-colors hover:bg-gray-100",
+                        location.pathname === '/contact' && 'text-primary font-medium bg-primary/10'
+                      )}
+                    >
+                      Contact
                     </Link>
-                    <Link to="/category/screen-protectors" className="text-foreground hover:text-primary transition-colors py-1 text-sm">
-                      Screen Protectors
-                    </Link>
-                  </div>
-                </div>
-                
-                <Link to="/deals" className="text-foreground hover:text-primary transition-colors py-2 border-b">
-                  Deals
-                </Link>
-                <Link to="/about" className="text-foreground hover:text-primary transition-colors py-2 border-b">
-                  About
-                </Link>
-                <Link to="/contact" className="text-foreground hover:text-primary transition-colors py-2 border-b">
-                  Contact
-                </Link>
-                <Link to="/wishlist" className="text-foreground hover:text-primary transition-colors py-2 border-b">
-                  Wishlist
-                </Link>
-                <Link to="/account" className="text-foreground hover:text-primary transition-colors py-2 border-b">
-                  My Account
-                </Link>
+                  </li>
+                </ul>
               </nav>
             </div>
           </motion.div>

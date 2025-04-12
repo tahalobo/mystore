@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useCart } from "@/contexts/CartContext";
 import Header from "@/components/Header";
@@ -6,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2, ChevronLeft, Plus, Minus, Truck, ShoppingBag } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Cart: React.FC = () => {
@@ -17,6 +16,7 @@ const Cart: React.FC = () => {
     cartTotal,
     clearCart 
   } = useCart();
+  const navigate = useNavigate();
   
   if (cartItems.length === 0) {
     return (
@@ -183,7 +183,12 @@ const Cart: React.FC = () => {
                   </div>
                   
                   <div className="pt-2">
-                    <Button className="w-full">Proceed to Checkout</Button>
+                    <Button 
+                      className="w-full"
+                      onClick={() => navigate('/checkout')}
+                    >
+                      Proceed to Checkout
+                    </Button>
                   </div>
                   
                   <div className="pt-4">

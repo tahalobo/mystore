@@ -8,6 +8,7 @@ import FeaturedProducts from "@/components/home/FeaturedProducts";
 import PromotionSection from "@/components/home/PromotionSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import NewsletterSection from "@/components/home/NewsletterSection";
+import ScrollToTop from "@/components/ScrollToTop";
 import { getBestSellers, getNewArrivals } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { ChevronRight } from "lucide-react";
@@ -68,13 +69,13 @@ const Index: React.FC = () => {
         
         {/* Best Sellers Section */}
         <motion.section 
-          className="section-padding bg-gray-50"
+          className="section-padding bg-gray-50 py-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={sectionVariants}
         >
-          <div className="container mx-auto">
+          <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
                 <motion.h2 
@@ -97,7 +98,7 @@ const Index: React.FC = () => {
                 </motion.p>
               </div>
               <Button variant="link" asChild className="mt-2 md:mt-0 text-primary">
-                <Link to="/shop" className="flex items-center">
+                <Link to="/best-sellers" className="flex items-center">
                   View All
                   <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -143,13 +144,13 @@ const Index: React.FC = () => {
         
         {/* New Arrivals Section */}
         <motion.section 
-          className="section-padding"
+          className="section-padding py-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={sectionVariants}
         >
-          <div className="container mx-auto">
+          <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
                 <motion.h2 
@@ -172,7 +173,7 @@ const Index: React.FC = () => {
                 </motion.p>
               </div>
               <Button variant="link" asChild className="mt-2 md:mt-0 text-primary">
-                <Link to="/shop" className="flex items-center">
+                <Link to="/new-arrivals" className="flex items-center">
                   View All
                   <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -233,6 +234,8 @@ const Index: React.FC = () => {
         isOpen={isModalOpen} 
         onClose={closeProductModal} 
       />
+      
+      <ScrollToTop />
     </div>
   );
 };

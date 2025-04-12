@@ -1,9 +1,11 @@
+
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { allProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import ProductDetailModal from "@/components/ProductDetailModal";
+import ScrollToTop from "@/components/ScrollToTop";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -119,10 +121,10 @@ const Shop: React.FC = () => {
       
       <main className="flex-grow pt-24">
         {/* Shop Header */}
-        <div className="bg-gray-50 py-8">
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 py-10">
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">Shop</h1>
-            <p className="text-gray-600">Browse our wide selection of products</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-center">Shop</h1>
+            <p className="text-gray-600 text-center">Browse our wide selection of products</p>
           </div>
         </div>
         
@@ -305,6 +307,8 @@ const Shop: React.FC = () => {
         isOpen={isModalOpen} 
         onClose={closeProductModal} 
       />
+      
+      <ScrollToTop />
       
       {/* Overlay for mobile filters */}
       {filterOpen && (

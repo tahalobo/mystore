@@ -5,11 +5,12 @@ import { categories } from "@/data/products";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import CategoryCard from "../CategoryCard";
 
 const CategoriesSection: React.FC = () => {
   return (
-    <section className="section-padding bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto">
+    <section className="section-padding bg-gradient-to-b from-gray-50 to-white py-16">
+      <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <motion.h2 
             className="text-3xl font-bold"
@@ -39,30 +40,13 @@ const CategoriesSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
-              <Link
-                to={`/category/${category.id}`}
-                className={cn(
-                  "block bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-all duration-300"
-                )}
-              >
-                <div className="aspect-square relative overflow-hidden">
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col items-center justify-end p-4">
-                    <h3 className="text-white font-medium text-center mb-1">
-                      {category.name}
-                    </h3>
-                    <span className="text-white/80 text-xs flex items-center">
-                      Shop Now <ArrowRight className="h-3 w-3 ml-1" />
-                    </span>
-                  </div>
-                </div>
-              </Link>
+              <CategoryCard 
+                id={category.id}
+                name={category.name}
+                image={category.image}
+                count={category.productCount || 0}
+              />
             </motion.div>
           ))}
         </div>

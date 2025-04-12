@@ -5,15 +5,13 @@ import Footer from "@/components/Footer";
 import { allProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import ProductDetailModal from "@/components/ProductDetailModal";
+import ScrollToTop from "@/components/ScrollToTop";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { 
-  Filter, 
-  SlidersHorizontal, 
-  ChevronDown, 
-  ChevronUp,
+  Filter,
   ChevronLeft,
   X 
 } from "lucide-react";
@@ -349,6 +347,13 @@ const CategoryPage: React.FC = () => {
             
             {/* Products Grid */}
             <div className="md:w-3/4 lg:w-4/5">
+              <Button variant="ghost" asChild className="mb-6 hover:bg-gray-100">
+                <Link to="/shop" className="flex items-center">
+                  <ChevronLeft className="mr-1 h-4 w-4" />
+                  Back to Shop
+                </Link>
+              </Button>
+            
               {products.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {products.map((product, index) => (
@@ -390,6 +395,8 @@ const CategoryPage: React.FC = () => {
         isOpen={isModalOpen} 
         onClose={closeProductModal} 
       />
+      
+      <ScrollToTop />
       
       {/* Overlay for mobile filters */}
       {filterOpen && (

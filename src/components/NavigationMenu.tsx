@@ -24,10 +24,10 @@ const categories = [
 ];
 
 const collections = [
-  { name: "New Arrivals", href: "/new-arrivals" },
-  { name: "Best Sellers", href: "/best-sellers" },
-  { name: "Featured", href: "/featured" },
-  { name: "Sale", href: "/sale" },
+  { name: "New Arrivals", href: "/new-arrivals", description: "See our latest products fresh to the store" },
+  { name: "Best Sellers", href: "/best-sellers", description: "Our most popular products that customers love" },
+  { name: "Featured", href: "/featured", description: "Handpicked products showcased for their quality" },
+  { name: "Sale", href: "/sale", description: "Great deals and discounts you shouldn't miss" },
 ];
 
 export function MainNav() {
@@ -46,7 +46,8 @@ export function MainNav() {
             <NavigationMenuLink
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent hover:bg-transparent hover:text-primary"
+                "bg-transparent hover:bg-transparent hover:text-primary",
+                location.pathname === "/" && "text-primary font-medium"
               )}
             >
               Home
@@ -55,7 +56,10 @@ export function MainNav() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-transparent hover:bg-transparent hover:text-primary">
+          <NavigationMenuTrigger className={cn(
+            "bg-transparent hover:bg-transparent hover:text-primary",
+            categories.some(category => location.pathname === category.href) && "text-primary font-medium"
+          )}>
             Categories
           </NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -65,7 +69,7 @@ export function MainNav() {
                   <NavigationMenuLink asChild>
                     <Link
                       to={category.href}
-                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:bg-primary/10"
                     >
                       <div className="mb-2 mt-4 text-lg font-medium">
                         {category.name}
@@ -82,7 +86,10 @@ export function MainNav() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-transparent hover:bg-transparent hover:text-primary">
+          <NavigationMenuTrigger className={cn(
+            "bg-transparent hover:bg-transparent hover:text-primary",
+            collections.some(collection => location.pathname === collection.href) && "text-primary font-medium"
+          )}>
             Collections
           </NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -98,7 +105,7 @@ export function MainNav() {
                         {collection.name}
                       </div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Explore our {collection.name.toLowerCase()} collection
+                        {collection.description}
                       </p>
                     </Link>
                   </NavigationMenuLink>
@@ -113,7 +120,8 @@ export function MainNav() {
             <NavigationMenuLink
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent hover:bg-transparent hover:text-primary"
+                "bg-transparent hover:bg-transparent hover:text-primary",
+                location.pathname === "/shop" && "text-primary font-medium"
               )}
             >
               Shop
@@ -126,7 +134,8 @@ export function MainNav() {
             <NavigationMenuLink
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent hover:bg-transparent hover:text-primary"
+                "bg-transparent hover:bg-transparent hover:text-primary",
+                location.pathname === "/deals" && "text-primary font-medium"
               )}
             >
               Deals
@@ -139,7 +148,8 @@ export function MainNav() {
             <NavigationMenuLink
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent hover:bg-transparent hover:text-primary"
+                "bg-transparent hover:bg-transparent hover:text-primary",
+                location.pathname === "/about" && "text-primary font-medium"
               )}
             >
               About
@@ -152,7 +162,8 @@ export function MainNav() {
             <NavigationMenuLink
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent hover:bg-transparent hover:text-primary"
+                "bg-transparent hover:bg-transparent hover:text-primary",
+                location.pathname === "/contact" && "text-primary font-medium"
               )}
             >
               Contact

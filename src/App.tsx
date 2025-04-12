@@ -15,6 +15,9 @@ import Account from "./pages/Account";
 import Deals from "./pages/Deals";
 import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/CategoryPage";
+import Collection from "./pages/Collection";
+import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
 
 const queryClient = new QueryClient();
 
@@ -29,12 +32,15 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-success" element={<OrderSuccess />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/account" element={<Account />} />
             <Route path="/deals" element={<Deals />} />
             <Route path="/category/:categoryId" element={<CategoryPage />} />
+            <Route path="/:collectionId" element={<Collection />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

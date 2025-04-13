@@ -6,7 +6,7 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ShoppingCart, User, Heart, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import NavigationMenu from "@/components/NavigationMenu";
+import { MainNav } from "@/components/NavigationMenu";
 import SearchBar from "@/components/SearchBar";
 
 const Header: React.FC = () => {
@@ -59,7 +59,7 @@ const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <NavigationMenu />
+            <MainNav />
           </div>
 
           {/* Search, Cart & Account */}

@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils";
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const { cart } = useCart();
-  const { wishlist } = useWishlist();
+  const { cartItems, cartCount } = useCart();
+  const { wishlistItems, wishlistCount } = useWishlist();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,9 +73,9 @@ const Header: React.FC = () => {
                 aria-label="Wishlist"
               >
                 <Heart className="h-5 w-5" />
-                {wishlist.length > 0 && (
+                {wishlistCount > 0 && (
                   <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-primary rounded-full">
-                    {wishlist.length}
+                    {wishlistCount}
                   </span>
                 )}
               </Button>
@@ -89,9 +89,9 @@ const Header: React.FC = () => {
                 aria-label="Shopping cart"
               >
                 <ShoppingBag className="h-5 w-5" />
-                {cart.items.length > 0 && (
+                {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-primary rounded-full">
-                    {cart.items.length}
+                    {cartCount}
                   </span>
                 )}
               </Button>

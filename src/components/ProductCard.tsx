@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Product } from "@/types";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { Star, ShoppingBag, Heart, Clock, BadgeCheck, Shield, Eye, Sparkles } from "lucide-react";
+import { ShoppingBag, Heart, Clock, BadgeCheck, Shield, Eye, Sparkles, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
@@ -24,23 +24,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const navigate = useNavigate();
   
-  const renderStars = (rating: number) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    
-    for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(<Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />);
-      } else if (i === fullStars && rating % 1 > 0) {
-        stars.push(<Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400 opacity-50" />);
-      } else {
-        stars.push(<Star key={i} className="w-3 h-3 text-gray-300" />);
-      }
-    }
-    
-    return stars;
-  };
-
   const handleCardClick = (e: React.MouseEvent) => {
     if (onProductClick) {
       e.preventDefault();
@@ -96,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
           className="aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-6"
         >
           <motion.img 
-            src={product.image} 
+            src="/lovable-uploads/8c2df3b9-50c3-4839-b072-91db82a03f1d.png" 
             alt={product.name}
             className="h-full w-full object-contain mix-blend-multiply transition-transform duration-700"
             initial={{ scale: 1 }}
@@ -208,12 +191,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
           {product.name}
         </h3>
         
-        {/* Rating */}
+        {/* Product ID instead of Rating */}
         <div className="mt-2 flex items-center gap-1">
-          <div className="flex gap-0.5">
-            {renderStars(product.rating)}
+          <div className="flex items-center text-xs font-medium text-gray-500">
+            <Tag className="h-3 w-3 mr-1" />
+            <span>ID: {product.id}</span>
           </div>
-          <span className="text-xs text-gray-500">({product.reviews})</span>
         </div>
         
         {/* Price */}

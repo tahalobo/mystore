@@ -1,11 +1,17 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Home, ShoppingBag, Heart, Search, Phone, Info, Tag, Package } from "lucide-react";
+import { Menu, X, Home, ShoppingBag, Heart, Search, Phone, Info, Tag, Package, Layers, LayoutGrid } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { 
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 
 interface MobileMenuProps {
   logo: React.ReactNode;
@@ -15,6 +21,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
   const { cartItems, cartCount } = useCart();
   const { wishlistItems, wishlistCount } = useWishlist();
   const [isOpen, setIsOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
 
   const closeMenu = () => {
     setIsOpen(false);
@@ -26,6 +34,23 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
     { icon: Tag, label: "Deals", path: "/deals" },
     { icon: Phone, label: "Contact", path: "/contact" },
     { icon: Info, label: "About", path: "/about" },
+  ];
+
+  const categories = [
+    { name: "Phone Cases", href: "/category/phone-cases" },
+    { name: "Headphones", href: "/category/headphones" },
+    { name: "Chargers", href: "/category/chargers" },
+    { name: "Cables", href: "/category/cables" },
+    { name: "Speakers", href: "/category/speakers" },
+    { name: "Screen Protectors", href: "/category/screen-protectors" },
+    { name: "Accessories", href: "/category/accessories" },
+  ];
+
+  const collections = [
+    { name: "New Arrivals", href: "/new-arrivals", description: "See our latest products fresh to the store" },
+    { name: "Best Sellers", href: "/best-sellers", description: "Our most popular products that customers love" },
+    { name: "Featured", href: "/featured", description: "Handpicked products showcased for their quality" },
+    { name: "Sale", href: "/sale", description: "Great deals and discounts you shouldn't miss" },
   ];
 
   return (
@@ -87,6 +112,64 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
                       </Link>
                     </li>
                   ))}
+                  
+                  {/* Categories Collapsible */}
+                  <li>
+                    <Collapsible
+                      open={isCategoriesOpen}
+                      onOpenChange={setIsCategoriesOpen}
+                      className="w-full"
+                    >
+                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full">
+                        <LayoutGrid className="h-5 w-5 text-primary" />
+                        <span className="font-medium flex-1 text-left">Categories</span>
+                        <ChevronDown className={`h-5 w-5 transition-transform ${isCategoriesOpen ? 'transform rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="pl-12 pr-4 space-y-2 py-2">
+                          {categories.map((category) => (
+                            <Link
+                              key={category.href}
+                              to={category.href}
+                              className="block py-2 text-sm hover:text-primary"
+                              onClick={closeMenu}
+                            >
+                              {category.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </li>
+
+                  {/* Collections Collapsible */}
+                  <li>
+                    <Collapsible
+                      open={isCollectionsOpen}
+                      onOpenChange={setIsCollectionsOpen}
+                      className="w-full"
+                    >
+                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full">
+                        <Layers className="h-5 w-5 text-primary" />
+                        <span className="font-medium flex-1 text-left">Collections</span>
+                        <ChevronDown className={`h-5 w-5 transition-transform ${isCollectionsOpen ? 'transform rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="pl-12 pr-4 space-y-2 py-2">
+                          {collections.map((collection) => (
+                            <Link
+                              key={collection.href}
+                              to={collection.href}
+                              className="block py-2 text-sm hover:text-primary"
+                              onClick={closeMenu}
+                            >
+                              {collection.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </li>
                 </ul>
               </nav>
               

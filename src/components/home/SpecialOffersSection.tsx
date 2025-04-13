@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Percent, Clock, Lightning, ShieldCheck } from "lucide-react";
+import { ArrowRight, Percent, Clock, Zap, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
@@ -36,7 +36,7 @@ const offers: OfferCard[] = [
     discount: 30,
     link: "/deals",
     color: "from-amber-50 to-orange-100",
-    icon: <Lightning className="h-5 w-5" />,
+    icon: <Zap className="h-5 w-5" />,
   },
   {
     id: "premium-care",

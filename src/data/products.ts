@@ -1,4 +1,3 @@
-
 import { Product, Category } from "@/types";
 
 export const categories: Category[] = [
@@ -211,7 +210,6 @@ export const products: Product[] = [
   }
 ];
 
-// Additional products for larger selection
 export const additionalProducts: Product[] = [
   {
     id: "p13",
@@ -267,7 +265,6 @@ export const additionalProducts: Product[] = [
   }
 ];
 
-// Combine regular and additional products for a complete catalog
 export const allProducts = [...products, ...additionalProducts];
 
 export const getFeaturedProducts = (): Product[] => {
@@ -305,4 +302,8 @@ export const searchProducts = (query: string): Product[] => {
     product.description.toLowerCase().includes(searchTerm) ||
     product.category.toLowerCase().includes(searchTerm)
   );
+};
+
+export const getProductsByDiscount = (): Product[] => {
+  return allProducts.filter(product => product.discount && product.discount > 0);
 };

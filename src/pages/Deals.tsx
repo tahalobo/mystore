@@ -9,8 +9,7 @@ import { Button } from "@/components/ui/button";
 import { getProductsByCategory, getProductsByDiscount } from "@/data/products";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Percent, 
-  Fire, 
+  FlameIcon, 
   Zap, 
   Tag, 
   Clock, 
@@ -18,7 +17,8 @@ import {
   Ban, 
   CheckCircle,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  Percent
 } from "lucide-react";
 import { 
   Popover,
@@ -172,7 +172,7 @@ const Deals: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <Badge className="bg-amber-100 text-amber-800 px-3 py-1 text-sm font-medium border-0">
-                  <Fire className="w-4 h-4 mr-1" />
+                  <FlameIcon className="w-4 h-4 mr-1" />
                   Up to 70% Off
                 </Badge>
                 
@@ -251,7 +251,7 @@ const Deals: React.FC = () => {
                     <span>All Deals</span>
                   </TabsTrigger>
                   <TabsTrigger value="best-sellers" className="flex items-center gap-1">
-                    <Fire className="w-4 h-4" />
+                    <FlameIcon className="w-4 h-4" />
                     <span>Best Sellers</span>
                   </TabsTrigger>
                   <TabsTrigger value="new-arrivals" className="flex items-center gap-1">

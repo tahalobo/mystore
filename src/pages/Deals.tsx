@@ -2,284 +2,213 @@
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { allProducts } from "@/data/products";
-import { Product } from "@/types";
 import ProductCard from "@/components/ProductCard";
-import ProductDetailModal from "@/components/ProductDetailModal";
-import { Clock, Tag, Percent, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-
-// Filter products with discounts (for this demo, let's add some discounts if they don't exist)
-const getDiscountedProducts = (): Product[] => {
-  return allProducts.map(product => {
-    if (product.discount) return product;
-    // Add random discounts for demo purposes
-    const shouldHaveDiscount = Math.random() > 0.4;
-    if (shouldHaveDiscount) {
-      return {
-        ...product,
-        discount: Math.floor(Math.random() * 30) + 10 // Random discount between 10-40%
-      };
-    }
-    return product;
-  }).filter(product => product.discount);
-};
-
-const currentDate = new Date();
-const endDate = new Date(currentDate);
-endDate.setDate(currentDate.getDate() + 5); // Sale ends in 5 days
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { allProducts } from "@/data/products";
+import ProductDetailModal from "@/components/ProductDetailModal";
+import { Product } from "@/types";
+import { ShoppingBag, Percent, Clock, BadgePercent, Tag, Sparkles } from "lucide-react";
 
 const Deals: React.FC = () => {
-  const discountedProducts = getDiscountedProducts();
+  const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  const openProductModal = (product: Product) => {
+  // Filter products based on selected filter
+  const getFilteredProducts = () => {
+    switch (selectedFilter) {
+      case "flash-deals":
+        return allProducts.filter(p => p.discount && p.discount >= 30);
+      case "clearance":
+        return allProducts.filter(p => p.discount && p.discount >= 50);
+      case "bundle-deals":
+        // In a real app, you would have a separate field for bundle deals
+        // Here, we'll simulate it by using products that are featured and have a discount
+        return allProducts.filter(p => p.featured && p.discount);
+      case "new-deals":
+        return allProducts.filter(p => p.newArrival && p.discount);
+      default:
+        return allProducts.filter(p => p.discount);
+    }
+  };
+  
+  const filteredProducts = getFilteredProducts();
+  
+  const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
   };
   
-  const closeProductModal = () => {
-    setIsModalOpen(false);
-  };
-  
-  // Calculate countdown
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  });
-  
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date();
-      const difference = endDate.getTime() - now.getTime();
-      
-      if (difference <= 0) {
-        clearInterval(timer);
-        return;
-      }
-      
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((difference / (1000 * 60)) % 60);
-      const seconds = Math.floor((difference / 1000) % 60);
-      
-      setTimeLeft({ days, hours, minutes, seconds });
-    }, 1000);
-    
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Header />
       
       <main className="flex-grow pt-24">
         {/* Hero Banner */}
-        <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-12 md:py-20">
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 py-16 text-white">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="grid items-center gap-8 md:grid-cols-2">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mb-8 md:mb-0 text-center md:text-left"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
               >
-                <h1 className="text-3xl md:text-5xl font-bold mb-4">Spring Sale</h1>
-                <p className="text-xl md:text-2xl mb-6 text-white/80">Up to 40% off on selected items</p>
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
-                  <Link to="/shop">Shop Now</Link>
-                </Button>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6"
-              >
-                <div className="text-center mb-4">
-                  <h2 className="text-xl font-bold flex items-center justify-center">
-                    <Clock className="mr-2 h-5 w-5" /> Sale Ends In
-                  </h2>
+                <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
+                  Special Offers & <br />
+                  <span className="text-yellow-300">Exclusive Deals</span>
+                </h1>
+                <p className="mb-6 text-lg opacity-90">
+                  Discover our limited-time offers and save big on your favorite products.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Button size="lg" variant="secondary">
+                    <ShoppingBag className="mr-2 h-5 w-5" />
+                    Shop All Deals
+                  </Button>
+                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600">
+                    <Clock className="mr-2 h-5 w-5" />
+                    Flash Sales
+                  </Button>
                 </div>
-                
-                <div className="grid grid-cols-4 gap-2 text-center">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3">
-                    <div className="text-3xl font-bold">{timeLeft.days}</div>
-                    <div className="text-xs text-white/80">Days</div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="hidden md:block"
+              >
+                <div className="relative mx-auto max-w-md">
+                  <div className="absolute -right-6 -top-6 rounded-full bg-yellow-400 p-4 text-purple-700 shadow-lg">
+                    <Percent className="h-8 w-8" />
                   </div>
-                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3">
-                    <div className="text-3xl font-bold">{timeLeft.hours}</div>
-                    <div className="text-xs text-white/80">Hours</div>
-                  </div>
-                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3">
-                    <div className="text-3xl font-bold">{timeLeft.minutes}</div>
-                    <div className="text-xs text-white/80">Minutes</div>
-                  </div>
-                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3">
-                    <div className="text-3xl font-bold">{timeLeft.seconds}</div>
-                    <div className="text-xs text-white/80">Seconds</div>
+                  <div className="rounded-xl bg-white/10 p-6 backdrop-blur-md">
+                    <div className="mb-4 text-center">
+                      <span className="inline-block rounded-full bg-white/20 px-4 py-2 text-sm font-medium">
+                        Limited Time Offer
+                      </span>
+                    </div>
+                    <h3 className="mb-2 text-center text-2xl font-bold">Up to 50% OFF</h3>
+                    <p className="mb-4 text-center text-sm">
+                      Get amazing discounts on top products
+                    </p>
+                    <div className="grid grid-cols-4 gap-3 text-center">
+                      <div className="rounded-md bg-white/20 p-2">
+                        <div className="text-xl font-bold">23</div>
+                        <div className="text-xs">Days</div>
+                      </div>
+                      <div className="rounded-md bg-white/20 p-2">
+                        <div className="text-xl font-bold">12</div>
+                        <div className="text-xs">Hours</div>
+                      </div>
+                      <div className="rounded-md bg-white/20 p-2">
+                        <div className="text-xl font-bold">45</div>
+                        <div className="text-xs">Mins</div>
+                      </div>
+                      <div className="rounded-md bg-white/20 p-2">
+                        <div className="text-xl font-bold">18</div>
+                        <div className="text-xs">Secs</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
             </div>
           </div>
-        </section>
+        </div>
         
-        {/* Featured Deals */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">Featured Deals</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              {discountedProducts.slice(0, 3).map((product, index) => (
+        {/* Deals Categories */}
+        <div className="border-b bg-gray-50">
+          <div className="container mx-auto px-4 py-4">
+            <Tabs defaultValue="all" value={selectedFilter} onValueChange={setSelectedFilter}>
+              <TabsList className="grid w-full grid-cols-2 gap-2 md:grid-cols-5 lg:w-auto">
+                <TabsTrigger value="all" className="flex items-center">
+                  <Tag className="mr-2 h-4 w-4" />
+                  All Deals
+                </TabsTrigger>
+                <TabsTrigger value="flash-deals" className="flex items-center">
+                  <BadgePercent className="mr-2 h-4 w-4" />
+                  Flash Deals
+                </TabsTrigger>
+                <TabsTrigger value="clearance" className="flex items-center">
+                  <Percent className="mr-2 h-4 w-4" />
+                  Clearance
+                </TabsTrigger>
+                <TabsTrigger value="bundle-deals" className="flex items-center">
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Bundle Deals
+                </TabsTrigger>
+                <TabsTrigger value="new-deals" className="flex items-center">
+                  <Clock className="mr-2 h-4 w-4" />
+                  New Deals
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+        </div>
+        
+        {/* Product Grid */}
+        <div className="container mx-auto px-4 py-12">
+          <div className="mb-8 flex justify-between">
+            <h2 className="text-2xl font-bold">
+              {selectedFilter === "all" ? "All Deals" : 
+               selectedFilter === "flash-deals" ? "Flash Deals" : 
+               selectedFilter === "clearance" ? "Clearance Sale" : 
+               selectedFilter === "bundle-deals" ? "Bundle Deals" : 
+               "New Deals"}
+            </h2>
+            <span className="text-gray-600">
+              {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
+            </span>
+          </div>
+          
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {filteredProducts.map((product, index) => (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  className="group relative overflow-hidden rounded-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="aspect-video bg-gray-100 overflow-hidden">
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
-                    <div className="bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full w-fit mb-2">
-                      {product.discount}% OFF
-                    </div>
-                    <h3 className="text-white text-xl font-bold mb-1">{product.name}</h3>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-white font-bold">${(product.price * (1 - product.discount! / 100)).toFixed(2)}</span>
-                      <span className="text-white/70 line-through text-sm">${product.price.toFixed(2)}</span>
-                    </div>
-                    <Button 
-                      className="mt-4 w-full bg-white text-primary hover:bg-white/90"
-                      onClick={() => openProductModal(product)}
-                    >
-                      View Deal
-                    </Button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            
-            {/* All Deals */}
-            <h2 className="text-2xl font-bold mb-8">All Deals</h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {discountedProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05, duration: 0.5 }}
+                  transition={{ delay: index * 0.1 }}
                 >
                   <ProductCard 
-                    product={product}
-                    onProductClick={openProductModal}
+                    product={product} 
+                    onProductClick={handleProductClick} 
                   />
                 </motion.div>
               ))}
             </div>
-          </div>
-        </section>
-        
-        {/* Deal Categories */}
-        <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-bold mb-8">Shop Deals By Category</h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "Headphones Deals",
-                  discount: "Up to 30% off",
-                  image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=300",
-                  link: "/category/headphones"
-                },
-                {
-                  title: "Phone Cases Deals",
-                  discount: "Up to 25% off",
-                  image: "https://images.unsplash.com/photo-1586931775007-15a23142a605?q=80&w=300",
-                  link: "/category/phone-cases"
-                },
-                {
-                  title: "Chargers Deals",
-                  discount: "Up to 20% off",
-                  image: "https://images.unsplash.com/photo-1583863788434-e62bd5126776?q=80&w=300",
-                  link: "/category/chargers"
-                },
-                {
-                  title: "Speakers Deals",
-                  discount: "Up to 40% off",
-                  image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=300",
-                  link: "/category/speakers"
-                }
-              ].map((category, index) => (
-                <motion.div
-                  key={category.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  className="group relative overflow-hidden rounded-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <Link to={category.link}>
-                    <div className="aspect-square bg-gray-100 overflow-hidden">
-                      <img 
-                        src={category.image} 
-                        alt={category.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    </div>
-                    
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-4">
-                      <div className="bg-white/20 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-full w-fit mb-2">
-                        {category.discount}
-                      </div>
-                      <h3 className="text-white text-lg font-bold mb-1">{category.title}</h3>
-                      <div className="flex items-center text-white/90 text-sm font-medium">
-                        Shop Now <ArrowRight className="ml-1 h-3 w-3" />
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-        
-        {/* Newsletter */}
-        <section className="py-12 bg-primary text-white">
-          <div className="container mx-auto px-4 text-center">
-            <div className="max-w-xl mx-auto">
-              <Percent className="h-12 w-12 mx-auto mb-4" />
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Subscribe for Exclusive Deals</h2>
-              <p className="mb-6">
-                Be the first to know about our special deals and new products. Subscribe to our newsletter!
+          ) : (
+            <div className="flex min-h-[300px] flex-col items-center justify-center rounded-lg bg-gray-50 p-8 text-center">
+              <BadgePercent className="mb-4 h-12 w-12 text-gray-400" />
+              <h2 className="mb-2 text-xl font-semibold">No deals available</h2>
+              <p className="text-gray-600">
+                There are currently no deals in this category. Please check back later.
               </p>
-              <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                <input 
-                  type="email" 
-                  placeholder="Enter your email" 
-                  className="px-4 py-2 rounded-md flex-1 text-gray-800"
+            </div>
+          )}
+        </div>
+        
+        {/* Newsletter Section */}
+        <div className="bg-gray-100 py-16">
+          <div className="container mx-auto px-4">
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="mb-4 text-3xl font-bold">Get Notified About New Deals</h2>
+              <p className="mb-8 text-gray-600">
+                Subscribe to our newsletter and never miss out on our exclusive deals and promotions.
+              </p>
+              <div className="flex flex-col items-center gap-4 sm:flex-row">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none sm:flex-1"
                 />
-                <Button className="bg-white text-primary hover:bg-white/90">
-                  Subscribe
-                </Button>
-              </form>
+                <Button size="lg">Subscribe</Button>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
       </main>
       
       <Footer />
@@ -287,7 +216,7 @@ const Deals: React.FC = () => {
       <ProductDetailModal 
         product={selectedProduct} 
         isOpen={isModalOpen} 
-        onClose={closeProductModal} 
+        onClose={() => setIsModalOpen(false)} 
       />
     </div>
   );

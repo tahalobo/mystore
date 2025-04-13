@@ -27,4 +27,10 @@ export interface Category {
   name: string;
   image: string;
   description: string;
+  count?: number;
+}
+
+export interface WishlistItem {
+  product: Product;
+  addedAt: Date;
 }

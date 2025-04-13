@@ -6,37 +6,43 @@ export const categories: Category[] = [
     id: "phone-cases",
     name: "Phone Cases",
     image: "https://images.unsplash.com/photo-1603313011638-94aa4b08b9dd?q=80&w=600",
-    description: "Stylish and protective cases for your phone"
+    description: "Stylish and protective cases for your phone",
+    count: 52
   },
   {
     id: "headphones",
     name: "Headphones",
     image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=600",
-    description: "Premium quality headphones for immersive sound"
+    description: "Premium quality headphones for immersive sound",
+    count: 38
   },
   {
     id: "chargers",
     name: "Chargers",
     image: "https://images.unsplash.com/photo-1583863788434-e62bd5126776?q=80&w=600",
-    description: "Fast and reliable chargers for all your devices"
+    description: "Fast and reliable chargers for all your devices",
+    count: 45
   },
   {
     id: "cables",
     name: "Cables",
     image: "https://images.unsplash.com/photo-1601999009162-2459b78386c9?q=80&w=600",
-    description: "Durable cables for charging and data transfer"
+    description: "Durable cables for charging and data transfer",
+    count: 60
   },
   {
     id: "speakers",
     name: "Speakers",
     image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=600",
-    description: "Powerful speakers for crystal clear audio"
+    description: "Powerful speakers for crystal clear audio",
+    count: 28
   },
   {
     id: "screen-protectors",
     name: "Screen Protectors",
     image: "https://images.unsplash.com/photo-1572345071877-afc5e2c5951e?q=80&w=600",
-    description: "Tough screen protectors to prevent scratches"
+    description: "Tough screen protectors to prevent scratches",
+    count: 35
   }
 ];
 
@@ -67,7 +73,8 @@ export const products: Product[] = [
     stock: 78,
     rating: 4.5,
     reviews: 142,
-    colors: ["#000000", "#FFFFFF"]
+    colors: ["#000000", "#FFFFFF"],
+    discount: 15
   },
   {
     id: "p3",
@@ -80,7 +87,8 @@ export const products: Product[] = [
     stock: 92,
     rating: 4.8,
     reviews: 87,
-    colors: ["#000000", "#FFFFFF"]
+    colors: ["#000000", "#FFFFFF"],
+    discount: 20
   },
   {
     id: "p4",
@@ -106,7 +114,8 @@ export const products: Product[] = [
     stock: 63,
     rating: 4.4,
     reviews: 76,
-    colors: ["#000000", "#3B82F6", "#EF4444"]
+    colors: ["#000000", "#3B82F6", "#EF4444"],
+    discount: 10
   },
   {
     id: "p6",
@@ -119,6 +128,7 @@ export const products: Product[] = [
     stock: 328,
     rating: 4.3,
     reviews: 309,
+    discount: 25
   },
   {
     id: "p7",
@@ -143,7 +153,8 @@ export const products: Product[] = [
     stock: 84,
     rating: 4.5,
     reviews: 62,
-    colors: ["#000000", "#FFFFFF"]
+    colors: ["#000000", "#FFFFFF"],
+    discount: 15
   },
   {
     id: "p9",
@@ -168,7 +179,8 @@ export const products: Product[] = [
     stock: 73,
     rating: 4.2,
     reviews: 58,
-    colors: ["#000000", "#FFFFFF"]
+    colors: ["#000000", "#FFFFFF"],
+    discount: 30
   },
   {
     id: "p11",
@@ -180,7 +192,8 @@ export const products: Product[] = [
     stock: 36,
     rating: 4.7,
     reviews: 49,
-    colors: ["#000000", "#FF0000"]
+    colors: ["#000000", "#FF0000"],
+    discount: 20
   },
   {
     id: "p12",
@@ -193,7 +206,8 @@ export const products: Product[] = [
     stock: 98,
     rating: 4.6,
     reviews: 184,
-    colors: ["#000000", "#FFFFFF", "#3B82F6"]
+    colors: ["#000000", "#FFFFFF", "#3B82F6"],
+    discount: 10
   }
 ];
 
@@ -209,7 +223,8 @@ export const additionalProducts: Product[] = [
     stock: 65,
     rating: 4.3,
     reviews: 87,
-    colors: ["#000000", "#FFFFFF"]
+    colors: ["#000000", "#FFFFFF"],
+    discount: 15
   },
   {
     id: "p14",
@@ -222,7 +237,8 @@ export const additionalProducts: Product[] = [
     stock: 42,
     rating: 4.7,
     reviews: 63,
-    colors: ["#000000", "#FFFFFF"]
+    colors: ["#000000", "#FFFFFF"],
+    discount: 25
   },
   {
     id: "p15",
@@ -234,6 +250,7 @@ export const additionalProducts: Product[] = [
     stock: 58,
     rating: 4.4,
     reviews: 112,
+    discount: 35
   },
   {
     id: "p16",
@@ -245,7 +262,8 @@ export const additionalProducts: Product[] = [
     stock: 195,
     rating: 4.1,
     reviews: 236,
-    colors: ["#000000", "#3B82F6", "#EF4444"]
+    colors: ["#000000", "#3B82F6", "#EF4444"],
+    discount: 40
   }
 ];
 

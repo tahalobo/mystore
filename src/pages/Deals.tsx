@@ -1,44 +1,141 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { allProducts } from "@/data/products";
-import ProductDetailModal from "@/components/ProductDetailModal";
 import { Product } from "@/types";
-import { ShoppingBag, Percent, Clock, BadgePercent, Tag, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { getProductsByCategory, getProductsByDiscount } from "@/data/products";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  Percent, 
+  Fire, 
+  Zap, 
+  Tag, 
+  Clock, 
+  Gift, 
+  Ban, 
+  CheckCircle,
+  Sparkles,
+  ChevronRight
+} from "lucide-react";
+import { 
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import ProductDetailModal from "@/components/ProductDetailModal";
 
 const Deals: React.FC = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string>("all");
+  const [discountedProducts, setDiscountedProducts] = useState<Product[]>([]);
+  const [bestSellerDeals, setBestSellerDeals] = useState<Product[]>([]);
+  const [newArrivalDeals, setNewArrivalDeals] = useState<Product[]>([]);
+  const [flashSaleProducts, setFlashSaleProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTab, setCurrentTab] = useState("all-deals");
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 5,
+    minutes: 59,
+    seconds: 59
+  });
   
-  // Filter products based on selected filter
-  const getFilteredProducts = () => {
-    switch (selectedFilter) {
-      case "flash-deals":
-        return allProducts.filter(p => p.discount && p.discount >= 30);
-      case "clearance":
-        return allProducts.filter(p => p.discount && p.discount >= 50);
-      case "bundle-deals":
-        // In a real app, you would have a separate field for bundle deals
-        // Here, we'll simulate it by using products that are featured and have a discount
-        return allProducts.filter(p => p.featured && p.discount);
-      case "new-deals":
-        return allProducts.filter(p => p.newArrival && p.discount);
-      default:
-        return allProducts.filter(p => p.discount);
-    }
-  };
+  // Load products with discounts
+  useEffect(() => {
+    const loadData = () => {
+      setIsLoading(true);
+      
+      // Get all discounted products
+      const discounted = getProductsByDiscount();
+      setDiscountedProducts(discounted);
+      
+      // Get best seller deals
+      const bestSellers = discounted.filter(product => product.bestSeller);
+      setBestSellerDeals(bestSellers);
+      
+      // Get new arrival deals
+      const newArrivals = discounted.filter(product => product.newArrival);
+      setNewArrivalDeals(newArrivals);
+      
+      // Create a subset for flash sale (first 6 products with discount > 20%)
+      const flashSale = discounted
+        .filter(product => (product.discount || 0) > 20)
+        .slice(0, 6);
+      setFlashSaleProducts(flashSale);
+      
+      setIsLoading(false);
+    };
+    
+    loadData();
+  }, []);
   
-  const filteredProducts = getFilteredProducts();
+  // Countdown timer for flash sale
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev.seconds > 0) {
+          return { ...prev, seconds: prev.seconds - 1 };
+        } else if (prev.minutes > 0) {
+          return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+        } else if (prev.hours > 0) {
+          return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        } else {
+          // Reset the timer when it reaches 0
+          return { hours: 5, minutes: 59, seconds: 59 };
+        }
+      });
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
   
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
+  };
+  
+  const productsToShow = () => {
+    switch (currentTab) {
+      case "best-sellers":
+        return bestSellerDeals;
+      case "new-arrivals":
+        return newArrivalDeals;
+      case "flash-sale":
+        return flashSaleProducts;
+      default:
+        return discountedProducts;
+    }
+  };
+  
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
+  
+  const formatTime = (value: number) => {
+    return value.toString().padStart(2, '0');
   };
   
   return (
@@ -46,169 +143,244 @@ const Deals: React.FC = () => {
       <Header />
       
       <main className="flex-grow pt-24">
-        {/* Hero Banner */}
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 py-16 text-white">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-r from-purple-50 to-indigo-50 py-12 md:py-16">
           <div className="container mx-auto px-4">
-            <div className="grid items-center gap-8 md:grid-cols-2">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
+            <div className="flex flex-col items-center text-center">
+              <motion.h1 
+                className="text-4xl md:text-5xl font-bold mb-4"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
               >
-                <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
-                  Special Offers & <br />
-                  <span className="text-yellow-300">Exclusive Deals</span>
-                </h1>
-                <p className="mb-6 text-lg opacity-90">
-                  Discover our limited-time offers and save big on your favorite products.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Button size="lg" variant="secondary">
-                    <ShoppingBag className="mr-2 h-5 w-5" />
-                    Shop All Deals
-                  </Button>
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600">
-                    <Clock className="mr-2 h-5 w-5" />
-                    Flash Sales
-                  </Button>
-                </div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="hidden md:block"
+                Exclusive Deals & Offers
+              </motion.h1>
+              
+              <motion.p 
+                className="text-lg text-gray-600 max-w-2xl mb-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <div className="relative mx-auto max-w-md">
-                  <div className="absolute -right-6 -top-6 rounded-full bg-yellow-400 p-4 text-purple-700 shadow-lg">
-                    <Percent className="h-8 w-8" />
-                  </div>
-                  <div className="rounded-xl bg-white/10 p-6 backdrop-blur-md">
-                    <div className="mb-4 text-center">
-                      <span className="inline-block rounded-full bg-white/20 px-4 py-2 text-sm font-medium">
-                        Limited Time Offer
-                      </span>
-                    </div>
-                    <h3 className="mb-2 text-center text-2xl font-bold">Up to 50% OFF</h3>
-                    <p className="mb-4 text-center text-sm">
-                      Get amazing discounts on top products
-                    </p>
-                    <div className="grid grid-cols-4 gap-3 text-center">
-                      <div className="rounded-md bg-white/20 p-2">
-                        <div className="text-xl font-bold">23</div>
-                        <div className="text-xs">Days</div>
-                      </div>
-                      <div className="rounded-md bg-white/20 p-2">
-                        <div className="text-xl font-bold">12</div>
-                        <div className="text-xs">Hours</div>
-                      </div>
-                      <div className="rounded-md bg-white/20 p-2">
-                        <div className="text-xl font-bold">45</div>
-                        <div className="text-xs">Mins</div>
-                      </div>
-                      <div className="rounded-md bg-white/20 p-2">
-                        <div className="text-xl font-bold">18</div>
-                        <div className="text-xs">Secs</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                Discover incredible discounts on your favorite tech accessories. Limited time offers you don't want to miss!
+              </motion.p>
+              
+              <motion.div 
+                className="flex flex-wrap gap-4 justify-center items-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <Badge className="bg-amber-100 text-amber-800 px-3 py-1 text-sm font-medium border-0">
+                  <Fire className="w-4 h-4 mr-1" />
+                  Up to 70% Off
+                </Badge>
+                
+                <Badge className="bg-green-100 text-green-800 px-3 py-1 text-sm font-medium border-0">
+                  <Zap className="w-4 h-4 mr-1" />
+                  Flash Sales
+                </Badge>
+                
+                <Badge className="bg-blue-100 text-blue-800 px-3 py-1 text-sm font-medium border-0">
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  Verified Quality
+                </Badge>
+                
+                <Badge className="bg-purple-100 text-purple-800 px-3 py-1 text-sm font-medium border-0">
+                  <Gift className="w-4 h-4 mr-1" />
+                  Free Gifts
+                </Badge>
               </motion.div>
             </div>
           </div>
-        </div>
+        </section>
         
-        {/* Deals Categories */}
-        <div className="border-b bg-gray-50">
-          <div className="container mx-auto px-4 py-4">
-            <Tabs defaultValue="all" value={selectedFilter} onValueChange={setSelectedFilter}>
-              <TabsList className="grid w-full grid-cols-2 gap-2 md:grid-cols-5 lg:w-auto">
-                <TabsTrigger value="all" className="flex items-center">
-                  <Tag className="mr-2 h-4 w-4" />
-                  All Deals
-                </TabsTrigger>
-                <TabsTrigger value="flash-deals" className="flex items-center">
-                  <BadgePercent className="mr-2 h-4 w-4" />
-                  Flash Deals
-                </TabsTrigger>
-                <TabsTrigger value="clearance" className="flex items-center">
-                  <Percent className="mr-2 h-4 w-4" />
-                  Clearance
-                </TabsTrigger>
-                <TabsTrigger value="bundle-deals" className="flex items-center">
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Bundle Deals
-                </TabsTrigger>
-                <TabsTrigger value="new-deals" className="flex items-center">
-                  <Clock className="mr-2 h-4 w-4" />
-                  New Deals
-                </TabsTrigger>
-              </TabsList>
+        {/* Flash Sale Timer */}
+        <section className="py-8 bg-gradient-to-r from-red-500 to-orange-500 text-white">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="flex items-center mb-4 md:mb-0">
+                <Sparkles className="w-6 h-6 mr-2 animate-pulse" />
+                <h2 className="text-2xl font-bold">Flash Sale</h2>
+              </div>
+              
+              <div className="flex items-center">
+                <div className="text-sm mr-3">Ends in:</div>
+                <div className="flex gap-1">
+                  <div className="bg-white/20 rounded-md px-3 py-1 backdrop-blur-sm">
+                    <span className="font-mono font-bold">{formatTime(timeLeft.hours)}</span>
+                    <span className="text-xs ml-1">hr</span>
+                  </div>
+                  <div className="bg-white/20 rounded-md px-3 py-1 backdrop-blur-sm">
+                    <span className="font-mono font-bold">{formatTime(timeLeft.minutes)}</span>
+                    <span className="text-xs ml-1">min</span>
+                  </div>
+                  <div className="bg-white/20 rounded-md px-3 py-1 backdrop-blur-sm">
+                    <span className="font-mono font-bold">{formatTime(timeLeft.seconds)}</span>
+                    <span className="text-xs ml-1">sec</span>
+                  </div>
+                </div>
+              </div>
+              
+              <Button 
+                variant="secondary" 
+                size="sm" 
+                className="bg-white text-red-500 hover:bg-white/90"
+                onClick={() => setCurrentTab("flash-sale")}
+              >
+                Shop Flash Sale
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </section>
+        
+        {/* Deals Tabs */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <Tabs 
+              defaultValue="all-deals" 
+              value={currentTab} 
+              onValueChange={setCurrentTab}
+              className="w-full"
+            >
+              <div className="flex justify-center mb-8">
+                <TabsList className="grid w-full max-w-3xl grid-cols-2 md:grid-cols-4">
+                  <TabsTrigger value="all-deals" className="flex items-center gap-1">
+                    <Percent className="w-4 h-4" />
+                    <span>All Deals</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="best-sellers" className="flex items-center gap-1">
+                    <Fire className="w-4 h-4" />
+                    <span>Best Sellers</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="new-arrivals" className="flex items-center gap-1">
+                    <Tag className="w-4 h-4" />
+                    <span>New Arrivals</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="flash-sale" className="flex items-center gap-1">
+                    <Zap className="w-4 h-4" />
+                    <span>Flash Sale</span>
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+              
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                key={currentTab}
+              >
+                {isLoading ? (
+                  <div className="flex justify-center items-center min-h-[400px]">
+                    <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                  </div>
+                ) : productsToShow().length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {productsToShow().map((product) => (
+                      <motion.div
+                        key={product.id}
+                        variants={itemVariants}
+                        className="h-full"
+                      >
+                        <ProductCard 
+                          product={product} 
+                          onProductClick={handleProductClick}
+                          className="h-full"
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-16">
+                    <Ban className="h-16 w-16 mx-auto text-gray-300 mb-4" />
+                    <h3 className="text-2xl font-semibold mb-2">No deals available</h3>
+                    <p className="text-gray-500 mb-6">There are currently no deals in this category.</p>
+                    <Button onClick={() => setCurrentTab("all-deals")}>View All Deals</Button>
+                  </div>
+                )}
+              </motion.div>
             </Tabs>
           </div>
-        </div>
+        </section>
         
-        {/* Product Grid */}
-        <div className="container mx-auto px-4 py-12">
-          <div className="mb-8 flex justify-between">
-            <h2 className="text-2xl font-bold">
-              {selectedFilter === "all" ? "All Deals" : 
-               selectedFilter === "flash-deals" ? "Flash Deals" : 
-               selectedFilter === "clearance" ? "Clearance Sale" : 
-               selectedFilter === "bundle-deals" ? "Bundle Deals" : 
-               "New Deals"}
-            </h2>
-            <span className="text-gray-600">
-              {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
-            </span>
-          </div>
-          
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {filteredProducts.map((product, index) => (
+        {/* Deal Categories */}
+        <section className="py-12 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12">Shop Deals By Category</h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {[
+                { name: "Phone Cases", icon: "📱", color: "bg-blue-100 text-blue-800" },
+                { name: "Headphones", icon: "🎧", color: "bg-purple-100 text-purple-800" },
+                { name: "Chargers", icon: "🔌", color: "bg-green-100 text-green-800" },
+                { name: "Cables", icon: "🔌", color: "bg-yellow-100 text-yellow-800" },
+                { name: "Speakers", icon: "🔊", color: "bg-red-100 text-red-800" },
+                { name: "Screen Protectors", icon: "🛡️", color: "bg-indigo-100 text-indigo-800" },
+                { name: "Power Banks", icon: "🔋", color: "bg-teal-100 text-teal-800" },
+                { name: "Accessories", icon: "🎮", color: "bg-pink-100 text-pink-800" }
+              ].map((category, index) => (
                 <motion.div
-                  key={product.id}
+                  key={category.name}
+                  className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+                  whileHover={{ y: -5 }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <ProductCard 
-                    product={product} 
-                    onProductClick={handleProductClick} 
-                  />
+                  <Button 
+                    variant="ghost" 
+                    className="w-full h-full py-6 flex flex-col items-center justify-center gap-2"
+                    asChild
+                  >
+                    <a href={`/category/${category.name.toLowerCase().replace(' ', '-')}`}>
+                      <div className={`w-12 h-12 rounded-full ${category.color} flex items-center justify-center text-2xl mb-1`}>
+                        {category.icon}
+                      </div>
+                      <span className="font-medium">{category.name}</span>
+                      <Badge variant="outline" className="mt-1">Up to 50% off</Badge>
+                    </a>
+                  </Button>
                 </motion.div>
               ))}
             </div>
-          ) : (
-            <div className="flex min-h-[300px] flex-col items-center justify-center rounded-lg bg-gray-50 p-8 text-center">
-              <BadgePercent className="mb-4 h-12 w-12 text-gray-400" />
-              <h2 className="mb-2 text-xl font-semibold">No deals available</h2>
-              <p className="text-gray-600">
-                There are currently no deals in this category. Please check back later.
-              </p>
-            </div>
-          )}
-        </div>
+          </div>
+        </section>
         
-        {/* Newsletter Section */}
-        <div className="bg-gray-100 py-16">
+        {/* Deal Info */}
+        <section className="py-12">
           <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-3xl text-center">
-              <h2 className="mb-4 text-3xl font-bold">Get Notified About New Deals</h2>
-              <p className="mb-8 text-gray-600">
-                Subscribe to our newsletter and never miss out on our exclusive deals and promotions.
-              </p>
-              <div className="flex flex-col items-center gap-4 sm:flex-row">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none sm:flex-1"
-                />
-                <Button size="lg">Subscribe</Button>
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-2xl font-bold mb-6">Deal Terms & Information</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="flex gap-4">
+                  <Clock className="w-8 h-8 text-primary flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold">Limited Time</h3>
+                    <p className="text-gray-600 text-sm">All deals are valid for a limited time only. Grab them before they expire!</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <Ban className="w-8 h-8 text-primary flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold">No Refunds on Sale Items</h3>
+                    <p className="text-gray-600 text-sm">Sale items cannot be refunded, but can be exchanged for store credit.</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <Tag className="w-8 h-8 text-primary flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold">While Supplies Last</h3>
+                    <p className="text-gray-600 text-sm">All deals are available only while supplies last. No rain checks.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </main>
       
       <Footer />

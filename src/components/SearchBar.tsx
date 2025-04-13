@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { searchProducts } from "@/data/products";
-import { Search, X, ArrowRight } from "lucide-react";
+import { Search, X, ArrowRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useClickAway } from "@/hooks/use-click-away";
 
@@ -17,6 +17,7 @@ const SearchBar: React.FC<{ className?: string }> = ({ className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [quickResults, setQuickResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -32,9 +33,17 @@ const SearchBar: React.FC<{ className?: string }> = ({ className }) => {
     setSearchQuery(query);
     
     if (query.trim().length >= 2) {
-      // Get quick results for popover
-      const results = searchProducts(query).slice(0, 5);
-      setQuickResults(results);
+      setIsSearching(true);
+      
+      // Add a small debounce for searching
+      const timeoutId = setTimeout(() => {
+        // Get quick results for popover
+        const results = searchProducts(query).slice(0, 5);
+        setQuickResults(results);
+        setIsSearching(false);
+      }, 300);
+      
+      return () => clearTimeout(timeoutId);
     } else {
       setQuickResults([]);
     }
@@ -46,6 +55,14 @@ const SearchBar: React.FC<{ className?: string }> = ({ className }) => {
       e.preventDefault();
     }
     
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchOpen(false);
+    }
+  };
+  
+  // Handle "View all results" click
+  const handleViewAllResults = () => {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setIsSearchOpen(false);
@@ -143,7 +160,11 @@ const SearchBar: React.FC<{ className?: string }> = ({ className }) => {
               {/* Quick results */}
               {searchQuery.trim().length >= 2 && (
                 <div className="max-h-[60vh] overflow-auto p-2">
-                  {quickResults.length > 0 ? (
+                  {isSearching ? (
+                    <div className="flex items-center justify-center p-4">
+                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                    </div>
+                  ) : quickResults.length > 0 ? (
                     <div>
                       <div className="px-2 pb-1 pt-2 text-xs font-medium text-gray-500">
                         Quick Results
@@ -153,9 +174,9 @@ const SearchBar: React.FC<{ className?: string }> = ({ className }) => {
                           key={product.id}
                           className="flex cursor-pointer items-center gap-3 rounded-md p-2 hover:bg-gray-100"
                           onClick={() => {
+                            navigate(`/search?q=${encodeURIComponent(product.name)}`);
                             setIsSearchOpen(false);
                             setSearchQuery("");
-                            navigate(`/search?q=${encodeURIComponent(product.name)}`);
                           }}
                         >
                           <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-md bg-gray-100">
@@ -180,13 +201,13 @@ const SearchBar: React.FC<{ className?: string }> = ({ className }) => {
                 </div>
               )}
               
-              {/* Trending searches or actions */}
+              {/* View all results action */}
               <div className="border-t p-2">
                 {searchQuery.trim().length >= 2 ? (
                   <Button
                     variant="ghost"
                     className="w-full justify-between"
-                    onClick={handleSearchSubmit}
+                    onClick={handleViewAllResults}
                   >
                     <span>View all results for "{searchQuery}"</span>
                     <ArrowRight className="h-4 w-4" />

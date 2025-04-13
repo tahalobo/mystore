@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { ShoppingCart, User, Heart, Menu, X } from "lucide-react";
+import { ShoppingCart, Heart, Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MainNav } from "@/components/NavigationMenu";
 import SearchBar from "@/components/SearchBar";
@@ -54,7 +54,7 @@ const Header: React.FC = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <span className="text-xl font-bold">TechHub</span>
+            <span className="text-xl font-bold text-primary">TechHub</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -62,9 +62,17 @@ const Header: React.FC = () => {
             <MainNav />
           </div>
 
-          {/* Search, Cart & Account */}
-          <div className="flex items-center space-x-1 md:space-x-2">
-            <SearchBar />
+          {/* Search, Wishlist & Cart */}
+          <div className="flex items-center space-x-2 md:space-x-3">
+            {/* Mobile Search Icon */}
+            <div className="md:hidden">
+              <SearchBar />
+            </div>
+            
+            {/* Desktop Search Bar */}
+            <div className="hidden md:block">
+              <SearchBar />
+            </div>
             
             <Link to="/wishlist">
               <Button variant="ghost" size="icon" className="relative">
@@ -87,16 +95,10 @@ const Header: React.FC = () => {
                 )}
               </Button>
             </Link>
-
-            <Link to="/account">
-              <Button variant="ghost" size="icon">
-                <User className="h-5 w-5" />
-              </Button>
-            </Link>
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Navigation Menu - Improved for all devices */}
         {isMobile && (
           <div
             className={`absolute left-0 right-0 top-16 transform bg-white shadow-lg transition-transform duration-300 ${
@@ -104,53 +106,75 @@ const Header: React.FC = () => {
             }`}
           >
             <div className="container mx-auto px-4 py-4">
-              <ul className="space-y-3">
+              <div className="mb-4">
+                <SearchBar className="w-full" />
+              </div>
+              
+              <ul className="grid grid-cols-2 gap-2">
                 <li>
                   <Link
                     to="/"
-                    className="block py-2 text-lg font-medium transition-colors hover:text-primary"
+                    className="flex items-center rounded-md p-3 transition-colors hover:bg-gray-100"
                   >
-                    Home
+                    <span className="text-lg font-medium">Home</span>
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/shop"
-                    className="block py-2 text-lg font-medium transition-colors hover:text-primary"
+                    className="flex items-center rounded-md p-3 transition-colors hover:bg-gray-100"
                   >
-                    Shop
+                    <span className="text-lg font-medium">Shop</span>
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/categories"
-                    className="block py-2 text-lg font-medium transition-colors hover:text-primary"
+                    className="flex items-center rounded-md p-3 transition-colors hover:bg-gray-100"
                   >
-                    Categories
+                    <span className="text-lg font-medium">Categories</span>
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/deals"
-                    className="block py-2 text-lg font-medium transition-colors hover:text-primary"
+                    className="flex items-center rounded-md p-3 transition-colors hover:bg-gray-100"
                   >
-                    Deals
+                    <span className="text-lg font-medium">Deals</span>
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/about"
-                    className="block py-2 text-lg font-medium transition-colors hover:text-primary"
+                    className="flex items-center rounded-md p-3 transition-colors hover:bg-gray-100"
                   >
-                    About
+                    <span className="text-lg font-medium">About</span>
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/contact"
-                    className="block py-2 text-lg font-medium transition-colors hover:text-primary"
+                    className="flex items-center rounded-md p-3 transition-colors hover:bg-gray-100"
                   >
-                    Contact
+                    <span className="text-lg font-medium">Contact</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/wishlist"
+                    className="flex items-center rounded-md p-3 transition-colors hover:bg-gray-100"
+                  >
+                    <Heart className="mr-2 h-5 w-5 text-primary" />
+                    <span className="text-lg font-medium">Wishlist</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/cart"
+                    className="flex items-center rounded-md p-3 transition-colors hover:bg-gray-100"
+                  >
+                    <ShoppingCart className="mr-2 h-5 w-5 text-primary" />
+                    <span className="text-lg font-medium">Cart</span>
                   </Link>
                 </li>
               </ul>

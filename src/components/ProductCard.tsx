@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { Product } from "@/types";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { Star, ShoppingBag, Heart, Eye, Check, BadgeCheck, Package } from "lucide-react";
+import { Star, ShoppingBag, Heart, Clock, BadgeCheck, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
@@ -31,7 +32,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
       if (i < fullStars) {
         stars.push(<Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />);
       } else if (i === fullStars && rating % 1 > 0) {
-        // This would be a half star, but for simplicity using full star
         stars.push(<Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400 opacity-50" />);
       } else {
         stars.push(<Star key={i} className="w-3 h-3 text-gray-300" />);
@@ -58,6 +58,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
     setTimeout(() => {
       addToCart(product);
       setIsAddingToCart(false);
+      toast.success(`${product.name} added to cart!`);
     }, 600);
   };
 
@@ -67,54 +68,63 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
     
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
+      toast.info(`${product.name} removed from wishlist`);
     } else {
       addToWishlist(product);
+      toast.success(`${product.name} added to wishlist!`);
     }
   };
+
+  // Calculate discount price if applicable
+  const discountedPrice = product.discount 
+    ? (product.price * (1 - product.discount / 100)).toFixed(2) 
+    : product.price.toFixed(2);
 
   return (
     <motion.div 
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-lg",
+        "group relative overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-lg",
         className
       )}
       onClick={handleCardClick}
       whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative aspect-square overflow-hidden bg-gray-100">
-        <motion.img 
-          src={product.image} 
-          alt={product.name}
-          className="h-full w-full object-contain object-center p-4"
-          animate={{ scale: isHovered ? 1.05 : 1 }}
-          transition={{ duration: 0.4 }}
-        />
+      {/* Product Image - Now consistently landscape */}
+      <div className="relative overflow-hidden bg-gray-50">
+        <div className="aspect-[4/3] flex items-center justify-center p-4">
+          <motion.img 
+            src={product.image} 
+            alt={product.name}
+            className="h-full w-full object-contain"
+            animate={{ scale: isHovered ? 1.05 : 1 }}
+            transition={{ duration: 0.4 }}
+          />
+        </div>
         
-        {/* Quick actions */}
-        <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/5">
-          <div className="absolute bottom-0 left-0 right-0 flex translate-y-full justify-center gap-2 bg-white/90 p-3 backdrop-blur-sm transition-transform duration-300 group-hover:translate-y-0">
+        {/* Quick actions overlay */}
+        <div 
+          className={`absolute inset-0 bg-black/0 transition-colors ${isHovered ? 'bg-black/5' : ''}`}
+        >
+          <div className={`absolute bottom-0 left-0 right-0 flex justify-center gap-2 bg-white/90 p-3 backdrop-blur-sm transition-transform duration-300 ${
+            isHovered ? 'translate-y-0' : 'translate-y-full'
+          }`}>
             <motion.button 
               className={cn(
-                "flex items-center justify-center rounded-full bg-white p-2 shadow-md transition-all hover:bg-primary hover:text-white",
-                isInWishlist(product.id) && "bg-red-50 text-red-500"
+                "flex items-center justify-center rounded-full p-2 shadow-md transition-all",
+                isInWishlist(product.id) 
+                  ? "bg-red-50 text-red-500 hover:bg-red-100" 
+                  : "bg-white hover:bg-primary hover:text-white"
               )}
               onClick={toggleWishlist}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <Heart className={cn("h-4 w-4", isInWishlist(product.id) && "fill-red-500")} />
-            </motion.button>
-            
-            <motion.button 
-              className="flex items-center justify-center rounded-full bg-white p-2 shadow-md transition-all hover:bg-primary hover:text-white"
-              onClick={handleCardClick}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Eye className="h-4 w-4" />
+              <Heart className={cn(
+                "h-4 w-4", 
+                isInWishlist(product.id) && "fill-red-500"
+              )} />
             </motion.button>
             
             <motion.button 
@@ -142,19 +152,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
         {/* Product badges */}
         <div className="absolute left-3 top-3 flex flex-col gap-1">
           {product.bestSeller && (
-            <Badge variant="secondary" className="bg-amber-500 text-white hover:bg-amber-600">
+            <Badge variant="default" className="bg-amber-500 text-white hover:bg-amber-600">
               Best Seller
             </Badge>
           )}
           
           {product.newArrival && (
-            <Badge variant="secondary" className="bg-green-500 text-white hover:bg-green-600">
+            <Badge variant="default" className="bg-green-500 text-white hover:bg-green-600">
               New
             </Badge>
           )}
           
           {product.featured && (
-            <Badge variant="secondary" className="bg-purple-500 text-white hover:bg-purple-600">
+            <Badge variant="default" className="bg-purple-500 text-white hover:bg-purple-600">
               Featured
             </Badge>
           )}
@@ -178,14 +188,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
         )}
       </div>
       
-      <div className="flex flex-1 flex-col p-4">
-        {/* Product category */}
-        <span className="text-xs capitalize text-gray-500">
+      {/* Product info */}
+      <div className="flex flex-col p-4">
+        {/* Category */}
+        <span className="text-xs font-medium uppercase tracking-wider text-primary/80">
           {product.category.replace('-', ' ')}
         </span>
         
         {/* Product name */}
-        <h3 className="mt-1 line-clamp-2 font-medium text-gray-800 transition-colors group-hover:text-primary">
+        <h3 className="mt-1 line-clamp-2 font-semibold text-gray-800 transition-colors group-hover:text-primary">
           {product.name}
         </h3>
         
@@ -198,7 +209,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
         </div>
         
         {/* Price */}
-        <div className="mt-auto flex items-end justify-between pt-3">
+        <div className="mt-3 flex items-end justify-between">
           <div className="flex flex-col">
             {product.discount ? (
               <>
@@ -206,7 +217,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
                   ${product.price.toFixed(2)}
                 </span>
                 <span className="text-lg font-bold text-primary">
-                  ${(product.price * (1 - product.discount / 100)).toFixed(2)}
+                  ${discountedPrice}
                 </span>
               </>
             ) : (
@@ -218,10 +229,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
           
           {/* Stock indicator */}
           {product.stock > 0 && product.stock <= 5 && (
-            <span className="text-xs font-medium text-amber-600">
-              Only {product.stock} left
-            </span>
+            <div className="flex items-center text-xs font-medium text-amber-600">
+              <Clock className="mr-1 h-3 w-3" />
+              <span>Only {product.stock} left</span>
+            </div>
           )}
+        </div>
+        
+        {/* Additional features */}
+        <div className="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
+          {product.featured && (
+            <div className="flex items-center">
+              <BadgeCheck className="mr-1 h-3 w-3 text-primary" />
+              <span>Premium</span>
+            </div>
+          )}
+          <div className="flex items-center">
+            <Shield className="mr-1 h-3 w-3 text-primary" />
+            <span>Warranty</span>
+          </div>
         </div>
       </div>
     </motion.div>

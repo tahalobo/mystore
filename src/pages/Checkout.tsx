@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -24,9 +24,40 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { motion } from 'framer-motion';
-import { CreditCard, Truck, User, MapPin, Box, Clock, ShoppingBag, ChevronRight } from 'lucide-react';
+import { Truck, User, MapPin, Box, Clock, ShoppingBag, ChevronRight, CheckCircle } from 'lucide-react';
+import { saveOrder, generateOrderId } from '@/utils/orderStorage';
+
+// Iraq governorates
+const iraqGovernorates = [
+  "Baghdad", "Basra", "Erbil", "Sulaymaniyah", "Duhok", 
+  "Kirkuk", "Nineveh", "Dhi Qar", "Babylon", "Diyala", 
+  "Anbar", "Maysan", "Wasit", "Najaf", "Karbala", 
+  "Saladin", "Muthanna", "Qadisiyyah"
+];
+
+// Districts for each governorate (simplified)
+const districts: Record<string, string[]> = {
+  "Baghdad": ["Adhamiyah", "Karkh", "Kadhimiya", "Mansour", "Sadr City", "Rusafa", "Dora"],
+  "Basra": ["Basra City", "Abu Al-Khaseeb", "Al-Zubair", "Faw", "Shatt Al-Arab"],
+  "Erbil": ["Erbil City", "Koya", "Soran", "Shaqlawa", "Choman"],
+  "Sulaymaniyah": ["Sulaymaniyah City", "Halabja", "Rania", "Penjwin", "Darbandikhan"],
+  "Duhok": ["Duhok City", "Zakho", "Amedi", "Akre", "Sheikhan"],
+  "Kirkuk": ["Kirkuk City", "Hawija", "Daquq", "Dibis"],
+  "Nineveh": ["Mosul", "Tal Afar", "Sinjar", "Al-Hamdaniya", "Telkef"],
+  "Dhi Qar": ["Nasiriyah", "Al-Rifai", "Suq Al-Shuyukh", "Al-Chibayish"],
+  "Babylon": ["Hillah", "Al-Mahawil", "Al-Musayab", "Al-Hashimiyah"],
+  "Diyala": ["Baqubah", "Al-Muqdadiyah", "Khanaqin", "Kifri"],
+  "Anbar": ["Ramadi", "Fallujah", "Hit", "Haditha", "Al-Qa'im"],
+  "Maysan": ["Amarah", "Ali Al-Gharbi", "Al-Kahla", "Al-Maimouna"],
+  "Wasit": ["Kut", "Al-Hay", "Al-Numaniyah", "Badra", "Al-Suwaira"],
+  "Najaf": ["Najaf City", "Kufa", "Al-Manathira", "Al-Mishkhab"],
+  "Karbala": ["Karbala City", "Al-Hindiya", "Ain Al-Tamur"],
+  "Saladin": ["Tikrit", "Samarra", "Baiji", "Al-Shirqat", "Balad"],
+  "Muthanna": ["Samawah", "Al-Rumaitha", "Al-Khidhir", "Al-Salman"],
+  "Qadisiyyah": ["Diwaniyah", "Afaq", "Al-Shamiya", "Al-Hamza"]
+};
 
 interface FormData {
   firstName: string;
@@ -34,21 +65,17 @@ interface FormData {
   email: string;
   phone: string;
   address: string;
-  city: string;
-  zipCode: string;
-  country: string;
-  cardNumber: string;
-  cardName: string;
-  expiry: string;
-  cvv: string;
+  governorate: string;
+  district: string;
+  notes: string;
 }
 
 const Checkout: React.FC = () => {
   const { cartItems, cartTotal, clearCart } = useCart();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
   
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
@@ -56,47 +83,23 @@ const Checkout: React.FC = () => {
     email: '',
     phone: '',
     address: '',
-    city: '',
-    zipCode: '',
-    country: 'US',
-    cardNumber: '',
-    cardName: '',
-    expiry: '',
-    cvv: ''
+    governorate: '',
+    district: '',
+    notes: ''
   });
   
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Update districts when governorate changes
+  useEffect(() => {
+    if (formData.governorate) {
+      setAvailableDistricts(districts[formData.governorate] || []);
+      setFormData(prev => ({ ...prev, district: '' }));
+    } else {
+      setAvailableDistricts([]);
+    }
+  }, [formData.governorate]);
+  
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
-    // Format card number with spaces
-    if (name === 'cardNumber') {
-      const formattedValue = value
-        .replace(/\s/g, '')
-        .match(/.{1,4}/g)
-        ?.join(' ') || '';
-      
-      setFormData({
-        ...formData,
-        [name]: formattedValue
-      });
-      return;
-    }
-    
-    // Format expiry date
-    if (name === 'expiry') {
-      const cleanValue = value.replace(/\D/g, '');
-      let formattedValue = cleanValue;
-      
-      if (cleanValue.length > 2) {
-        formattedValue = `${cleanValue.slice(0, 2)}/${cleanValue.slice(2, 4)}`;
-      }
-      
-      setFormData({
-        ...formData,
-        [name]: formattedValue
-      });
-      return;
-    }
     
     setFormData({
       ...formData,
@@ -116,21 +119,18 @@ const Checkout: React.FC = () => {
     if (currentStep === 1) {
       // Validate customer information
       if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
-        toast({
-          title: "Missing information",
-          description: "Please fill out all required fields.",
-          variant: "destructive"
-        });
+        toast.error("Please fill out all required customer information fields.");
+        return;
+      }
+      
+      if (!formData.phone.startsWith('07') || formData.phone.length !== 11) {
+        toast.error("Please enter a valid Iraqi phone number (starts with 07 and 11 digits).");
         return;
       }
     } else if (currentStep === 2) {
       // Validate shipping information
-      if (!formData.address || !formData.city || !formData.zipCode || !formData.country) {
-        toast({
-          title: "Missing shipping information",
-          description: "Please fill out all required shipping fields.",
-          variant: "destructive"
-        });
+      if (!formData.address || !formData.governorate || !formData.district) {
+        toast.error("Please fill out all required shipping information fields.");
         return;
       }
     }
@@ -143,18 +143,26 @@ const Checkout: React.FC = () => {
   };
   
   const placeOrder = () => {
-    // Validate payment information
-    if (!formData.cardNumber || !formData.cardName || !formData.expiry || !formData.cvv) {
-      toast({
-        title: "Missing payment information",
-        description: "Please fill out all required payment fields.",
-        variant: "destructive"
-      });
-      return;
-    }
-    
     // Process order
     setIsLoading(true);
+    
+    // Create order object
+    const newOrder = {
+      id: generateOrderId(),
+      items: cartItems,
+      total: cartTotal + (cartTotal >= 50 ? 0 : 5) + (cartTotal * 0.1),
+      date: new Date().toISOString(),
+      status: 'pending' as const,
+      shippingAddress: {
+        name: `${formData.firstName} ${formData.lastName}`,
+        address: formData.address,
+        city: `${formData.district}, ${formData.governorate}`,
+        phone: formData.phone
+      }
+    };
+    
+    // Save order to local storage
+    saveOrder(newOrder);
     
     // Simulate order processing
     setTimeout(() => {
@@ -195,9 +203,25 @@ const Checkout: React.FC = () => {
   const steps = [
     { number: 1, title: "Customer Info", icon: <User className="w-5 h-5" /> },
     { number: 2, title: "Shipping", icon: <MapPin className="w-5 h-5" /> },
-    { number: 3, title: "Payment", icon: <CreditCard className="w-5 h-5" /> },
-    { number: 4, title: "Review", icon: <ShoppingBag className="w-5 h-5" /> }
+    { number: 3, title: "Review", icon: <ShoppingBag className="w-5 h-5" /> }
   ];
+  
+  const calculateDeliveryFee = () => {
+    // Free shipping for orders over $50
+    if (cartTotal >= 50) return 0;
+    
+    // Standard delivery fee
+    return 5;
+  };
+  
+  const calculateTax = () => {
+    // 10% tax
+    return cartTotal * 0.1;
+  };
+  
+  const calculateTotal = () => {
+    return cartTotal + calculateDeliveryFee() + calculateTax();
+  };
   
   return (
     <div className="flex flex-col min-h-screen">
@@ -227,9 +251,7 @@ const Checkout: React.FC = () => {
                       }`}
                     >
                       {step.number < currentStep ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
+                        <CheckCircle className="h-6 w-6" />
                       ) : (
                         step.icon
                       )}
@@ -262,20 +284,19 @@ const Checkout: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
+              key={currentStep}
             >
               <Card>
                 <CardHeader>
                   <CardTitle>
                     {currentStep === 1 && "Customer Information"}
                     {currentStep === 2 && "Shipping Information"}
-                    {currentStep === 3 && "Payment Information"}
-                    {currentStep === 4 && "Review Your Order"}
+                    {currentStep === 3 && "Review Your Order"}
                   </CardTitle>
                   <CardDescription>
                     {currentStep === 1 && "Please enter your contact details"}
                     {currentStep === 2 && "Where should we ship your order?"}
-                    {currentStep === 3 && "Enter your payment details"}
-                    {currentStep === 4 && "Please review your order before confirming"}
+                    {currentStep === 3 && "Please review your order before confirming"}
                   </CardDescription>
                 </CardHeader>
                 
@@ -322,16 +343,17 @@ const Checkout: React.FC = () => {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Phone Number *</Label>
+                        <Label htmlFor="phone">Phone Number * (Iraqi format, e.g., 07XXXXXXXXX)</Label>
                         <Input 
                           id="phone" 
                           name="phone" 
                           type="tel" 
                           value={formData.phone} 
                           onChange={handleInputChange} 
-                          placeholder="(123) 456-7890"
+                          placeholder="07XXXXXXXXX"
                           required
                         />
+                        <p className="text-xs text-gray-500">Start with 07, must be 11 digits</p>
                       </div>
                     </div>
                   )}
@@ -340,125 +362,85 @@ const Checkout: React.FC = () => {
                   {currentStep === 2 && (
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="address">Street Address *</Label>
+                        <Label htmlFor="address">Street Address / Neighborhood *</Label>
                         <Input 
                           id="address" 
                           name="address" 
                           value={formData.address} 
                           onChange={handleInputChange} 
-                          placeholder="123 Main St"
+                          placeholder="Street name, building number, etc."
                           required
                         />
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="city">City *</Label>
-                          <Input 
-                            id="city" 
-                            name="city" 
-                            value={formData.city} 
-                            onChange={handleInputChange} 
-                            placeholder="New York"
-                            required
-                          />
+                          <Label htmlFor="governorate">Governorate *</Label>
+                          <Select
+                            value={formData.governorate}
+                            onValueChange={(value) => handleSelectChange('governorate', value)}
+                          >
+                            <SelectTrigger id="governorate">
+                              <SelectValue placeholder="Select governorate" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {iraqGovernorates.map(governorate => (
+                                <SelectItem key={governorate} value={governorate}>
+                                  {governorate}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </div>
                         
                         <div className="space-y-2">
-                          <Label htmlFor="zipCode">ZIP Code *</Label>
-                          <Input 
-                            id="zipCode" 
-                            name="zipCode" 
-                            value={formData.zipCode} 
-                            onChange={handleInputChange} 
-                            placeholder="10001"
-                            required
-                          />
+                          <Label htmlFor="district">District *</Label>
+                          <Select
+                            value={formData.district}
+                            onValueChange={(value) => handleSelectChange('district', value)}
+                            disabled={!formData.governorate}
+                          >
+                            <SelectTrigger id="district">
+                              <SelectValue placeholder={formData.governorate ? "Select district" : "Select governorate first"} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {availableDistricts.map(district => (
+                                <SelectItem key={district} value={district}>
+                                  {district}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </div>
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="country">Country *</Label>
-                        <Select
-                          value={formData.country}
-                          onValueChange={(value) => handleSelectChange('country', value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a country" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="US">United States</SelectItem>
-                            <SelectItem value="CA">Canada</SelectItem>
-                            <SelectItem value="UK">United Kingdom</SelectItem>
-                            <SelectItem value="AU">Australia</SelectItem>
-                            <SelectItem value="DE">Germany</SelectItem>
-                            <SelectItem value="FR">France</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Label htmlFor="notes">Additional Notes (Optional)</Label>
+                        <Input 
+                          id="notes" 
+                          name="notes" 
+                          value={formData.notes} 
+                          onChange={handleInputChange} 
+                          placeholder="Delivery instructions, landmarks, etc."
+                        />
+                      </div>
+                      
+                      <div className="bg-amber-50 p-4 rounded-md border border-amber-200 mt-6">
+                        <div className="flex items-start">
+                          <Truck className="h-5 w-5 text-amber-500 mt-0.5 mr-2 flex-shrink-0" />
+                          <div>
+                            <h4 className="font-medium text-amber-800">Payment Method</h4>
+                            <p className="text-sm text-amber-700">
+                              Payment is cash on delivery only. You will pay when your order arrives.
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )}
                   
-                  {/* Step 3: Payment Information */}
+                  {/* Step 3: Review Order */}
                   {currentStep === 3 && (
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="cardNumber">Card Number *</Label>
-                        <Input 
-                          id="cardNumber" 
-                          name="cardNumber" 
-                          value={formData.cardNumber} 
-                          onChange={handleInputChange} 
-                          placeholder="4242 4242 4242 4242"
-                          maxLength={19}
-                          required
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="cardName">Name on Card *</Label>
-                        <Input 
-                          id="cardName" 
-                          name="cardName" 
-                          value={formData.cardName} 
-                          onChange={handleInputChange} 
-                          placeholder="John Doe"
-                          required
-                        />
-                      </div>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="expiry">Expiry Date (MM/YY) *</Label>
-                          <Input 
-                            id="expiry" 
-                            name="expiry" 
-                            value={formData.expiry} 
-                            onChange={handleInputChange} 
-                            placeholder="MM/YY"
-                            maxLength={5}
-                            required
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="cvv">CVV *</Label>
-                          <Input 
-                            id="cvv" 
-                            name="cvv" 
-                            value={formData.cvv} 
-                            onChange={handleInputChange} 
-                            placeholder="123"
-                            maxLength={3}
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Step 4: Review Order */}
-                  {currentStep === 4 && (
                     <div className="space-y-6">
                       <div>
                         <h3 className="font-medium text-lg">Customer Information</h3>
@@ -475,23 +457,29 @@ const Checkout: React.FC = () => {
                         <h3 className="font-medium text-lg">Shipping Address</h3>
                         <div className="mt-2 text-sm">
                           <p>{formData.address}</p>
-                          <p>{formData.city}, {formData.zipCode}</p>
-                          <p>{formData.country === 'US' ? 'United States' : 
-                             formData.country === 'CA' ? 'Canada' : 
-                             formData.country === 'UK' ? 'United Kingdom' : 
-                             formData.country === 'AU' ? 'Australia' : 
-                             formData.country === 'DE' ? 'Germany' : 
-                             formData.country === 'FR' ? 'France' : formData.country}</p>
+                          <p>{formData.district}, {formData.governorate}</p>
+                          <p>Iraq</p>
+                          {formData.notes && (
+                            <div className="mt-2">
+                              <span className="font-medium">Notes: </span>
+                              <span>{formData.notes}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                       
                       <Separator />
                       
                       <div>
-                        <h3 className="font-medium text-lg">Payment Method</h3>
-                        <div className="mt-2 text-sm flex items-center">
-                          <CreditCard className="w-4 h-4 mr-2" />
-                          <span>**** **** **** {formData.cardNumber.slice(-4)}</span>
+                        <h3 className="font-medium text-lg flex items-center">
+                          <Truck className="h-5 w-5 mr-2 text-primary" />
+                          Payment Method
+                        </h3>
+                        <div className="mt-2 text-sm bg-gray-50 p-3 rounded-md">
+                          <p className="font-medium">Cash on Delivery</p>
+                          <p className="text-gray-600 text-xs mt-1">
+                            You'll pay when your order arrives. Please have the exact amount ready.
+                          </p>
                         </div>
                       </div>
                       
@@ -536,7 +524,7 @@ const Checkout: React.FC = () => {
                     </Button>
                   )}
                   
-                  {currentStep < 4 ? (
+                  {currentStep < 3 ? (
                     <Button onClick={nextStep} className={currentStep === 1 ? 'w-full' : ''}>
                       Continue
                     </Button>
@@ -598,36 +586,38 @@ const Checkout: React.FC = () => {
                   
                   <div className="flex justify-between text-sm">
                     <span>Shipping</span>
-                    <span className="font-medium">FREE</span>
+                    <span className="font-medium">
+                      {calculateDeliveryFee() === 0 ? "FREE" : `$${calculateDeliveryFee().toFixed(2)}`}
+                    </span>
                   </div>
                   
                   <div className="flex justify-between text-sm">
-                    <span>Tax</span>
-                    <span className="font-medium">${(cartTotal * 0.1).toFixed(2)}</span>
+                    <span>Tax (10%)</span>
+                    <span className="font-medium">${calculateTax().toFixed(2)}</span>
                   </div>
                   
                   <Separator />
                   
                   <div className="flex justify-between font-bold">
                     <span>Total</span>
-                    <span>${(cartTotal + cartTotal * 0.1).toFixed(2)}</span>
+                    <span>${calculateTotal().toFixed(2)}</span>
                   </div>
                 </CardContent>
                 
                 <CardFooter className="flex flex-col space-y-4">
                   <div className="flex items-center text-sm text-green-600">
                     <Truck className="w-4 h-4 mr-2" />
-                    <span>Free shipping on all orders</span>
+                    <span>Free shipping on orders over $50</span>
                   </div>
                   
                   <div className="flex items-center text-sm text-blue-600">
                     <Box className="w-4 h-4 mr-2" />
-                    <span>30-day easy returns</span>
+                    <span>Cash on delivery in Iraq</span>
                   </div>
                   
                   <div className="flex items-center text-sm text-purple-600">
                     <Clock className="w-4 h-4 mr-2" />
-                    <span>Ships within 24 hours</span>
+                    <span>Delivery within 3-7 business days</span>
                   </div>
                 </CardFooter>
               </Card>

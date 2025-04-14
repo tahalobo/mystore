@@ -45,32 +45,14 @@ const MobileProductList: React.FC<MobileProductListProps> = ({
         <p className="text-sm text-gray-500">
           Showing <span className="font-medium">{products.length}</span> products
         </p>
-        <div className="hidden sm:block">
-          <Button
-            variant="outline"
-            size="sm"
-            className="mr-2"
-            onClick={resetFilters}
-          >
-            <X className="h-3 w-3 mr-1" />
-            Reset
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => window.scrollTo(0, 0)}
-          >
-            <ZoomIn className="h-3 w-3 mr-1" />
-            View All
-          </Button>
-        </div>
       </div>
       
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 gap-3">
         {products.map((product, index) => (
           <div 
             key={product.id} 
-            className={`animate-fade-up [animation-delay:${Math.min(index * 50, 500)}ms]`}
+            className="animate-fade-up"
+            style={{ animationDelay: `${index * 50}ms` }}
           >
             <ProductCard 
               product={product}

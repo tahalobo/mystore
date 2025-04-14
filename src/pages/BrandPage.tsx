@@ -8,21 +8,25 @@ import ProductDetailModal from "@/components/ProductDetailModal";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Filter, ArrowUpDown, ChevronDown, X, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { 
-  Filter, 
-  ChevronLeft, 
-  ChevronDown, 
-  ChevronUp,
-  X,
-  Star,
-  ArrowUpDown,
-  Zap,
-  ShieldCheck
-} from "lucide-react";
+import MobileCollectionHeader from "@/components/MobileCollectionHeader";
+import MobileProductList from "@/components/MobileProductList";
+import { cn } from "@/lib/utils";
+
+const categories = [
+  "All Categories",
+  "Phone Cases",
+  "Headphones",
+  "Chargers",
+  "Cables",
+  "Speakers",
+  "Screen Protectors",
+  "Accessories"
+];
 
 const brandsData = [
   {
@@ -93,17 +97,6 @@ const brandsData = [
   }
 ];
 
-const categories = [
-  "All Categories",
-  "Phone Cases",
-  "Headphones",
-  "Chargers",
-  "Cables",
-  "Speakers",
-  "Screen Protectors",
-  "Accessories"
-];
-
 const BrandPage: React.FC = () => {
   const { brandId } = useParams<{ brandId: string }>();
   const [products, setProducts] = useState<Product[]>([]);
@@ -132,7 +125,6 @@ const BrandPage: React.FC = () => {
     const brandProducts = allProducts.filter(product => 
       product.brand && product.brand.toLowerCase() === (brandId || '').toLowerCase()
     );
-    
     setProducts(brandProducts.length > 0 ? brandProducts : allProducts.slice(0, 12));
   }, [brandId]);
 
@@ -258,165 +250,47 @@ const BrandPage: React.FC = () => {
       <Header />
       
       <main className="flex-grow pt-24">
-        <div 
-          className="relative h-40 md:h-60 lg:h-80 bg-cover bg-center flex items-center justify-center" 
-          style={{ 
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${brand.banner})` 
-          }}
-        >
-          <div className="container mx-auto px-4 text-center text-white z-10">
-            <div className="bg-white/10 backdrop-blur-md p-4 md:p-6 rounded-xl inline-block mb-2 md:mb-4">
-              <img 
-                src={brand.logo} 
-                alt={`${brand.name} logo`} 
-                className="max-h-10 md:max-h-16 object-contain filter brightness-0 invert mx-auto" 
-              />
-            </div>
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">{brand.name}</h1>
-            <p className="max-w-2xl mx-auto text-gray-200 text-xs md:text-sm lg:text-base">
-              {brand.description.split('.')[0]}
-            </p>
-          </div>
-        </div>
-        
-        <div className="bg-gray-50 py-6 md:py-10 border-b">
-          <div className="container mx-auto px-4">
-            <Tabs defaultValue="products" className="w-full">
-              <TabsList className="mb-6 w-full md:w-auto mx-auto flex justify-center space-x-2">
-                <TabsTrigger value="products" className="flex-1 md:flex-none">Products</TabsTrigger>
-                <TabsTrigger value="about" className="flex-1 md:flex-none">About {brand.name}</TabsTrigger>
-              </TabsList>
-              <TabsContent value="products">
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-semibold">{brand.name} Products</h2>
-                  <p className="text-gray-600 mt-2">
-                    Explore our selection of premium {brand.name} products
-                  </p>
-                </div>
-              </TabsContent>
-              <TabsContent value="about">
-                <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
-                  <h2 className="text-2xl font-semibold mb-4">{brand.name}</h2>
-                  <p className="text-gray-700 mb-6 text-sm md:text-base">{brand.description}</p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <h3 className="font-medium text-gray-900 mb-2">Founded</h3>
-                      <p className="text-gray-600">{brand.founded}</p>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <h3 className="font-medium text-gray-900 mb-2">Headquarters</h3>
-                      <p className="text-gray-600">{brand.headquarters}</p>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <h3 className="font-medium text-gray-900 mb-2">Official Website</h3>
-                      <a 
-                        href={brand.website} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="text-blue-600 hover:underline"
-                      >
-                        {brand.website.replace('https://', '')}
-                      </a>
-                    </div>
-                  </div>
-                  
-                  <Button asChild variant="outline">
-                    <Link to="#products">Browse {brand.name} Products</Link>
-                  </Button>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
-        </div>
-        
-        <div className="container mx-auto px-4 py-8" id="products">
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="md:hidden mb-4 flex flex-col gap-3">
-              <div className="flex flex-wrap gap-2 items-center justify-between">
-                <Button 
-                  variant="outline" 
-                  className="flex items-center justify-center"
-                  onClick={() => setFilterOpen(!filterOpen)}
-                >
-                  <Filter className="mr-2 h-4 w-4" />
-                  {filterOpen ? "Hide Filters" : "Show Filters"}
-                </Button>
-                
-                <div className="relative">
-                  <Button 
-                    variant="outline" 
-                    className="flex items-center justify-center"
-                    onClick={() => setIsSortOpen(!isSortOpen)}
-                  >
-                    <ArrowUpDown className="mr-2 h-4 w-4" />
-                    Sort By
-                    <ChevronDown className={`ml-2 h-4 w-4 transition-transform ${isSortOpen ? 'transform rotate-180' : ''}`} />
-                  </Button>
-                  
-                  {isSortOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-48 bg-white shadow-lg rounded-md border z-20">
-                      <div className="p-2">
-                        <button 
-                          className={`w-full text-left px-3 py-2 text-sm rounded-md ${sortOption === 'featured' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100'}`}
-                          onClick={() => {
-                            setSortOption('featured');
-                            setIsSortOpen(false);
-                          }}
-                        >
-                          Featured
-                        </button>
-                        <button 
-                          className={`w-full text-left px-3 py-2 text-sm rounded-md ${sortOption === 'price-asc' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100'}`}
-                          onClick={() => {
-                            setSortOption('price-asc');
-                            setIsSortOpen(false);
-                          }}
-                        >
-                          Price: Low to High
-                        </button>
-                        <button 
-                          className={`w-full text-left px-3 py-2 text-sm rounded-md ${sortOption === 'price-desc' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100'}`}
-                          onClick={() => {
-                            setSortOption('price-desc');
-                            setIsSortOpen(false);
-                          }}
-                        >
-                          Price: High to Low
-                        </button>
-                        <button 
-                          className={`w-full text-left px-3 py-2 text-sm rounded-md ${sortOption === 'newest' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100'}`}
-                          onClick={() => {
-                            setSortOption('newest');
-                            setIsSortOpen(false);
-                          }}
-                        >
-                          Newest
-                        </button>
-                        <button 
-                          className={`w-full text-left px-3 py-2 text-sm rounded-md ${sortOption === 'popular' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100'}`}
-                          onClick={() => {
-                            setSortOption('popular');
-                            setIsSortOpen(false);
-                          }}
-                        >
-                          Most Popular
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
+        {isMobile ? (
+          <MobileCollectionHeader
+            title={brand.name}
+            description={brand.description.split('.')[0]}
+            imageUrl={brand.banner}
+            setFilterOpen={setFilterOpen}
+            filterOpen={filterOpen}
+          />
+        ) : (
+          <div 
+            className="relative h-[300px] bg-cover bg-center flex items-center justify-center" 
+            style={{ 
+              backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${brand.banner})` 
+            }}
+          >
+            <div className="container mx-auto px-4 text-center text-white relative z-10">
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl inline-block mb-4">
+                <img 
+                  src={brand.logo} 
+                  alt={`${brand.name} logo`} 
+                  className="h-16 object-contain filter brightness-0 invert" 
+                />
               </div>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-4">{brand.name}</h1>
+              <p className="max-w-2xl mx-auto text-gray-200 text-lg">
+                {brand.description.split('.')[0]}
+              </p>
             </div>
-            
-            <div className={`
-              md:w-1/4 lg:w-1/5 
-              ${filterOpen ? 'block' : 'hidden'} md:block
-              bg-white md:bg-transparent shadow-lg md:shadow-none px-4 py-5 md:p-0 rounded-lg 
-              fixed md:static top-24 left-4 right-4 z-30 
-              md:max-h-auto max-h-[80vh] overflow-y-auto
-              animate-fade-in border
-            `}>
+          </div>
+        )}
+        
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row gap-6">
+            <div className={cn(
+              "md:w-1/4 lg:w-1/5",
+              filterOpen ? "block" : "hidden",
+              "md:block fixed md:static inset-0 md:inset-auto z-50 md:z-0",
+              "bg-white md:bg-transparent",
+              "p-6 md:p-0 overflow-auto md:overflow-visible",
+              "transform transition-transform duration-300 ease-in-out"
+            )}>
               <div className="flex items-center justify-between mb-4 md:hidden">
                 <h3 className="font-semibold text-lg">Filters</h3>
                 <Button 
@@ -558,49 +432,48 @@ const BrandPage: React.FC = () => {
             </div>
             
             <div className="md:w-3/4 lg:w-4/5">
-              <div className="hidden md:flex justify-between items-center mb-6">
-                <div className="flex items-center space-x-2">
-                  <span className="text-gray-500 text-sm">Sort By:</span>
-                  <select
-                    value={sortOption}
-                    onChange={(e) => setSortOption(e.target.value)}
-                    className="border rounded-md py-1.5 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="featured">Featured</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="newest">Newest</option>
-                    <option value="popular">Most Popular</option>
-                  </select>
-                </div>
-              </div>
-              
-              {products.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-                  {products.map((product, index) => (
-                    <div 
-                      key={product.id} 
-                      className="animate-fade-up"
-                      style={{ animationDelay: `${index * 50}ms` }}
-                    >
-                      <ProductCard 
-                        product={product}
-                        onProductClick={openProductModal}
-                      />
-                    </div>
-                  ))}
-                </div>
+              {isMobile ? (
+                <MobileProductList 
+                  products={products}
+                  onProductClick={openProductModal}
+                  resetFilters={clearFilters}
+                />
               ) : (
-                <div className="text-center py-12 bg-white rounded-lg shadow-sm">
-                  <h3 className="text-xl font-medium">No products found</h3>
-                  <p className="text-gray-600 mt-2 mb-6">Try adjusting your filters</p>
-                  <Button 
-                    variant="outline" 
-                    onClick={clearFilters}
-                  >
-                    Reset Filters
-                  </Button>
-                </div>
+                <>
+                  <div className="flex justify-between items-center mb-6">
+                    <p className="text-sm text-gray-500">
+                      Showing <span className="font-medium">{products.length}</span> products
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={sortOption}
+                        onChange={(e) => setSortOption(e.target.value)}
+                        className="border rounded-md py-1.5 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                      >
+                        <option value="featured">Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="newest">Newest</option>
+                        <option value="popular">Most Popular</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                    {products.map((product, index) => (
+                      <div 
+                        key={product.id}
+                        className="animate-fade-up"
+                        style={{ animationDelay: `${index * 50}ms` }}
+                      >
+                        <ProductCard 
+                          product={product}
+                          onProductClick={openProductModal}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
           </div>
@@ -619,15 +492,8 @@ const BrandPage: React.FC = () => {
       
       {filterOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-20 md:hidden"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={() => setFilterOpen(false)}
-        />
-      )}
-      
-      {isSortOpen && (
-        <div 
-          className="fixed inset-0 bg-transparent z-10 md:hidden"
-          onClick={() => setIsSortOpen(false)}
         />
       )}
     </div>

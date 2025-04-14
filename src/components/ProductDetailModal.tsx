@@ -15,6 +15,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -34,6 +35,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   );
   const [quantity, setQuantity] = React.useState(1);
   const [isAddingToCart, setIsAddingToCart] = React.useState(false);
+  const isMobile = useIsMobile();
 
   // Reset state when product changes
   React.useEffect(() => {
@@ -83,8 +85,14 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] p-0 overflow-hidden">
-        <div className="grid md:grid-cols-2 gap-0">
+      <DialogContent className={cn(
+        "sm:max-w-[800px] p-0 overflow-hidden",
+        isMobile && "h-[90vh] overflow-y-auto"
+      )}>
+        <div className={cn(
+          "grid md:grid-cols-2 gap-0",
+          isMobile && "grid-cols-1"
+        )}>
           {/* Product Image Section */}
           <div className="relative bg-gray-100 p-8 flex items-center justify-center">
             <AnimatePresence mode="wait">
@@ -92,7 +100,10 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 key={product.image}
                 src={product.image} 
                 alt={product.name} 
-                className="max-h-[300px] object-contain"
+                className={cn(
+                  "object-contain",
+                  isMobile ? "max-h-[180px]" : "max-h-[300px]"
+                )}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
@@ -129,12 +140,12 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
           
           {/* Product Details Section */}
-          <div className="p-6">
+          <div className="p-4 md:p-6">
             <DialogHeader>
               <Badge variant="outline" className="w-fit capitalize text-gray-500">
                 {product.category.replace('-', ' ')}
               </Badge>
-              <DialogTitle className="text-2xl font-bold mt-2">{product.name}</DialogTitle>
+              <DialogTitle className="text-xl md:text-2xl font-bold mt-2">{product.name}</DialogTitle>
               <DialogDescription>
                 <div className="flex items-center mt-2">
                   {[...Array(5)].map((_, i) => (
@@ -157,21 +168,21 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="flex items-end gap-2">
                 {product.discount ? (
                   <>
-                    <div className="text-2xl font-bold text-primary">
+                    <div className="text-xl md:text-2xl font-bold text-primary">
                       ${(product.price * (1 - product.discount / 100)).toFixed(2)}
                     </div>
-                    <div className="text-lg text-gray-500 line-through">
+                    <div className="text-sm md:text-lg text-gray-500 line-through">
                       ${product.price.toFixed(2)}
                     </div>
                   </>
                 ) : (
-                  <div className="text-2xl font-bold text-primary">
+                  <div className="text-xl md:text-2xl font-bold text-primary">
                     ${product.price.toFixed(2)}
                   </div>
                 )}
               </div>
               
-              <p className="mt-4 text-gray-700">{product.description}</p>
+              <p className="mt-4 text-sm md:text-base text-gray-700">{product.description}</p>
               
               {/* Stock Status */}
               <div className="mt-4 flex items-center">
@@ -186,14 +197,14 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               
               {/* Color Selection */}
               {product.colors && product.colors.length > 0 && (
-                <div className="mt-6">
+                <div className="mt-5 md:mt-6">
                   <h4 className="text-sm font-medium mb-2">Color</h4>
                   <div className="flex space-x-2">
                     {product.colors.map((color) => (
                       <button
                         key={color}
                         onClick={() => setSelectedColor(color)}
-                        className={`w-8 h-8 rounded-full border-2 transition-all ${
+                        className={`w-7 h-7 md:w-8 md:h-8 rounded-full border-2 transition-all ${
                           selectedColor === color 
                             ? "border-primary ring-2 ring-primary ring-opacity-30" 
                             : "border-gray-300"
@@ -202,7 +213,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         aria-label={`Select ${color} color`}
                       >
                         {selectedColor === color && (
-                          <Check className="h-4 w-4 text-white mx-auto" />
+                          <Check className="h-3 w-3 md:h-4 md:w-4 text-white mx-auto" />
                         )}
                       </button>
                     ))}
@@ -211,7 +222,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               )}
               
               {/* Quantity Selector */}
-              <div className="mt-6">
+              <div className="mt-5 md:mt-6">
                 <h4 className="text-sm font-medium mb-2">Quantity</h4>
                 <div className="flex items-center">
                   <Button 
@@ -219,28 +230,30 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     size="icon" 
                     onClick={decrementQuantity}
                     disabled={quantity <= 1}
+                    className="h-8 w-8 md:h-9 md:w-9"
                   >
                     -
                   </Button>
-                  <span className="w-12 text-center">{quantity}</span>
+                  <span className="w-10 md:w-12 text-center text-sm md:text-base">{quantity}</span>
                   <Button 
                     variant="outline" 
                     size="icon" 
                     onClick={incrementQuantity}
                     disabled={quantity >= product.stock}
+                    className="h-8 w-8 md:h-9 md:w-9"
                   >
                     +
                   </Button>
-                  <span className="ml-4 text-sm text-gray-500">
+                  <span className="ml-3 md:ml-4 text-xs md:text-sm text-gray-500">
                     {product.stock} available
                   </span>
                 </div>
               </div>
               
               {/* Action Buttons */}
-              <div className="mt-8 flex space-x-2">
+              <div className="mt-6 md:mt-8 flex space-x-2">
                 <Button 
-                  className="flex-1 relative overflow-hidden"
+                  className="flex-1 relative overflow-hidden text-sm md:text-base"
                   onClick={handleAddToCart}
                   disabled={product.stock === 0 || isAddingToCart}
                 >
@@ -276,7 +289,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <Button 
                   variant={isInWishlist(product.id) ? "secondary" : "outline"} 
                   className={cn(
-                    "w-12 flex justify-center",
+                    "w-10 md:w-12 flex justify-center",
                     isInWishlist(product.id) && "text-red-500 bg-red-50 hover:bg-red-100"
                   )}
                   onClick={handleToggleWishlist}
@@ -285,22 +298,22 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </Button>
               </div>
               
-              {/* Product Features */}
-              <div className="mt-8 grid grid-cols-2 gap-4">
-                <div className="flex items-center text-sm">
-                  <Truck className="h-4 w-4 mr-2 text-primary" />
+              {/* Product Features - hide on small screens to save space */}
+              <div className="mt-6 md:mt-8 grid grid-cols-2 gap-3 md:gap-4 text-xs">
+                <div className="flex items-center">
+                  <Truck className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-primary" />
                   <span>Free shipping over $50</span>
                 </div>
-                <div className="flex items-center text-sm">
-                  <RefreshCw className="h-4 w-4 mr-2 text-primary" />
+                <div className="flex items-center">
+                  <RefreshCw className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-primary" />
                   <span>30-day returns</span>
                 </div>
-                <div className="flex items-center text-sm">
-                  <Package className="h-4 w-4 mr-2 text-primary" />
+                <div className="flex items-center">
+                  <Package className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-primary" />
                   <span>Secure packaging</span>
                 </div>
-                <div className="flex items-center text-sm">
-                  <Shield className="h-4 w-4 mr-2 text-primary" />
+                <div className="flex items-center">
+                  <Shield className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-primary" />
                   <span>2-year warranty</span>
                 </div>
               </div>

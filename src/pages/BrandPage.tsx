@@ -11,11 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { 
   Filter, 
-  Grid3X3, 
-  List, 
   ChevronLeft, 
   ChevronDown, 
   ChevronUp,
@@ -114,7 +112,6 @@ const BrandPage: React.FC = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 150]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortOption, setSortOption] = useState("featured");
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<{
@@ -128,6 +125,7 @@ const BrandPage: React.FC = () => {
     freeShipping: false
   });
   
+  const isMobile = useIsMobile();
   const brand = brandsData.find(b => b.id === brandId);
   
   useEffect(() => {
@@ -206,7 +204,7 @@ const BrandPage: React.FC = () => {
     });
     
     setProducts(filtered);
-    if (window.innerWidth < 768) {
+    if (isMobile) {
       setFilterOpen(false);
     }
   };
@@ -261,32 +259,32 @@ const BrandPage: React.FC = () => {
       
       <main className="flex-grow pt-24">
         <div 
-          className="relative h-60 md:h-80 lg:h-96 bg-cover bg-center flex items-center justify-center" 
+          className="relative h-40 md:h-60 lg:h-80 bg-cover bg-center flex items-center justify-center" 
           style={{ 
             backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${brand.banner})` 
           }}
         >
           <div className="container mx-auto px-4 text-center text-white z-10">
-            <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl inline-block mb-4">
+            <div className="bg-white/10 backdrop-blur-md p-4 md:p-6 rounded-xl inline-block mb-2 md:mb-4">
               <img 
                 src={brand.logo} 
                 alt={`${brand.name} logo`} 
-                className="max-h-16 object-contain filter brightness-0 invert mx-auto" 
+                className="max-h-10 md:max-h-16 object-contain filter brightness-0 invert mx-auto" 
               />
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold mb-4">{brand.name}</h1>
-            <p className="max-w-2xl mx-auto text-gray-200 text-sm md:text-base">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">{brand.name}</h1>
+            <p className="max-w-2xl mx-auto text-gray-200 text-xs md:text-sm lg:text-base">
               {brand.description.split('.')[0]}
             </p>
           </div>
         </div>
         
-        <div className="bg-gray-50 py-10 border-b">
+        <div className="bg-gray-50 py-6 md:py-10 border-b">
           <div className="container mx-auto px-4">
             <Tabs defaultValue="products" className="w-full">
-              <TabsList className="mb-6">
-                <TabsTrigger value="products">Products</TabsTrigger>
-                <TabsTrigger value="about">About {brand.name}</TabsTrigger>
+              <TabsList className="mb-6 w-full md:w-auto mx-auto flex justify-center space-x-2">
+                <TabsTrigger value="products" className="flex-1 md:flex-none">Products</TabsTrigger>
+                <TabsTrigger value="about" className="flex-1 md:flex-none">About {brand.name}</TabsTrigger>
               </TabsList>
               <TabsContent value="products">
                 <div className="text-center mb-6">
@@ -297,11 +295,11 @@ const BrandPage: React.FC = () => {
                 </div>
               </TabsContent>
               <TabsContent value="about">
-                <div className="bg-white p-6 rounded-lg shadow-sm">
+                <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
                   <h2 className="text-2xl font-semibold mb-4">{brand.name}</h2>
-                  <p className="text-gray-700 mb-6">{brand.description}</p>
+                  <p className="text-gray-700 mb-6 text-sm md:text-base">{brand.description}</p>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
                     <div className="bg-gray-50 p-4 rounded-lg">
                       <h3 className="font-medium text-gray-900 mb-2">Founded</h3>
                       <p className="text-gray-600">{brand.founded}</p>
@@ -409,34 +407,15 @@ const BrandPage: React.FC = () => {
                   )}
                 </div>
               </div>
-              
-              <div className="flex gap-2">
-                <Button
-                  variant={viewMode === 'grid' ? 'default' : 'outline'} 
-                  size="icon"
-                  onClick={() => setViewMode('grid')}
-                  className="w-10 h-9"
-                >
-                  <Grid3X3 className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'default' : 'outline'} 
-                  size="icon"
-                  onClick={() => setViewMode('list')}
-                  className="w-10 h-9"
-                >
-                  <List className="h-4 w-4" />
-                </Button>
-              </div>
             </div>
             
             <div className={`
               md:w-1/4 lg:w-1/5 
               ${filterOpen ? 'block' : 'hidden'} md:block
-              bg-white md:bg-transparent shadow-lg md:shadow-none p-4 md:p-0 rounded-lg 
+              bg-white md:bg-transparent shadow-lg md:shadow-none px-4 py-5 md:p-0 rounded-lg 
               fixed md:static top-24 left-4 right-4 z-30 
               md:max-h-auto max-h-[80vh] overflow-y-auto
-              animate-fade-in
+              animate-fade-in border
             `}>
               <div className="flex items-center justify-between mb-4 md:hidden">
                 <h3 className="font-semibold text-lg">Filters</h3>
@@ -452,7 +431,7 @@ const BrandPage: React.FC = () => {
               <div className="bg-white rounded-lg shadow-sm p-4 space-y-6">
                 <div>
                   <h3 className="font-semibold mb-3 text-gray-800">Categories</h3>
-                  <div className="space-y-2">
+                  <div className="space-y-1">
                     {categories.map(category => (
                       <div 
                         key={category}
@@ -494,7 +473,7 @@ const BrandPage: React.FC = () => {
                 
                 <div>
                   <h3 className="font-semibold mb-3 text-gray-800">Product Filters</h3>
-                  <div className="space-y-2.5">
+                  <div className="space-y-2">
                     <div className="flex items-center">
                       <Checkbox 
                         id="best-seller" 
@@ -594,75 +573,21 @@ const BrandPage: React.FC = () => {
                     <option value="popular">Most Popular</option>
                   </select>
                 </div>
-                
-                <div className="flex gap-2 items-center">
-                  <span className="text-gray-500 text-sm">View:</span>
-                  <Button
-                    variant={viewMode === 'grid' ? 'default' : 'outline'} 
-                    size="icon"
-                    onClick={() => setViewMode('grid')}
-                    className="w-9 h-9"
-                  >
-                    <Grid3X3 className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === 'list' ? 'default' : 'outline'} 
-                    size="icon"
-                    onClick={() => setViewMode('list')}
-                    className="w-9 h-9"
-                  >
-                    <List className="h-4 w-4" />
-                  </Button>
-                </div>
               </div>
               
               {products.length > 0 ? (
-                <div className={viewMode === 'grid' ? 
-                  "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : 
-                  "flex flex-col gap-4"
-                }>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
                   {products.map((product, index) => (
-                    <motion.div 
+                    <div 
                       key={product.id} 
-                      className={`animate-fade-up`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05, duration: 0.3 }}
+                      className="animate-fade-up"
+                      style={{ animationDelay: `${index * 50}ms` }}
                     >
-                      {viewMode === 'grid' ? (
-                        <ProductCard 
-                          product={product}
-                          onProductClick={openProductModal}
-                        />
-                      ) : (
-                        <div className="flex border rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow">
-                          <div className="w-1/3 max-w-[150px]">
-                            <img 
-                              src={product.image} 
-                              alt={product.name}
-                              className="w-full h-full object-cover" 
-                            />
-                          </div>
-                          <div className="p-4 flex-1">
-                            <h3 className="font-medium text-gray-900 mb-1">{product.name}</h3>
-                            <p className="text-gray-500 text-sm mb-2 line-clamp-2">{product.description}</p>
-                            <div className="flex justify-between items-center">
-                              <div className="flex items-center gap-2">
-                                <div className="text-lg font-bold">${product.price.toFixed(2)}</div>
-                                {product.discount && product.discount > 0 && (
-                                  <div className="text-sm text-gray-500 line-through">
-                                    ${(product.price * (1 + (product.discount / 100))).toFixed(2)}
-                                  </div>
-                                )}
-                              </div>
-                              <Button size="sm" onClick={() => openProductModal(product)}>
-                                View Details
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </motion.div>
+                      <ProductCard 
+                        product={product}
+                        onProductClick={openProductModal}
+                      />
+                    </div>
                   ))}
                 </div>
               ) : (

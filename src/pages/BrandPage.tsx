@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
@@ -27,7 +26,6 @@ import {
   ShieldCheck
 } from "lucide-react";
 
-// Brand data (would be from API in a real app)
 const brandsData = [
   {
     id: "apple",
@@ -133,8 +131,6 @@ const BrandPage: React.FC = () => {
   const brand = brandsData.find(b => b.id === brandId);
   
   useEffect(() => {
-    // Simulate filtering products by brand (in a real app, this would be an API call)
-    // For demo, we'll just use the brandId as a fake filter
     const brandProducts = allProducts.filter(product => 
       product.brand && product.brand.toLowerCase() === (brandId || '').toLowerCase()
     );
@@ -158,29 +154,24 @@ const BrandPage: React.FC = () => {
   const applyFilters = () => {
     let filtered = [...allProducts];
     
-    // Filter by brand
     filtered = filtered.filter(product => 
       product.brand && product.brand.toLowerCase() === (brandId || '').toLowerCase()
     );
     
-    // If no brand-specific products found, show some demo products
     if (filtered.length === 0) {
       filtered = allProducts.slice(0, 12);
     }
     
-    // Filter by price range
     filtered = filtered.filter(
       product => product.price >= priceRange[0] && product.price <= priceRange[1]
     );
     
-    // Filter by category
     if (selectedCategory !== "All Categories") {
       filtered = filtered.filter(
         product => product.category.toLowerCase() === selectedCategory.toLowerCase().replace(/\s+/g, '-')
       );
     }
     
-    // Apply selected filters
     if (selectedFilters.bestSeller) {
       filtered = filtered.filter(product => product.bestSeller);
     }
@@ -198,19 +189,21 @@ const BrandPage: React.FC = () => {
     }
     
     if (selectedFilters.onSale) {
-      filtered = filtered.filter(product => product.discountPercentage > 0);
+      filtered = filtered.filter(product => product.discount && product.discount > 0);
     }
     
-    // Sort products
-    if (sortOption === "price-asc") {
-      filtered.sort((a, b) => a.price - b.price);
-    } else if (sortOption === "price-desc") {
-      filtered.sort((a, b) => b.price - a.price);
-    } else if (sortOption === "newest") {
-      filtered.sort((a, b) => (b.newArrival ? 1 : 0) - (a.newArrival ? 1 : 0));
-    } else if (sortOption === "popular") {
-      filtered.sort((a, b) => (b.bestSeller ? 1 : 0) - (a.bestSeller ? 1 : 0));
-    }
+    filtered.sort((a, b) => {
+      if (sortOption === "price-asc") {
+        return a.price - b.price;
+      } else if (sortOption === "price-desc") {
+        return b.price - a.price;
+      } else if (sortOption === "newest") {
+        return (b.newArrival ? 1 : 0) - (a.newArrival ? 1 : 0);
+      } else if (sortOption === "popular") {
+        return (b.bestSeller ? 1 : 0) - (a.bestSeller ? 1 : 0);
+      }
+      return 0;
+    });
     
     setProducts(filtered);
     if (window.innerWidth < 768) {
@@ -231,7 +224,6 @@ const BrandPage: React.FC = () => {
     });
     setSortOption("featured");
     
-    // Reset to brand products
     const brandProducts = allProducts.filter(product => 
       product.brand && product.brand.toLowerCase() === (brandId || '').toLowerCase()
     );
@@ -268,7 +260,6 @@ const BrandPage: React.FC = () => {
       <Header />
       
       <main className="flex-grow pt-24">
-        {/* Brand Header */}
         <div 
           className="relative h-60 md:h-80 lg:h-96 bg-cover bg-center flex items-center justify-center" 
           style={{ 
@@ -290,7 +281,6 @@ const BrandPage: React.FC = () => {
           </div>
         </div>
         
-        {/* Brand Info */}
         <div className="bg-gray-50 py-10 border-b">
           <div className="container mx-auto px-4">
             <Tabs defaultValue="products" className="w-full">
@@ -342,10 +332,8 @@ const BrandPage: React.FC = () => {
           </div>
         </div>
         
-        {/* Products Section */}
         <div className="container mx-auto px-4 py-8" id="products">
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Mobile Filter Toggle */}
             <div className="md:hidden mb-4 flex flex-col gap-3">
               <div className="flex flex-wrap gap-2 items-center justify-between">
                 <Button 
@@ -442,7 +430,6 @@ const BrandPage: React.FC = () => {
               </div>
             </div>
             
-            {/* Filters Sidebar */}
             <div className={`
               md:w-1/4 lg:w-1/5 
               ${filterOpen ? 'block' : 'hidden'} md:block
@@ -463,7 +450,6 @@ const BrandPage: React.FC = () => {
               </div>
               
               <div className="bg-white rounded-lg shadow-sm p-4 space-y-6">
-                {/* Categories */}
                 <div>
                   <h3 className="font-semibold mb-3 text-gray-800">Categories</h3>
                   <div className="space-y-2">
@@ -483,7 +469,6 @@ const BrandPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Price Range */}
                 <div>
                   <h3 className="font-semibold mb-3 text-gray-800">Price Range</h3>
                   <div className="px-2">
@@ -507,7 +492,6 @@ const BrandPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Product Filters */}
                 <div>
                   <h3 className="font-semibold mb-3 text-gray-800">Product Filters</h3>
                   <div className="space-y-2.5">
@@ -583,7 +567,6 @@ const BrandPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Apply Filters */}
                 <div className="flex flex-col space-y-2 pt-2">
                   <Button onClick={applyFilters} className="w-full">
                     Apply Filters
@@ -595,9 +578,7 @@ const BrandPage: React.FC = () => {
               </div>
             </div>
             
-            {/* Products Grid */}
             <div className="md:w-3/4 lg:w-4/5">
-              {/* Desktop Sort and View Controls */}
               <div className="hidden md:flex justify-between items-center mb-6">
                 <div className="flex items-center space-x-2">
                   <span className="text-gray-500 text-sm">Sort By:</span>
@@ -657,7 +638,7 @@ const BrandPage: React.FC = () => {
                         <div className="flex border rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow">
                           <div className="w-1/3 max-w-[150px]">
                             <img 
-                              src={product.images[0]} 
+                              src={product.image} 
                               alt={product.name}
                               className="w-full h-full object-cover" 
                             />
@@ -668,9 +649,9 @@ const BrandPage: React.FC = () => {
                             <div className="flex justify-between items-center">
                               <div className="flex items-center gap-2">
                                 <div className="text-lg font-bold">${product.price.toFixed(2)}</div>
-                                {product.discountPercentage > 0 && (
+                                {product.discount && product.discount > 0 && (
                                   <div className="text-sm text-gray-500 line-through">
-                                    ${(product.price * (1 + product.discountPercentage / 100)).toFixed(2)}
+                                    ${(product.price * (1 + (product.discount / 100))).toFixed(2)}
                                   </div>
                                 )}
                               </div>
@@ -711,7 +692,6 @@ const BrandPage: React.FC = () => {
       
       <ScrollToTop />
       
-      {/* Overlay for mobile filters */}
       {filterOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-20 md:hidden"
@@ -719,7 +699,6 @@ const BrandPage: React.FC = () => {
         />
       )}
       
-      {/* Overlay for sort options */}
       {isSortOpen && (
         <div 
           className="fixed inset-0 bg-transparent z-10 md:hidden"

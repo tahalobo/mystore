@@ -21,6 +21,8 @@ import Collection from "./pages/Collection";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import Search from "./pages/Search";
+import BrandsIndex from "./pages/BrandsIndex";
+import BrandPage from "./pages/BrandPage";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +48,8 @@ const App = () => (
               <Route path="/search" element={<Search />} />
               <Route path="/category/:categoryId" element={<CategoryPage />} />
               <Route path="/:collectionId" element={<Collection />} />
+              <Route path="/brands" element={<BrandsIndex />} />
+              <Route path="/brand/:brandId" element={<BrandPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

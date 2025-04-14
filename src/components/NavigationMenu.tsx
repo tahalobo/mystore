@@ -30,6 +30,15 @@ const collections = [
   { name: "Sale", href: "/sale", description: "Great deals and discounts you shouldn't miss" },
 ];
 
+const brands = [
+  { name: "Apple", href: "/brand/apple", description: "Innovative tech products with sleek design" },
+  { name: "Samsung", href: "/brand/samsung", description: "Cutting-edge electronics spanning mobile and home" },
+  { name: "Sony", href: "/brand/sony", description: "Premium audio, video, and gaming products" },
+  { name: "Bose", href: "/brand/bose", description: "Superior sound systems and headphones" },
+  { name: "JBL", href: "/brand/jbl", description: "High-performance speakers and audio accessories" },
+  { name: "Anker", href: "/brand/anker", description: "Reliable charging solutions and accessories" },
+];
+
 export function MainNav() {
   const location = useLocation();
   const isMobile = useIsMobile();
@@ -111,6 +120,46 @@ export function MainNav() {
                   </NavigationMenuLink>
                 </li>
               ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className={cn(
+            "bg-transparent hover:bg-transparent hover:text-primary",
+            (location.pathname === "/brands" || location.pathname.startsWith("/brand/")) && "text-primary font-medium"
+          )}>
+            Brands
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
+              {brands.map((brand) => (
+                <li key={brand.name}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to={brand.href}
+                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    >
+                      <div className="text-sm font-medium leading-none">
+                        {brand.name}
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        {brand.description}
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              ))}
+              <li className="lg:col-span-2">
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/brands"
+                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors bg-primary/5 hover:bg-primary/10 text-center"
+                  >
+                    <div className="text-sm font-medium leading-none">View All Brands</div>
+                  </Link>
+                </NavigationMenuLink>
+              </li>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>

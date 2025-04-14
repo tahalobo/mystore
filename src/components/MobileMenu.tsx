@@ -23,6 +23,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
+  const [isBrandsOpen, setIsBrandsOpen] = useState(false);
 
   const closeMenu = () => {
     setIsOpen(false);
@@ -51,6 +52,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
     { name: "Best Sellers", href: "/best-sellers", description: "Our most popular products that customers love" },
     { name: "Featured", href: "/featured", description: "Handpicked products showcased for their quality" },
     { name: "Sale", href: "/sale", description: "Great deals and discounts you shouldn't miss" },
+  ];
+  
+  const brands = [
+    { name: "Apple", href: "/brand/apple" },
+    { name: "Samsung", href: "/brand/samsung" },
+    { name: "Sony", href: "/brand/sony" },
+    { name: "Bose", href: "/brand/bose" },
+    { name: "JBL", href: "/brand/jbl" },
+    { name: "Anker", href: "/brand/anker" },
   ];
 
   return (
@@ -89,7 +99,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="p-0">
+          <SheetContent side="right" className="p-0 w-full max-w-[85vw] sm:max-w-sm overflow-hidden">
             <div className="flex flex-col h-full">
               <div className="p-4 flex items-center justify-between border-b">
                 {logo}
@@ -98,7 +108,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
                 </Button>
               </div>
               
-              <nav className="flex-1 overflow-auto py-4">
+              <nav className="flex-1 overflow-y-auto py-4 max-h-[calc(100vh-140px)]">
                 <ul className="space-y-2 px-2">
                   {menuItems.map((item) => (
                     <li key={item.path}>
@@ -170,10 +180,39 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
                       </CollapsibleContent>
                     </Collapsible>
                   </li>
+                  
+                  {/* Brands Collapsible */}
+                  <li>
+                    <Collapsible
+                      open={isBrandsOpen}
+                      onOpenChange={setIsBrandsOpen}
+                      className="w-full"
+                    >
+                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full">
+                        <Package className="h-5 w-5 text-primary" />
+                        <span className="font-medium flex-1 text-left">Brands</span>
+                        <ChevronDown className={`h-5 w-5 transition-transform ${isBrandsOpen ? 'transform rotate-180' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="pl-12 pr-4 space-y-2 py-2">
+                          {brands.map((brand) => (
+                            <Link
+                              key={brand.href}
+                              to={brand.href}
+                              className="block py-2 text-sm hover:text-primary"
+                              onClick={closeMenu}
+                            >
+                              {brand.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </li>
                 </ul>
               </nav>
               
-              <div className="p-4 border-t">
+              <div className="p-4 border-t mt-auto">
                 <div className="grid grid-cols-2 gap-2">
                   <Link to="/wishlist" onClick={closeMenu}>
                     <Button variant="outline" className="w-full">

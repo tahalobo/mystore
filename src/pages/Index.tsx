@@ -22,6 +22,7 @@ import { motion } from "framer-motion";
 import FeaturedBrandSection from "@/components/home/FeaturedBrandSection";
 import SpecialOffersSection from "@/components/home/SpecialOffersSection";
 import FAQSection from "@/components/home/FAQSection";
+import BrandsShowcase from "@/components/home/BrandsShowcase";
 
 const Index: React.FC = () => {
   const bestSellers = getBestSellers().slice(0, 4);
@@ -68,6 +69,15 @@ const Index: React.FC = () => {
           variants={sectionVariants}
         >
           <FeaturedProducts onProductClick={openProductModal} />
+        </motion.div>
+        
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={sectionVariants}
+        >
+          <BrandsShowcase />
         </motion.div>
         
         <motion.div

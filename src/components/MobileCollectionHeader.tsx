@@ -22,23 +22,20 @@ const MobileCollectionHeader: React.FC<MobileCollectionHeaderProps> = ({
   return (
     <>
       {/* Collection Header */}
-      <div 
-        className="relative py-12 bg-gradient-to-r from-primary/5 to-primary/10"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+      <div className="relative py-12">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-50"
+          style={{ backgroundImage: `url(${imageUrl})` }}
+        />
+        <div className="absolute inset-0 bg-primary/20 backdrop-blur-[2px]"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold mb-3 text-white">{title}</h1>
-          <p className="text-white/90 max-w-2xl mx-auto text-sm md:text-lg">{description}</p>
+          <h1 className="text-3xl md:text-5xl font-bold mb-3 text-primary-foreground">{title}</h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-lg">{description}</p>
         </div>
       </div>
       
       {/* Mobile View Tabs */}
-      <div className="md:hidden container mx-auto px-4 py-2">
+      <div className="md:hidden container mx-auto px-4 py-2 bg-background">
         <Tabs defaultValue="products" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="products" onClick={() => setFilterOpen(false)}>

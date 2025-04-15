@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -34,6 +33,38 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+
+const contactInfo = {
+  address: {
+    street: "Al-Mansour District",
+    city: "Baghdad",
+    country: "Iraq",
+    mapUrl: "https://maps.google.com/?q=Baghdad+Mall,+Al-Mansour,+Baghdad,+Iraq"
+  },
+  phone: {
+    sales: "+964 750 123 4567",
+    support: "+964 770 987 6543",
+    whatsapp: "+964 780 456 7890"
+  },
+  email: {
+    general: "info@techhaven-iraq.com",
+    support: "support@techhaven-iraq.com",
+    sales: "sales@techhaven-iraq.com"
+  },
+  social: {
+    facebook: "https://facebook.com/techhaven.iraq",
+    instagram: "https://instagram.com/techhaven.iraq",
+    twitter: "https://twitter.com/techhaven_iraq"
+  },
+  hours: {
+    weekdays: "Saturday - Thursday: 10:00 AM - 9:00 PM",
+    weekend: "Friday: 2:00 PM - 9:00 PM"
+  },
+  company: {
+    name: "TechHaven Iraq",
+    description: "Your trusted destination for premium tech products in Iraq. We offer authentic gadgets and accessories with nationwide delivery."
+  }
+};
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -147,7 +178,7 @@ const Contact: React.FC = () => {
                     icon: <Phone className="h-6 w-6" />,
                     title: "Call Us",
                     description: "Speak directly with our support team",
-                    info: "+1 (555) 123-4567",
+                    info: contactInfo.phone.support,
                     color: "bg-green-50 text-green-600",
                     action: "Call now"
                   },
@@ -155,7 +186,7 @@ const Contact: React.FC = () => {
                     icon: <Mail className="h-6 w-6" />,
                     title: "Email Us",
                     description: "Send us a detailed message anytime",
-                    info: "support@techhaven.com",
+                    info: contactInfo.email.support,
                     color: "bg-blue-50 text-blue-600",
                     action: "Send email"
                   },
@@ -171,7 +202,7 @@ const Contact: React.FC = () => {
                     icon: <MapPin className="h-6 w-6" />,
                     title: "Visit Us",
                     description: "Come to our store location",
-                    info: "123 Tech St, Silicon Valley",
+                    info: contactInfo.address.mapUrl,
                     color: "bg-amber-50 text-amber-600",
                     action: "Get directions"
                   }

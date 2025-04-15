@@ -79,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
           className="aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-6"
         >
           <motion.img 
-            src="/lovable-uploads/8c2df3b9-50c3-4839-b072-91db82a03f1d.png" 
+            src={product.image || "/lovable-uploads/8c2df3b9-50c3-4839-b072-91db82a03f1d.png"} 
             alt={product.name}
             className="h-full w-full object-contain mix-blend-multiply transition-transform duration-700"
             initial={{ scale: 1 }}

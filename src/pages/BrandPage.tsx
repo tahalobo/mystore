@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
@@ -8,7 +9,7 @@ import ProductDetailModal from "@/components/ProductDetailModal";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Filter, ArrowUpDown, ChevronDown, X, Star } from "lucide-react";
+import { Filter, ArrowUpDown, ChevronDown, X, Star, Zap, ShieldCheck } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";

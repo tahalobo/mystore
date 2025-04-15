@@ -26,7 +26,7 @@ const PromotionSection: React.FC = () => {
               <Button 
                 asChild 
                 variant="secondary"
-                className="bg-white text-primary hover:bg-white/90 btn-hover-effect"
+                className="bg-white text-black hover:bg-gray-100 btn-hover-effect"
               >
                 <Link to="/deals">
                   Shop Deals
@@ -35,7 +35,7 @@ const PromotionSection: React.FC = () => {
               <Button 
                 asChild 
                 variant="outline"
-                className="border-white text-white hover:bg-white/10 btn-hover-effect"
+                className="border-white text-black bg-white hover:bg-gray-100 btn-hover-effect"
               >
                 <Link to="/shop">
                   Learn More

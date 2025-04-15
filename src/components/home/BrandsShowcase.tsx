@@ -2,6 +2,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { ArrowRight, Shield, Star, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const brands = [
   { id: "apple", name: "Apple", logo: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=200&h=100&fit=crop" },
@@ -14,22 +16,79 @@ const brands = [
 
 const BrandsShowcase: React.FC = () => {
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-      <div className="container mx-auto px-4">
+    <section className="relative py-24 overflow-hidden">
+      {/* Modern gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50">
+        <div className="absolute inset-0 bg-grid-black/[0.03] bg-[size:20px_20px]" />
+        <div className="absolute h-full w-full bg-white/30 backdrop-blur-3xl" />
+      </div>
+
+      <div className="container relative mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-10"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl font-bold mb-4">Trusted Brands</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover premium products from the world's leading technology brands.
-            All products are authentic and come with full warranty coverage.
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent mb-6">
+            Trusted by Leading Brands
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            Partner with industry leaders to bring you the finest in technology and innovation.
+            Every product is authentic with full manufacturer warranty.
           </p>
         </motion.div>
-        
+
+        {/* Features */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="relative group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
+            <div className="relative p-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-gray-200/50 hover:border-blue-200/50 transition-all duration-300">
+              <Shield className="h-10 w-10 text-blue-600 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Authentic Products</h3>
+              <p className="text-gray-600">Guaranteed genuine products with full warranty coverage.</p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="relative group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
+            <div className="relative p-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-gray-200/50 hover:border-blue-200/50 transition-all duration-300">
+              <Star className="h-10 w-10 text-amber-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Premium Selection</h3>
+              <p className="text-gray-600">Carefully curated collection of top-tier brands.</p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="relative group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
+            <div className="relative p-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-gray-200/50 hover:border-blue-200/50 transition-all duration-300">
+              <Zap className="h-10 w-10 text-violet-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Exclusive Deals</h3>
+              <p className="text-gray-600">Special offers and promotions from premium brands.</p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Brands Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {brands.map((brand, index) => (
             <motion.div
@@ -41,12 +100,13 @@ const BrandsShowcase: React.FC = () => {
             >
               <Link 
                 to={`/brand/${brand.id}`}
-                className="bg-white rounded-xl shadow-sm p-6 h-32 flex items-center justify-center hover:shadow-md transition-shadow duration-300 group"
+                className="group relative flex items-center justify-center h-32 p-6 bg-white/40 backdrop-blur-sm rounded-xl border border-gray-200/50 hover:border-blue-200/50 transition-all duration-300"
               >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-xl opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
                 <img 
                   src={brand.logo} 
                   alt={`${brand.name} logo`} 
-                  className="max-h-16 transition-all duration-300 group-hover:scale-110" 
+                  className="max-h-16 transition-all duration-300 group-hover:scale-110 filter grayscale group-hover:grayscale-0" 
                 />
               </Link>
             </motion.div>
@@ -58,14 +118,18 @@ const BrandsShowcase: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center mt-10"
+          className="text-center mt-12"
         >
-          <Link 
-            to="/brands"
-            className="inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors"
+          <Button 
+            asChild 
+            size="lg"
+            className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white font-medium group"
           >
-            View All Brands
-          </Link>
+            <Link to="/brands" className="flex items-center gap-2">
+              Explore All Brands
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Button>
         </motion.div>
       </div>
     </section>

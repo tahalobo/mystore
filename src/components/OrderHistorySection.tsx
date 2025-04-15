@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp, Package, Check, Truck, Calendar, DownloadIcon, ReceiptText, Banknote, MapPin, Copy } from "lucide-react";
@@ -750,46 +749,4 @@ const OrderHistorySection: React.FC = () => {
                               )}
                             </div>
                             
-                            <div className="mt-6 flex flex-wrap gap-2">
-                              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                                <ReceiptText className="h-4 w-4" />
-                                View Invoice
-                              </Button>
-                              <Button size="sm" className="flex items-center gap-2">
-                                <DownloadIcon className="h-4 w-4" />
-                                Download Receipt
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="mt-6 bg-green-50 p-4 rounded-lg">
-                          <p className="text-green-700 font-medium flex items-center">
-                            <Check className="h-5 w-5 mr-2" />
-                            Your order has been delivered!
-                          </p>
-                          <p className="text-green-600 text-sm mt-1">
-                            Thank you for shopping with us.
-                          </p>
-                        </div>
-                      </motion.div>
-                    )}
-                  </motion.div>
-                ))
-            ) : (
-              <div className="text-center py-10">
-                <Check className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-                <h3 className="text-xl font-medium mb-2">No delivered orders</h3>
-                <p className="text-gray-600">
-                  You don't have any delivered orders yet.
-                </p>
-              </div>
-            )}
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-export default OrderHistorySection;
+                            <div className="mt-6 flex flex

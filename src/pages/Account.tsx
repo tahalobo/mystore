@@ -30,7 +30,7 @@ import {
   LogOut, 
   Eye, 
   Package, 
-  TruckIcon, 
+  Truck, 
   Check, 
   MapPin 
 } from "lucide-react";
@@ -153,40 +153,39 @@ const Account: React.FC = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <TabsList className="w-full flex flex-col rounded-none h-auto bg-transparent">
-                    <TabsTrigger 
-                      value="profile" 
-                      onClick={() => setActiveTab("profile")}
-                      className={`justify-start px-4 py-3 ${activeTab === "profile" ? "bg-primary/10" : ""}`}
-                    >
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="orders" 
-                      onClick={() => setActiveTab("orders")}
-                      className={`justify-start px-4 py-3 ${activeTab === "orders" ? "bg-primary/10" : ""}`}
-                    >
-                      <ShoppingBag className="mr-2 h-4 w-4" />
-                      Orders
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="wishlist" 
-                      onClick={() => setActiveTab("wishlist")}
-                      className={`justify-start px-4 py-3 ${activeTab === "wishlist" ? "bg-primary/10" : ""}`}
-                    >
-                      <Heart className="mr-2 h-4 w-4" />
-                      Wishlist
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="settings" 
-                      onClick={() => setActiveTab("settings")}
-                      className={`justify-start px-4 py-3 ${activeTab === "settings" ? "bg-primary/10" : ""}`}
-                    >
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </TabsTrigger>
-                  </TabsList>
+                  {/* Wrap the TabsList in a Tabs component */}
+                  <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                    <TabsList className="w-full flex flex-col rounded-none h-auto bg-transparent">
+                      <TabsTrigger 
+                        value="profile" 
+                        className={`justify-start px-4 py-3 ${activeTab === "profile" ? "bg-primary/10" : ""}`}
+                      >
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="orders" 
+                        className={`justify-start px-4 py-3 ${activeTab === "orders" ? "bg-primary/10" : ""}`}
+                      >
+                        <ShoppingBag className="mr-2 h-4 w-4" />
+                        Orders
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="wishlist" 
+                        className={`justify-start px-4 py-3 ${activeTab === "wishlist" ? "bg-primary/10" : ""}`}
+                      >
+                        <Heart className="mr-2 h-4 w-4" />
+                        Wishlist
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="settings" 
+                        className={`justify-start px-4 py-3 ${activeTab === "settings" ? "bg-primary/10" : ""}`}
+                      >
+                        <Settings className="mr-2 h-4 w-4" />
+                        Settings
+                      </TabsTrigger>
+                    </TabsList>
+                  </Tabs>
                 </CardContent>
                 <CardFooter className="border-t">
                   <Button variant="ghost" className="w-full justify-start text-red-500" onClick={handleLogout}>
@@ -214,7 +213,8 @@ const Account: React.FC = () => {
             
             {/* Main Content */}
             <div className="md:w-3/4">
-              <Tabs value={activeTab} className="w-full">
+              {/* Use the same activeTab state for consistent UX */}
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 {/* Profile Tab */}
                 <TabsContent value="profile" className="space-y-6">
                   <Card>

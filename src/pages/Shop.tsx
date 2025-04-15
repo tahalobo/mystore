@@ -147,12 +147,12 @@ const Shop: React.FC = () => {
             <div className={`
               md:w-1/4 lg:w-1/5 
               ${filterOpen ? 'block' : 'hidden'} md:block
-              bg-white md:bg-transparent shadow-md md:shadow-none p-4 md:p-0 rounded-lg 
-              fixed md:static top-24 left-4 right-4 z-20 
-              md:max-h-auto 
-              animate-fade-in
+              fixed md:static top-24 left-4 right-4 z-20
+              bg-white md:bg-transparent shadow-md md:shadow-none p-4 md:p-0 rounded-lg
+              max-h-[70vh] md:max-h-full overflow-auto
+              transform transition-transform duration-300 ease-in-out
             `}>
-              <div className="flex items-center justify-between mb-4 md:hidden">
+              <div className="flex items-center justify-between sticky top-0 bg-white z-10 pb-2 mb-2 md:hidden">
                 <h3 className="font-semibold text-lg">Filters</h3>
                 <Button 
                   variant="ghost" 
@@ -255,7 +255,7 @@ const Shop: React.FC = () => {
                 </div>
                 
                 {/* Apply Filters */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 sticky bottom-0 bg-white pt-4 pb-2 md:relative md:pt-0 md:pb-0">
                   <Button onClick={applyFilters}>
                     Apply Filters
                   </Button>
@@ -269,7 +269,7 @@ const Shop: React.FC = () => {
             {/* Products Grid */}
             <div className="md:w-3/4 lg:w-4/5">
               {products.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
                   {products.map((product, index) => (
                     <div 
                       key={product.id} 

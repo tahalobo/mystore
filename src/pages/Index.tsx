@@ -16,12 +16,10 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Product } from "@/types";
 import ProductDetailModal from "@/components/ProductDetailModal";
-import BrandsSection from "@/components/home/BrandsSection";
 import TrendingSection from "@/components/home/TrendingSection";
 import { motion } from "framer-motion";
 import FeaturedBrandSection from "@/components/home/FeaturedBrandSection";
 import SpecialOffersSection from "@/components/home/SpecialOffersSection";
-import FAQSection from "@/components/home/FAQSection";
 import BrandsShowcase from "@/components/home/BrandsShowcase";
 
 const Index: React.FC = () => {
@@ -161,15 +159,6 @@ const Index: React.FC = () => {
           viewport={{ once: true, amount: 0.2 }}
           variants={sectionVariants}
         >
-          <BrandsSection />
-        </motion.div>
-        
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={sectionVariants}
-        >
           <PromotionSection />
         </motion.div>
         
@@ -237,15 +226,6 @@ const Index: React.FC = () => {
           variants={sectionVariants}
         >
           <TrendingSection onProductClick={openProductModal} />
-        </motion.div>
-        
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={sectionVariants}
-        >
-          <FAQSection />
         </motion.div>
         
         <motion.div

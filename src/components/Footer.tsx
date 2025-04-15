@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, Linkedin, CreditCard, LockKeyhole, ShieldCheck } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, WhatsApp, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -36,11 +36,24 @@ const Footer: React.FC = () => {
             transition={{ delay: 0.1 }}
           >
             <div className="bg-gray-800 p-3 rounded-full">
-              <ShieldCheck className="h-6 w-6 text-primary" />
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="h-6 w-6 text-primary"
+              >
+                <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
+              </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-white">Premium Quality</h3>
-              <p className="text-sm text-gray-400">All products are quality tested</p>
+              <h3 className="font-semibold text-white">Fast Shipping</h3>
+              <p className="text-sm text-gray-400">Throughout all Iraqi provinces</p>
             </div>
           </motion.div>
           
@@ -51,11 +64,26 @@ const Footer: React.FC = () => {
             transition={{ delay: 0.2 }}
           >
             <div className="bg-gray-800 p-3 rounded-full">
-              <CreditCard className="h-6 w-6 text-primary" />
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="h-6 w-6 text-primary"
+              >
+                <circle cx="12" cy="12" r="8"></circle>
+                <path d="m12 8 4 4"></path>
+                <path d="m12 8-4 4"></path>
+              </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-white">Secure Payment</h3>
-              <p className="text-sm text-gray-400">Multiple payment methods</p>
+              <h3 className="font-semibold text-white">Quality Assurance</h3>
+              <p className="text-sm text-gray-400">Authentic products, guaranteed</p>
             </div>
           </motion.div>
           
@@ -66,11 +94,25 @@ const Footer: React.FC = () => {
             transition={{ delay: 0.3 }}
           >
             <div className="bg-gray-800 p-3 rounded-full">
-              <LockKeyhole className="h-6 w-6 text-primary" />
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="h-6 w-6 text-primary"
+              >
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-white">30-Day Returns</h3>
-              <p className="text-sm text-gray-400">Shop with confidence</p>
+              <h3 className="font-semibold text-white">Customer Support</h3>
+              <p className="text-sm text-gray-400">7 days a week, 9AM - 9PM</p>
             </div>
           </motion.div>
         </div>
@@ -78,25 +120,25 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white">TechHaven</h2>
+            <h2 className="text-xl font-bold text-white">TechHaven Iraq</h2>
             <p className="text-gray-400 max-w-xs">
-              Your one-stop shop for premium tech accessories. Discover quality products that enhance your digital lifestyle.
+              Your trusted destination for premium tech products in Iraq. We offer a wide selection of authentic gadgets and accessories delivered to your doorstep.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
                 <Youtube className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors">
-                <Linkedin className="h-5 w-5" />
+              <a href="https://wa.me/9647XXXXXXXX" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
+                <WhatsApp className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -104,7 +146,7 @@ const Footer: React.FC = () => {
           {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="text-white font-semibold border-b border-gray-800 pb-2">Quick Links</h3>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2">
               <ul className="space-y-2">
                 <li>
                   <Link to="/shop" className="text-gray-400 hover:text-white transition-colors flex items-center">
@@ -125,13 +167,11 @@ const Footer: React.FC = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/deals" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <Link to="/brands" className="text-gray-400 hover:text-white transition-colors flex items-center">
                     <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    Deals
+                    Brands
                   </Link>
                 </li>
-              </ul>
-              <ul className="space-y-2">
                 <li>
                   <Link to="/wishlist" className="text-gray-400 hover:text-white transition-colors flex items-center">
                     <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
@@ -150,12 +190,6 @@ const Footer: React.FC = () => {
                     Account
                   </Link>
                 </li>
-                <li>
-                  <Link to="/faq" className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    FAQs
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>
@@ -167,25 +201,31 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 mr-2 text-primary mt-0.5" />
                 <span className="text-gray-400">
-                  123 Tech Street, Digital City, IC 10101
+                  Baghdad Mall, Al-Mansour District, Baghdad, Iraq
                 </span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-gray-400">(555) 123-4567</span>
+                <span className="text-gray-400">+964 750 123 4567</span>
+              </li>
+              <li className="flex items-center">
+                <WhatsApp className="h-5 w-5 mr-2 text-primary" />
+                <span className="text-gray-400">+964 770 987 6543</span>
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-gray-400">support@techhaven.com</span>
+                <span className="text-gray-400">support@techhaven-iraq.com</span>
               </li>
             </ul>
             
             <div className="pt-4">
-              <h4 className="text-white font-medium mb-2">Business Hours:</h4>
+              <h4 className="text-white font-medium mb-2 flex items-center">
+                <Clock className="h-4 w-4 mr-2 text-primary" />
+                Business Hours:
+              </h4>
               <p className="text-gray-400 text-sm">
-                Monday - Friday: 9AM - 6PM<br />
-                Saturday: 10AM - 4PM<br />
-                Sunday: Closed
+                Saturday - Thursday: 10AM - 9PM<br />
+                Friday: 2PM - 9PM
               </p>
             </div>
           </div>
@@ -223,14 +263,8 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} TechHaven. All rights reserved.
+            &copy; {new Date().getFullYear()} TechHaven Iraq. All rights reserved.
           </p>
-          <div className="flex space-x-4 mt-4 md:mt-0">
-            <img src="https://placehold.co/60x30/2d2d2d/white?text=Visa" alt="Visa" className="h-8 w-auto rounded" />
-            <img src="https://placehold.co/60x30/2d2d2d/white?text=MasterCard" alt="Mastercard" className="h-8 w-auto rounded" />
-            <img src="https://placehold.co/60x30/2d2d2d/white?text=PayPal" alt="PayPal" className="h-8 w-auto rounded" />
-            <img src="https://placehold.co/60x30/2d2d2d/white?text=ApplePay" alt="Apple Pay" className="h-8 w-auto rounded" />
-          </div>
         </div>
       </div>
     </footer>

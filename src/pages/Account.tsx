@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
@@ -40,7 +39,6 @@ const Account: React.FC = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("profile");
   
-  // Mock data for demo purposes
   const userProfile = {
     name: "Alex Johnson",
     email: "alex.johnson@example.com",
@@ -139,7 +137,6 @@ const Account: React.FC = () => {
       <main className="flex-grow pt-24">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row gap-8">
-            {/* Sidebar */}
             <div className="md:w-1/4 space-y-4">
               <Card className="overflow-hidden">
                 <CardHeader className="bg-primary/5 flex flex-row items-center space-y-0 gap-4">
@@ -153,7 +150,6 @@ const Account: React.FC = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">
-                  {/* Wrap the TabsList in a Tabs component */}
                   <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                     <TabsList className="w-full flex flex-col rounded-none h-auto bg-transparent">
                       <TabsTrigger 
@@ -211,11 +207,8 @@ const Account: React.FC = () => {
               </Card>
             </div>
             
-            {/* Main Content */}
             <div className="md:w-3/4">
-              {/* Use the same activeTab state for consistent UX */}
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                {/* Profile Tab */}
                 <TabsContent value="profile" className="space-y-6">
                   <Card>
                     <CardHeader>
@@ -295,7 +288,6 @@ const Account: React.FC = () => {
                   </Card>
                 </TabsContent>
                 
-                {/* Orders Tab */}
                 <TabsContent value="orders" className="space-y-6">
                   <Card>
                     <CardHeader>
@@ -354,7 +346,7 @@ const Account: React.FC = () => {
                                 {order.status === "Delivered" ? (
                                   <Check className="mr-1 h-4 w-4 text-green-500" />
                                 ) : (
-                                  <TruckIcon className="mr-1 h-4 w-4 text-blue-500" />
+                                  <Truck className="mr-1 h-4 w-4 text-blue-500" />
                                 )}
                                 <span>
                                   {order.status === "Delivered" 
@@ -373,7 +365,6 @@ const Account: React.FC = () => {
                   </Card>
                 </TabsContent>
                 
-                {/* Wishlist Tab */}
                 <TabsContent value="wishlist" className="space-y-6">
                   <Card>
                     <CardHeader>
@@ -467,7 +458,6 @@ const Account: React.FC = () => {
                   </Card>
                 </TabsContent>
                 
-                {/* Settings Tab */}
                 <TabsContent value="settings" className="space-y-6">
                   <Card>
                     <CardHeader>

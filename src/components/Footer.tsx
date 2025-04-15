@@ -183,12 +183,6 @@ const Footer: React.FC = () => {
                     Cart
                   </Link>
                 </li>
-                <li>
-                  <Link to="/account" className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    Account
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>

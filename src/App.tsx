@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,7 +12,6 @@ import Cart from "./pages/Cart";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Wishlist from "./pages/Wishlist";
-import Account from "./pages/Account";
 import Deals from "./pages/Deals";
 import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/CategoryPage";
@@ -43,7 +41,6 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
               <Route path="/wishlist" element={<Wishlist />} />
-              <Route path="/account" element={<Account />} />
               <Route path="/deals" element={<Deals />} />
               <Route path="/search" element={<Search />} />
               <Route path="/category/:categoryId" element={<CategoryPage />} />

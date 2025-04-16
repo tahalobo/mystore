@@ -350,20 +350,17 @@ const Contact: React.FC = () => {
             <div className="max-w-3xl mx-auto">
               {[{
               question: "What payment methods do you accept?",
-              answer: "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and Apple Pay. For orders over $500, we also offer financing options."
+              answer: "We accept payment Cash on delivery only."
             }, {
               question: "How long does shipping take?",
-              answer: "Standard shipping typically takes 3-5 business days. We also offer express shipping (1-2 business days) for an additional fee. International shipping times vary by location."
+              answer: "Standard shipping typically takes 3-5 business days."
             }, {
               question: "What is your return policy?",
               answer: "We offer a 30-day return policy for most items. Products must be in original packaging and unused condition. Some exceptions apply for certain electronic components."
             }, {
               question: "Do you offer international shipping?",
-              answer: "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary based on location. Import duties and taxes may apply."
-            }, {
-              question: "How can I track my order?",
-              answer: "Once your order ships, you'll receive a confirmation email with a tracking number and link. You can also track your order in the 'My Orders' section of your account."
-            }].map((faq, index) => <motion.div key={index} className="border-b border-gray-200 py-4" initial={{
+              answer: "No , We shipp inside iraq only"
+            }, ].map((faq, index) => <motion.div key={index} className="border-b border-gray-200 py-4" initial={{
               opacity: 0,
               y: 20
             }} animate={{

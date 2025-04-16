@@ -359,7 +359,7 @@ const Contact: React.FC = () => {
               answer: "We offer a 30-day return policy for most items. Products must be in original packaging and unused condition. Some exceptions apply for certain electronic components."
             }, {
               question: "Do you offer international shipping?",
-              answer: "No , We shipp inside iraq only"
+              answer: "No , We deliver inside iraq only"
             }, ].map((faq, index) => <motion.div key={index} className="border-b border-gray-200 py-4" initial={{
               opacity: 0,
               y: 20

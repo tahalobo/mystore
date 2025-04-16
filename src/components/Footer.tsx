@@ -5,48 +5,37 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-
 const Footer: React.FC = () => {
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
-    
     if (email) {
       toast({
         title: "Subscription Successful",
-        description: `Thank you for subscribing with ${email}. You'll receive our newsletter soon.`,
+        description: `Thank you for subscribing with ${email}. You'll receive our newsletter soon.`
       });
       form.reset();
     }
   };
-
-  return (
-    <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-gray-200">
+  return <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-gray-200">
       <div className="container mx-auto px-4 pt-16 pb-8">
         {/* Features Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 border-b border-gray-800 pb-12">
-          <motion.div 
-            className="flex items-center space-x-4 justify-center md:justify-start"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
+          <motion.div className="flex items-center space-x-4 justify-center md:justify-start" initial={{
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.1
+        }}>
             <div className="bg-gray-800 p-3 rounded-full">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className="h-6 w-6 text-primary"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-primary">
                 <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
               </svg>
             </div>
@@ -56,25 +45,17 @@ const Footer: React.FC = () => {
             </div>
           </motion.div>
           
-          <motion.div 
-            className="flex items-center space-x-4 justify-center md:justify-start"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
+          <motion.div className="flex items-center space-x-4 justify-center md:justify-start" initial={{
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.2
+        }}>
             <div className="bg-gray-800 p-3 rounded-full">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className="h-6 w-6 text-primary"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-primary">
                 <circle cx="12" cy="12" r="8"></circle>
                 <path d="m12 8 4 4"></path>
                 <path d="m12 8-4 4"></path>
@@ -86,25 +67,17 @@ const Footer: React.FC = () => {
             </div>
           </motion.div>
           
-          <motion.div 
-            className="flex items-center space-x-4 justify-center md:justify-start"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
+          <motion.div className="flex items-center space-x-4 justify-center md:justify-start" initial={{
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.3
+        }}>
             <div className="bg-gray-800 p-3 rounded-full">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className="h-6 w-6 text-primary"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-primary">
                 <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
@@ -119,7 +92,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white">TechHaven Iraq</h2>
+            <h2 className="text-xl font-bold text-white">MyStore Iraq</h2>
             <p className="text-gray-400 max-w-xs">
               Your trusted destination for premium tech products in Iraq. We offer a wide selection of authentic gadgets and accessories delivered to your doorstep.
             </p>
@@ -207,7 +180,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-gray-400">support@techhaven-iraq.com</span>
+                <span className="text-gray-400">support@samaur-iraq.com</span>
               </li>
             </ul>
             
@@ -231,23 +204,12 @@ const Footer: React.FC = () => {
             </p>
             <form onSubmit={handleSubscribe} className="space-y-2">
               <div className="relative">
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="Your email address"
-                  className="bg-gray-800 border-gray-700 text-gray-300 pr-12"
-                  required
-                />
-                <Button 
-                  type="submit" 
-                  className="absolute right-0 top-0 bottom-0 bg-primary hover:bg-primary/90 text-white rounded-l-none"
-                >
+                <Input type="email" name="email" placeholder="Your email address" className="bg-gray-800 border-gray-700 text-gray-300 pr-12" required />
+                <Button type="submit" className="absolute right-0 top-0 bottom-0 bg-primary hover:bg-primary/90 text-white rounded-l-none">
                   Subscribe
                 </Button>
               </div>
-              <p className="text-xs text-gray-500">
-                By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
-              </p>
+              
             </form>
           </div>
         </div>
@@ -260,8 +222,6 @@ const Footer: React.FC = () => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;

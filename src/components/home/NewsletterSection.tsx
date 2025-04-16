@@ -27,7 +27,7 @@ const NewsletterSection: React.FC = () => {
           <p className="text-gray-600 mb-6">Subscribe to our newsletter and stay updated with the latest products and exclusive offers.</p>
           
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-            <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Enter your email" className="flex-grow" required />
+            
             <Button type="submit" className="bg-primary hover:bg-primary/90 btn-hover-effect" disabled={loading}>
               {loading ? "Subscribing..." : <>
                   Subscribe

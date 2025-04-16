@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "@/components/Header";
@@ -13,6 +12,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import MobileFilterDrawer from "@/components/MobileFilterDrawer";
 import MobileProductList from "@/components/MobileProductList";
 import MobileCollectionHeader from "@/components/MobileCollectionHeader";
+import ProductCard from "@/components/ProductCard";
 
 const CategoryPage: React.FC = () => {
   const { categoryId } = useParams<{ categoryId: string }>();

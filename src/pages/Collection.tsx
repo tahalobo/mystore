@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "@/components/Header";
@@ -16,6 +15,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import MobileFilterDrawer from "@/components/MobileFilterDrawer";
 import MobileProductList from "@/components/MobileProductList";
 import MobileCollectionHeader from "@/components/MobileCollectionHeader";
+import ProductCard from "@/components/ProductCard";
 
 const collections = {
   "featured": {
@@ -70,7 +70,6 @@ const Collection: React.FC = () => {
   const [initialProducts, setInitialProducts] = useState<Product[]>([]);
   const isMobile = useIsMobile();
 
-  // Get unique colors for filtering
   const uniqueColors: { [key: string]: string } = {
     "all": "All Colors",
     "#000000": "Black",
@@ -88,7 +87,6 @@ const Collection: React.FC = () => {
       setInitialProducts(products);
       setFilteredProducts(products);
       
-      // Reset filters when collection changes
       resetFilters();
     }
   }, [collectionId]);
@@ -131,12 +129,10 @@ const Collection: React.FC = () => {
   const applyFilters = () => {
     let productsToFilter = [...initialProducts];
     
-    // Apply price filter
     productsToFilter = productsToFilter.filter(
       product => product.price >= priceRange[0] && product.price <= priceRange[1]
     );
     
-    // Apply other filters
     if (selectedFilters.bestSeller) {
       productsToFilter = productsToFilter.filter(product => product.bestSeller);
     }
@@ -153,11 +149,9 @@ const Collection: React.FC = () => {
       productsToFilter = productsToFilter.filter(product => product.stock > 0);
     }
     
-    // Apply discount filter
     if (selectedFilters.hasDiscount) {
       productsToFilter = productsToFilter.filter(product => product.discount && product.discount > 0);
       
-      // Apply discount range filter if needed
       if (selectedFilters.discountRange !== "all") {
         if (selectedFilters.discountRange === "under25") {
           productsToFilter = productsToFilter.filter(product => product.discount && product.discount < 25);
@@ -169,14 +163,12 @@ const Collection: React.FC = () => {
       }
     }
     
-    // Apply color filter
     if (selectedFilters.colorFilter && selectedFilters.colorFilter !== "all") {
       productsToFilter = productsToFilter.filter(
         product => product.colors && product.colors.includes(selectedFilters.colorFilter as string)
       );
     }
     
-    // Apply sorting
     if (selectedFilters.sortBy === "priceAsc") {
       productsToFilter.sort((a, b) => a.price - b.price);
     } else if (selectedFilters.sortBy === "priceDesc") {
@@ -244,10 +236,8 @@ const Collection: React.FC = () => {
           filterOpen={filterOpen}
         />
         
-        {/* Collection Content */}
         <div className="container mx-auto px-4 py-4 md:py-8">
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-            {/* Mobile Filter Drawer */}
             <MobileFilterDrawer 
               isOpen={filterOpen}
               onClose={() => setFilterOpen(false)}
@@ -263,7 +253,6 @@ const Collection: React.FC = () => {
               availableColors={uniqueColors}
             />
             
-            {/* Products Grid */}
             <div className={`${(isMobile && filterOpen) ? 'hidden' : 'block'} md:block md:w-full lg:w-full`}>
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
                 {filteredProducts.map((product, index) => (

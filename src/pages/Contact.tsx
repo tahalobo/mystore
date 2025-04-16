@@ -308,14 +308,14 @@ const Contact: React.FC = () => {
                       <h3 className="text-xl font-bold">Visit Our Store</h3>
                     </div>
                     <div className="aspect-video w-full">
-                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50695.32939979492!2d-122.09429893541286!3d37.422899393452365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb7495bec0189%3A0x7c17d44a466baf9b!2sMountain%20View%2C%20CA%2C%20USA!5e0!3m2!1sen!2sca!4v1617123456789!5m2!1sen!2sca" className="w-full h-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="TechHaven Store Location"></iframe>
+                      <iframe src="https://maps.app.goo.gl/sdrkg3xiQWNqhoKH6" className="w-full h-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="TechHaven Store Location"></iframe>
                     </div>
                     <div className="p-6 space-y-4">
                       <div className="flex items-start">
                         <MapPin className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
                         <div>
                           <h4 className="font-medium">Address</h4>
-                          <p className="text-gray-600">123 Tech Street,<br />Silicon Valley, CA 94043</p>
+                          <p className="text-gray-600">here are the addres</p>
                         </div>
                       </div>
                       

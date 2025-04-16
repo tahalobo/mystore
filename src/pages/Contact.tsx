@@ -308,7 +308,7 @@ const Contact: React.FC = () => {
                       <h3 className="text-xl font-bold">Visit Our Store</h3>
                     </div>
                     <div className="aspect-video w-full">
-                      <iframe src="https://maps.app.goo.gl/sdrkg3xiQWNqhoKH6" className="w-full h-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="TechHaven Store Location"></iframe>
+                      <iframe src="https://www.google.pl/maps/place/%D8%B4%D8%B1%D9%83%D8%A9+%D8%B3%D9%85%D8%A7+%D8%A7%D9%88%D8%B1+%D9%84%D8%AA%D9%82%D9%86%D9%8A%D8%A9+%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA%E2%80%AD/@33.3074457,44.4512219,17z/data=!4m6!3m5!1s0x155781f525e1071d:0xd3e7eb7dc833043!8m2!3d33.3074457!4d44.448647!16s%2Fg%2F11rsv87jp7?entry=ttu&g_ep=EgoyMDI1MDQxMy4wIKXMDSoASAFQAw%3D%3D" className="w-full h-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="TechHaven Store Location"></iframe>
                     </div>
                     <div className="p-6 space-y-4">
                       <div className="flex items-start">

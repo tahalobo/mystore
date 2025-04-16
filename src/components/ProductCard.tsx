@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Product } from "@/types";
 import { useCart } from "@/contexts/CartContext";
@@ -63,7 +64,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
   return (
     <motion.div 
       className={cn(
-        "group relative overflow-hidden rounded-2xl bg-white border border-transparent transition-all duration-300 hover:border-primary/20 hover:shadow-xl h-full",
+        "group relative overflow-hidden rounded-2xl bg-white border border-transparent transition-all duration-300 hover:border-primary/20 hover:shadow-xl h-full flex flex-col",
         className
       )}
       onClick={handleCardClick}
@@ -156,7 +157,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
         
         {product.discount && (
           <div className="absolute right-2 top-2">
-            <Badge variant="destructive" className="rounded-full px-2 py-0.5 text-xs font-medium shadow-sm">
+            <Badge variant="destructive" className="rounded-full px-1.5 py-0.5 text-[10px] font-medium shadow-sm">
               -{product.discount}%
             </Badge>
           </div>
@@ -171,12 +172,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
         )}
       </div>
       
-      <div className="flex flex-col p-5">
+      <div className="flex flex-col p-4 flex-grow">
         <span className="text-xs font-medium uppercase tracking-wider text-primary/80">
           {product.category.replace('-', ' ')}
         </span>
         
-        <h3 className="mt-1 line-clamp-2 font-bold text-gray-800 transition-colors group-hover:text-primary/90">
+        <h3 className="mt-1 line-clamp-2 min-h-[40px] font-bold text-gray-800 transition-colors group-hover:text-primary/90">
           {product.name}
         </h3>
         
@@ -187,7 +188,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
           </div>
         </div>
         
-        <div className="mt-3 flex items-end justify-between">
+        <div className="mt-auto pt-3 flex items-end justify-between">
           <div className="flex flex-col">
             {product.discount ? (
               <>
@@ -213,7 +214,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
           )}
         </div>
         
-        <div className="mt-3 flex flex-wrap gap-3 text-xs text-gray-500">
+        <div className="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
           {product.featured && (
             <div className="flex items-center bg-gray-50 px-2 py-1 rounded-full">
               <BadgeCheck className="mr-1 h-3 w-3 text-primary" />
@@ -232,6 +233,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
             disabled={product.stock === 0 || isAddingToCart}
             className="w-full rounded-full"
             variant="default"
+            size="sm"
           >
             {isAddingToCart ? (
               <>

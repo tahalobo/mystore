@@ -162,33 +162,10 @@ const About: React.FC = () => {
               <TabsList className="grid w-full grid-cols-3 mb-8">
                 <TabsTrigger value="story">Our Story</TabsTrigger>
                 <TabsTrigger value="mission">Mission</TabsTrigger>
-                <TabsTrigger value="vision">Vision</TabsTrigger>
+                <TabsTrigger value="vision">As word spread, he brought together a small team of like-minded creators who shared his vision for better tech accessories. Together, they expanded the product line to include headphones, chargers, and other essential tech accessories.</TabsTrigger>
               </TabsList>
               
-              <TabsContent value="story" className="relative">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                  <div>
-                    <h3 className="text-2xl font-bold mb-4">From Garage to Global</h3>
-                    <div className="space-y-4 text-gray-700">
-                      <p>MyStore was founded in 2015 by tech enthusiast Sama Ur, who started by crafting premium phone cases from his garage. What began as a passion project quickly gained attention for its exceptional quality and thoughtful design.</p>
-                      <p>
-                        As word spread, Alex brought together a small team of like-minded creators who shared his vision for better tech accessories. Together, they expanded the product line to include headphones, chargers, and other essential tech accessories.
-                      </p>
-                      <p>
-                        Today, TechHaven has grown into a global brand with customers in over 30 countries. We've maintained our commitment to quality while expanding our reach, bringing thoughtfully designed tech accessories to people around the world.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800" alt="Our Story" className="rounded-lg shadow-lg" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Button variant="outline" size="icon" className="h-16 w-16 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white/90 border-0 shadow-lg">
-                        <PlayCircle className="h-10 w-10 text-primary" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
+              
               
               <TabsContent value="mission">
                 <div className="bg-white p-8 rounded-xl shadow-md">

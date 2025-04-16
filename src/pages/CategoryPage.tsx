@@ -221,11 +221,20 @@ const CategoryPage: React.FC = () => {
             
             {/* Products Grid */}
             <div className={`${(isMobile && filterOpen) ? 'hidden' : 'block'} md:block md:w-3/4 lg:w-4/5`}>
-              <MobileProductList 
-                products={filteredProducts}
-                onProductClick={openProductModal}
-                resetFilters={resetFilters}
-              />
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+                {filteredProducts.map((product, index) => (
+                  <div 
+                    key={product.id} 
+                    className="animate-fade-up"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <ProductCard 
+                      product={product}
+                      onProductClick={openProductModal}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

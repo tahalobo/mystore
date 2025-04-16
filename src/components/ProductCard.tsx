@@ -65,7 +65,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
   return (
     <motion.div 
       className={cn(
-        "group relative overflow-hidden rounded-2xl bg-white border border-transparent transition-all duration-300 hover:border-primary/20 hover:shadow-xl",
+        "group relative overflow-hidden rounded-2xl bg-white border border-transparent transition-all duration-300 hover:border-primary/20 hover:shadow-xl h-full",
         className
       )}
       onClick={handleCardClick}

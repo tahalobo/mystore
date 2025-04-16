@@ -123,98 +123,134 @@ const About: React.FC = () => {
                     {stat.icon}
                   </div>
                   <div className="text-4xl font-bold text-gray-900 mb-2">{stat.number}</div>
-                  <div className="text-gray-600">{stat.label}</div>
+                  <div className="text-gray-500">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
         
-        <section className="py-16 bg-gray-50">
+        <section className="py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h2 className="text-3xl font-bold mb-6">Our Journey</h2>
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <span className="inline-block bg-primary/10 text-primary font-medium px-4 py-1.5 rounded-full text-sm mb-4">
+                Our Journey
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold mb-5">The MyStore Story</h2>
               <p className="text-gray-600">
-                From humble beginnings to becoming a trusted tech accessories brand, discover the TechHaven story.
+                From humble beginnings to becoming Iraq's most trusted tech accessories brand.
               </p>
             </div>
             
-            <Tabs defaultValue="story" className="max-w-4xl mx-auto">
-              <TabsList className="grid w-full grid-cols-3 mb-8">
-                <TabsTrigger value="story">Our Story</TabsTrigger>
-                <TabsTrigger value="mission">Mission</TabsTrigger>
-                <TabsTrigger value="vision">As word spread, he brought together a small team of like-minded creators who shared his vision for better tech accessories. Together, they expanded the product line to include headphones, chargers, and other essential tech accessories.</TabsTrigger>
-              </TabsList>
+            <div className="relative">
+              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-primary/80 to-indigo-600/80 hidden md:block"></div>
               
-              <TabsContent value="mission">
-                <div className="bg-white p-8 rounded-xl shadow-md">
-                  <h3 className="text-2xl font-bold mb-4 flex items-center">
-                    <Rocket className="h-6 w-6 text-primary mr-2" />
-                    Our Mission
-                  </h3>
-                  <p className="text-gray-700 mb-6">
-                    At TechHaven, our mission is to enhance people's digital lives through thoughtfully designed, high-quality tech accessories that blend functionality, durability, and style. We're committed to:
-                  </p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[{
-                      title: "Creating Lasting Quality",
-                      description: "We design products that stand the test of time, reducing waste and providing better value."
-                    }, {
-                      title: "Innovation and Improvement",
-                      description: "We continuously evolve our products based on customer feedback and emerging technologies."
-                    }, {
-                      title: "Customer Satisfaction",
-                      description: "We prioritize exceptional service and support throughout the customer journey."
-                    }, {
-                      title: "Responsible Practices",
-                      description: "We strive to minimize our environmental impact through sustainable materials and processes."
-                    }].map((item, index) => <div key={index} className="flex">
-                          <Check className="h-5 w-5 text-green-500 mt-1 mr-2 flex-shrink-0" />
-                          <div>
-                            <h4 className="font-medium">{item.title}</h4>
-                            <p className="text-gray-600 text-sm">{item.description}</p>
-                          </div>
-                        </div>)}
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="vision">
-                <div className="bg-primary/5 p-8 rounded-xl border border-primary/10">
-                  <h3 className="text-2xl font-bold mb-4 text-center">Our Vision</h3>
-                  <div className="text-center mb-8 max-w-2xl mx-auto">
-                    <p className="text-lg text-gray-700 italic">
-                      "To be the world's most trusted brand for tech accessories, known for products that enhance and protect the devices people rely on every day."
-                    </p>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                    {[{
-                      icon: <Globe className="h-8 w-8 text-primary" />,
-                      title: "Global Reach",
-                      description: "Bringing our products to tech enthusiasts around the world, regardless of location."
-                    }, {
-                      icon: <Sparkles className="h-8 w-8 text-primary" />,
-                      title: "Industry Leadership",
-                      description: "Setting the standard for innovation and quality in tech accessories."
-                    }, {
-                      icon: <HeartHandshake className="h-8 w-8 text-primary" />,
-                      title: "Community Impact",
-                      description: "Creating positive change through ethical business practices and giving back."
-                    }].map((item, index) => <Card key={index}>
-                          <CardHeader>
-                            <div className="mb-2">{item.icon}</div>
-                            <CardTitle>{item.title}</CardTitle>
-                          </CardHeader>
-                          <CardContent>
+              <div className="space-y-24 relative">
+                {[
+                  {
+                    year: "2015",
+                    title: "The Beginning",
+                    description: "MyStore was founded in Baghdad with a simple mission: to provide authentic tech products to Iraqi consumers who were struggling to find reliable sources.",
+                    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=500",
+                    position: "left"
+                  },
+                  {
+                    year: "2017",
+                    title: "Expansion Begins",
+                    description: "After establishing trust in Baghdad, we expanded to three more cities in Iraq, bringing our authentic tech accessories to more customers across the country.",
+                    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=500",
+                    position: "right"
+                  },
+                  {
+                    year: "2020",
+                    title: "Digital Transformation",
+                    description: "We launched our online store during the pandemic, allowing customers from all over Iraq to access our products from the safety of their homes.",
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500",
+                    position: "left"
+                  },
+                  {
+                    year: "2023",
+                    title: "National Reach",
+                    description: "MyStore now serves customers in all 18 provinces of Iraq, with a diverse catalog of over 500 premium tech products and accessories.",
+                    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=500",
+                    position: "right"
+                  }
+                ].map((item, index) => (
+                  <div key={index} className="relative">
+                    <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white border-4 border-primary z-10 shadow-md hidden md:block"></div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                      {item.position === "left" ? (
+                        <>
+                          <motion.div 
+                            initial={{ opacity: 0, x: -30 }} 
+                            whileInView={{ opacity: 1, x: 0 }} 
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="md:text-right"
+                          >
+                            <span className="inline-block text-primary font-bold text-4xl mb-2">{item.year}</span>
+                            <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
                             <p className="text-gray-600">{item.description}</p>
-                          </CardContent>
-                        </Card>)}
+                          </motion.div>
+                          
+                          <motion.div 
+                            initial={{ opacity: 0, scale: 0.9 }} 
+                            whileInView={{ opacity: 1, scale: 1 }} 
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                          >
+                            <div className="rounded-xl overflow-hidden shadow-lg transform md:translate-x-4">
+                              <img src={item.image} alt={item.title} className="w-full h-64 object-cover" />
+                            </div>
+                          </motion.div>
+                        </>
+                      ) : (
+                        <>
+                          <motion.div 
+                            initial={{ opacity: 0, scale: 0.9 }} 
+                            whileInView={{ opacity: 1, scale: 1 }} 
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="md:order-1 order-2"
+                          >
+                            <div className="rounded-xl overflow-hidden shadow-lg transform md:-translate-x-4">
+                              <img src={item.image} alt={item.title} className="w-full h-64 object-cover" />
+                            </div>
+                          </motion.div>
+                          
+                          <motion.div 
+                            initial={{ opacity: 0, x: 30 }} 
+                            whileInView={{ opacity: 1, x: 0 }} 
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="md:order-2 order-1"
+                          >
+                            <span className="inline-block text-primary font-bold text-4xl mb-2">{item.year}</span>
+                            <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+                            <p className="text-gray-600">{item.description}</p>
+                          </motion.div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+                ))}
+              </div>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-center mt-16 relative z-10"
+              >
+                <span className="inline-block px-6 py-2 rounded-full bg-primary text-white font-medium">Present Day</span>
+                <h3 className="text-2xl font-bold mt-4 mb-2">Looking to the Future</h3>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Today, MyStore continues to innovate and grow, committed to bringing the latest and best tech products to the Iraqi market while maintaining our core values of authenticity, quality, and exceptional customer service.
+                </p>
+              </motion.div>
+            </div>
           </div>
         </section>
         

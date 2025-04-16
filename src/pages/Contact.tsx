@@ -9,37 +9,38 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 const contactInfo = {
   address: {
-    street: "Al-Mansour District",
+    street: "14 Ramadan Street",
     city: "Baghdad",
     country: "Iraq",
-    mapUrl: "https://maps.google.com/?q=Baghdad+Mall,+Al-Mansour,+Baghdad,+Iraq"
+    mapUrl: "https://maps.google.com/?q=14+Ramadan+Street+Baghdad+Iraq"
   },
   phone: {
-    sales: "+964 750 123 4567",
-    support: "+964 770 987 6543",
-    whatsapp: "+964 780 456 7890"
+    sales: "+964 771 234 5678",
+    support: "+964 780 987 6543"
   },
   email: {
-    general: "info@techhaven-iraq.com",
-    support: "support@techhaven-iraq.com",
-    sales: "sales@techhaven-iraq.com"
+    general: "info@mystore-iraq.com",
+    support: "support@mystore-iraq.com",
+    sales: "sales@mystore-iraq.com"
   },
   social: {
-    facebook: "https://facebook.com/techhaven.iraq",
-    instagram: "https://instagram.com/techhaven.iraq",
-    twitter: "https://twitter.com/techhaven_iraq"
+    facebook: "https://facebook.com/mystore.iraq",
+    instagram: "https://instagram.com/mystore.iraq",
+    twitter: "https://twitter.com/mystore_iraq"
   },
   hours: {
-    weekdays: "Saturday - Thursday: 10:00 AM - 9:00 PM",
-    weekend: "Friday: 2:00 PM - 9:00 PM"
+    weekdays: "Saturday - Thursday: 9:00 AM - 10:00 PM",
+    weekend: "Friday: 2:00 PM - 10:00 PM"
   },
   company: {
-    name: "TechHaven Iraq",
-    description: "Your trusted destination for premium tech products in Iraq. We offer authentic gadgets and accessories with nationwide delivery."
+    name: "MyStore Iraq",
+    description: "Your premier destination for authentic tech products in Iraq. We offer the latest gadgets and accessories with reliable nationwide delivery."
   }
 };
+
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -48,6 +49,7 @@ const Contact: React.FC = () => {
     message: ""
   });
   const [formSubmitting, setFormSubmitting] = useState(false);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
       name,
@@ -58,6 +60,7 @@ const Contact: React.FC = () => {
       [name]: value
     }));
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitting(true);
@@ -74,6 +77,7 @@ const Contact: React.FC = () => {
       setFormSubmitting(false);
     }, 1500);
   };
+
   const containerAnimation = {
     hidden: {
       opacity: 0
@@ -86,6 +90,7 @@ const Contact: React.FC = () => {
       }
     }
   };
+
   const itemAnimation = {
     hidden: {
       y: 20,
@@ -96,47 +101,32 @@ const Contact: React.FC = () => {
       opacity: 1
     }
   };
-  return <div className="flex flex-col min-h-screen">
+
+  return (
+    <div className="flex flex-col min-h-screen">
       <Header />
       
       <main className="flex-grow pt-24">
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-primary/10 to-blue-50 py-20">
           <div className="container mx-auto px-4 text-center relative z-10">
-            <motion.div initial={{
-            opacity: 0,
-            y: -20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.6
-          }}>
+            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
                 Get in Touch
               </h1>
               <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-6">
-                We'd love to hear from you! Our team is always ready to help with any questions or feedback.
+                Have questions about our products or services? We're here to help!
               </p>
             </motion.div>
             
-            <motion.div className="flex flex-wrap justify-center gap-4 mt-8" initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.6,
-            delay: 0.2
-          }}>
+            <motion.div className="flex flex-wrap justify-center gap-4 mt-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
               <Button size="lg" className="gap-2">
-                <MessageCircle className="h-5 w-5" />
-                Start a Conversation
-              </Button>
-              <Button variant="outline" size="lg" className="gap-2">
                 <Phone className="h-5 w-5" />
                 Call Us Now
+              </Button>
+              <Button variant="outline" size="lg" className="gap-2">
+                <Mail className="h-5 w-5" />
+                Email Us
               </Button>
             </motion.div>
           </div>
@@ -153,40 +143,38 @@ const Contact: React.FC = () => {
               <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold mb-4">Multiple Ways to Reach Us</h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
-                  Choose the communication method that works best for you. We're available through various channels.
+                  Choose your preferred way to contact us. We're here to assist you.
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[{
-                icon: <Phone className="h-6 w-6" />,
-                title: "Call Us",
-                description: "Speak directly with our support team",
-                info: contactInfo.phone.support,
-                color: "bg-green-50 text-green-600",
-                action: "Call now"
-              }, {
-                icon: <Mail className="h-6 w-6" />,
-                title: "Email Us",
-                description: "Send us a detailed message anytime",
-                info: contactInfo.email.support,
-                color: "bg-blue-50 text-blue-600",
-                action: "Send email"
-              }, {
-                icon: <MessageSquare className="h-6 w-6" />,
-                title: "Live Chat",
-                description: "Get instant assistance from our team",
-                info: "Available 9am-6pm",
-                color: "bg-purple-50 text-purple-600",
-                action: "Start chat"
-              }, {
-                icon: <MapPin className="h-6 w-6" />,
-                title: "Visit Us",
-                description: "Come to our store location",
-                info: contactInfo.address.mapUrl,
-                color: "bg-amber-50 text-amber-600",
-                action: "Get directions"
-              }].map((item, index) => <motion.div key={index} variants={itemAnimation} className="bg-white rounded-xl shadow-md transition-all hover:shadow-lg border border-gray-100">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    icon: <Phone className="h-6 w-6" />,
+                    title: "Call Us",
+                    description: "Speak directly with our support team",
+                    info: contactInfo.phone.support,
+                    color: "bg-green-50 text-green-600",
+                    action: "Call now"
+                  },
+                  {
+                    icon: <Mail className="h-6 w-6" />,
+                    title: "Email Us",
+                    description: "Send us a detailed message anytime",
+                    info: contactInfo.email.support,
+                    color: "bg-blue-50 text-blue-600",
+                    action: "Send email"
+                  },
+                  {
+                    icon: <MapPin className="h-6 w-6" />,
+                    title: "Visit Us",
+                    description: "Come to our store location",
+                    info: contactInfo.address.street,
+                    color: "bg-amber-50 text-amber-600",
+                    action: "Get directions"
+                  }
+                ].map((item, index) => (
+                  <motion.div key={index} variants={itemAnimation} className="bg-white rounded-xl shadow-md transition-all hover:shadow-lg border border-gray-100">
                     <div className="p-6">
                       <div className={`w-12 h-12 rounded-full ${item.color} flex items-center justify-center mb-4`}>
                         {item.icon}
@@ -199,7 +187,8 @@ const Contact: React.FC = () => {
                         <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
-                  </motion.div>)}
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -401,6 +390,8 @@ const Contact: React.FC = () => {
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Contact;

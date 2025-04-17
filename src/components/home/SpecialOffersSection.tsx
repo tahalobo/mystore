@@ -20,8 +20,8 @@ interface OfferCard {
 const offers: OfferCard[] = [
   {
     id: "summer-sale",
-    title: "Summer Tech Sale",
-    description: "Up to 40% off on all accessories",
+    title: "تخفيضات الصيف",
+    description: "خصم يصل إلى 40% على جميع الملحقات",
     image: "/lovable-uploads/8c2df3b9-50c3-4839-b072-91db82a03f1d.png",
     discount: 40,
     link: "/deals",
@@ -30,8 +30,8 @@ const offers: OfferCard[] = [
   },
   {
     id: "flash-deals",
-    title: "Flash Deals",
-    description: "Limited time offers, ending soon",
+    title: "عروض فلاش",
+    description: "عروض لفترة محدودة، تنتهي قريباً",
     image: "/lovable-uploads/8c2df3b9-50c3-4839-b072-91db82a03f1d.png",
     discount: 30,
     link: "/deals",
@@ -40,8 +40,8 @@ const offers: OfferCard[] = [
   },
   {
     id: "premium-care",
-    title: "Premium Care",
-    description: "Extended warranty on selected items",
+    title: "عناية متميزة",
+    description: "ضمان ممتد على العناصر المختارة",
     image: "/lovable-uploads/8c2df3b9-50c3-4839-b072-91db82a03f1d.png",
     discount: 25,
     link: "/deals",
@@ -82,7 +82,7 @@ const SpecialOffersSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Special Offers & Deals
+            العروض والصفقات الخاصة
           </motion.h2>
           <motion.p 
             className="text-gray-600 max-w-2xl mx-auto"
@@ -91,7 +91,7 @@ const SpecialOffersSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Exclusive discounts and limited-time offers you don't want to miss
+            خصومات حصرية وعروض محدودة الوقت لا تريد تفويتها
           </motion.p>
         </div>
         
@@ -112,7 +112,7 @@ const SpecialOffersSection: React.FC = () => {
               <div className="p-6 md:p-8">
                 <div className="flex items-center justify-between mb-4">
                   <Badge variant="default" className="px-3 py-1 rounded-full bg-white/80 text-primary font-medium">
-                    {offer.discount}% OFF
+                    {offer.discount}% خصم
                   </Badge>
                   <div className="h-10 w-10 rounded-full bg-white/80 flex items-center justify-center text-primary">
                     {offer.icon}
@@ -124,8 +124,8 @@ const SpecialOffersSection: React.FC = () => {
                 
                 <div className="flex items-center gap-4 mb-6">
                   <div className="flex items-center text-gray-600 text-sm">
-                    <Clock className="h-4 w-4 mr-1" />
-                    <span>Limited Time</span>
+                    <Clock className="h-4 w-4 ml-1" />
+                    <span>لفترة محدودة</span>
                   </div>
                 </div>
                 
@@ -143,8 +143,8 @@ const SpecialOffersSection: React.FC = () => {
                   className="w-full gap-2"
                   variant="default"
                 >
-                  Shop Now
-                  <ArrowRight className="h-4 w-4" />
+                  تسوق الآن
+                  <ArrowRight className="mr-1 h-4 w-4" />
                 </Button>
               </div>
             </motion.div>
@@ -158,8 +158,8 @@ const SpecialOffersSection: React.FC = () => {
             className="rounded-full"
             size="lg"
           >
-            View All Deals
-            <ArrowRight className="ml-2 h-4 w-4" />
+            عرض جميع الصفقات
+            <ArrowRight className="mr-2 h-4 w-4" />
           </Button>
         </div>
       </div>

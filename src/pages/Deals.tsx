@@ -153,7 +153,7 @@ const Deals: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                Exclusive Deals & Offers
+                عروض وخصومات حصرية
               </motion.h1>
               
               <motion.p 
@@ -162,7 +162,7 @@ const Deals: React.FC = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                Discover incredible discounts on your favorite tech accessories. Limited time offers you don't want to miss!
+                اكتشف خصومات مذهلة على ملحقات التقنية المفضلة لديك. عروض محدودة الوقت لا تريد تفويتها!
               </motion.p>
               
               <motion.div 
@@ -172,23 +172,23 @@ const Deals: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <Badge className="bg-amber-100 text-amber-800 px-3 py-1 text-sm font-medium border-0">
-                  <FlameIcon className="w-4 h-4 mr-1" />
-                  Up to 70% Off
+                  <FlameIcon className="w-4 h-4 ml-1" />
+                  خصم يصل إلى 70%
                 </Badge>
                 
                 <Badge className="bg-green-100 text-green-800 px-3 py-1 text-sm font-medium border-0">
-                  <Zap className="w-4 h-4 mr-1" />
-                  Flash Sales
+                  <Zap className="w-4 h-4 ml-1" />
+                  عروض فلاش
                 </Badge>
                 
                 <Badge className="bg-blue-100 text-blue-800 px-3 py-1 text-sm font-medium border-0">
-                  <CheckCircle className="w-4 h-4 mr-1" />
-                  Verified Quality
+                  <CheckCircle className="w-4 h-4 ml-1" />
+                  جودة مضمونة
                 </Badge>
                 
                 <Badge className="bg-purple-100 text-purple-800 px-3 py-1 text-sm font-medium border-0">
-                  <Gift className="w-4 h-4 mr-1" />
-                  Free Gifts
+                  <Gift className="w-4 h-4 ml-1" />
+                  هدايا مجانية
                 </Badge>
               </motion.div>
             </div>
@@ -200,24 +200,24 @@ const Deals: React.FC = () => {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center mb-4 md:mb-0">
-                <Sparkles className="w-6 h-6 mr-2 animate-pulse" />
-                <h2 className="text-2xl font-bold">Flash Sale</h2>
+                <Sparkles className="w-6 h-6 ml-2 animate-pulse" />
+                <h2 className="text-2xl font-bold">عرض فلاش</h2>
               </div>
               
               <div className="flex items-center">
-                <div className="text-sm mr-3">Ends in:</div>
+                <div className="text-sm ml-3">ينتهي في:</div>
                 <div className="flex gap-1">
                   <div className="bg-white/20 rounded-md px-3 py-1 backdrop-blur-sm">
                     <span className="font-mono font-bold">{formatTime(timeLeft.hours)}</span>
-                    <span className="text-xs ml-1">hr</span>
+                    <span className="text-xs mr-1">ساعة</span>
                   </div>
                   <div className="bg-white/20 rounded-md px-3 py-1 backdrop-blur-sm">
                     <span className="font-mono font-bold">{formatTime(timeLeft.minutes)}</span>
-                    <span className="text-xs ml-1">min</span>
+                    <span className="text-xs mr-1">دقيقة</span>
                   </div>
                   <div className="bg-white/20 rounded-md px-3 py-1 backdrop-blur-sm">
                     <span className="font-mono font-bold">{formatTime(timeLeft.seconds)}</span>
-                    <span className="text-xs ml-1">sec</span>
+                    <span className="text-xs mr-1">ثانية</span>
                   </div>
                 </div>
               </div>
@@ -228,8 +228,8 @@ const Deals: React.FC = () => {
                 className="bg-white text-red-500 hover:bg-white/90"
                 onClick={() => setCurrentTab("flash-sale")}
               >
-                Shop Flash Sale
-                <ChevronRight className="ml-1 h-4 w-4" />
+                تسوق عروض الفلاش
+                <ChevronRight className="mr-1 h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -248,19 +248,19 @@ const Deals: React.FC = () => {
                 <TabsList className="grid w-full max-w-3xl grid-cols-2 md:grid-cols-4">
                   <TabsTrigger value="all-deals" className="flex items-center gap-1">
                     <Percent className="w-4 h-4" />
-                    <span>All Deals</span>
+                    <span>جميع العروض</span>
                   </TabsTrigger>
                   <TabsTrigger value="best-sellers" className="flex items-center gap-1">
                     <FlameIcon className="w-4 h-4" />
-                    <span>Best Sellers</span>
+                    <span>الأكثر مبيعاً</span>
                   </TabsTrigger>
                   <TabsTrigger value="new-arrivals" className="flex items-center gap-1">
                     <Tag className="w-4 h-4" />
-                    <span>New Arrivals</span>
+                    <span>وصل حديثاً</span>
                   </TabsTrigger>
                   <TabsTrigger value="flash-sale" className="flex items-center gap-1">
                     <Zap className="w-4 h-4" />
-                    <span>Flash Sale</span>
+                    <span>عروض فلاش</span>
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -294,9 +294,9 @@ const Deals: React.FC = () => {
                 ) : (
                   <div className="text-center py-16">
                     <Ban className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-                    <h3 className="text-2xl font-semibold mb-2">No deals available</h3>
-                    <p className="text-gray-500 mb-6">There are currently no deals in this category.</p>
-                    <Button onClick={() => setCurrentTab("all-deals")}>View All Deals</Button>
+                    <h3 className="text-2xl font-semibold mb-2">لا توجد عروض متاحة</h3>
+                    <p className="text-gray-500 mb-6">لا توجد حالياً أي عروض في هذه الفئة.</p>
+                    <Button onClick={() => setCurrentTab("all-deals")}>عرض جميع العروض</Button>
                   </div>
                 )}
               </motion.div>
@@ -307,18 +307,18 @@ const Deals: React.FC = () => {
         {/* Deal Categories */}
         <section className="py-12 bg-gray-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Shop Deals By Category</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">تسوق العروض حسب الفئة</h2>
             
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {[
-                { name: "Phone Cases", icon: "📱", color: "bg-blue-100 text-blue-800" },
-                { name: "Headphones", icon: "🎧", color: "bg-purple-100 text-purple-800" },
-                { name: "Chargers", icon: "🔌", color: "bg-green-100 text-green-800" },
-                { name: "Cables", icon: "🔌", color: "bg-yellow-100 text-yellow-800" },
-                { name: "Speakers", icon: "🔊", color: "bg-red-100 text-red-800" },
-                { name: "Screen Protectors", icon: "🛡️", color: "bg-indigo-100 text-indigo-800" },
-                { name: "Power Banks", icon: "🔋", color: "bg-teal-100 text-teal-800" },
-                { name: "Accessories", icon: "🎮", color: "bg-pink-100 text-pink-800" }
+                { name: "أغطية الهواتف", icon: "📱", color: "bg-blue-100 text-blue-800" },
+                { name: "سماعات الرأس", icon: "🎧", color: "bg-purple-100 text-purple-800" },
+                { name: "الشواحن", icon: "🔌", color: "bg-green-100 text-green-800" },
+                { name: "الكابلات", icon: "🔌", color: "bg-yellow-100 text-yellow-800" },
+                { name: "مكبرات الصوت", icon: "🔊", color: "bg-red-100 text-red-800" },
+                { name: "واقيات الشاشة", icon: "🛡️", color: "bg-indigo-100 text-indigo-800" },
+                { name: "بنوك الطاقة", icon: "🔋", color: "bg-teal-100 text-teal-800" },
+                { name: "الملحقات", icon: "🎮", color: "bg-pink-100 text-pink-800" }
               ].map((category, index) => (
                 <motion.div
                   key={category.name}
@@ -338,7 +338,7 @@ const Deals: React.FC = () => {
                         {category.icon}
                       </div>
                       <span className="font-medium">{category.name}</span>
-                      <Badge variant="outline" className="mt-1">Up to 50% off</Badge>
+                      <Badge variant="outline" className="mt-1">خصم يصل إلى 50%</Badge>
                     </a>
                   </Button>
                 </motion.div>
@@ -351,30 +351,30 @@ const Deals: React.FC = () => {
         <section className="py-12">
           <div className="container mx-auto px-4">
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-bold mb-6">Deal Terms & Information</h2>
+              <h2 className="text-2xl font-bold mb-6">شروط ومعلومات العروض</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="flex gap-4">
                   <Clock className="w-8 h-8 text-primary flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold">Limited Time</h3>
-                    <p className="text-gray-600 text-sm">All deals are valid for a limited time only. Grab them before they expire!</p>
+                    <h3 className="font-semibold">وقت محدود</h3>
+                    <p className="text-gray-600 text-sm">جميع العروض سارية لفترة محدودة فقط. احصل عليها قبل انتهائها!</p>
                   </div>
                 </div>
                 
                 <div className="flex gap-4">
                   <Ban className="w-8 h-8 text-primary flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold">No Refunds on Sale Items</h3>
-                    <p className="text-gray-600 text-sm">Sale items cannot be refunded, but can be exchanged for store credit.</p>
+                    <h3 className="font-semibold">لا استرداد للمنتجات المخفضة</h3>
+                    <p className="text-gray-600 text-sm">لا يمكن استرداد العناصر المخفضة، ولكن يمكن استبدالها برصيد المتجر.</p>
                   </div>
                 </div>
                 
                 <div className="flex gap-4">
                   <Tag className="w-8 h-8 text-primary flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold">While Supplies Last</h3>
-                    <p className="text-gray-600 text-sm">All deals are available only while supplies last. No rain checks.</p>
+                    <h3 className="font-semibold">متوفر حتى نفاد الكمية</h3>
+                    <p className="text-gray-600 text-sm">جميع العروض متاحة فقط حتى نفاد الكمية. لا إعادة تعبئة.</p>
                   </div>
                 </div>
               </div>

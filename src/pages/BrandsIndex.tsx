@@ -114,21 +114,22 @@ const BrandsIndex: React.FC = () => {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                Top Tech Brands
+                أفضل العلامات التجارية التقنية
               </h1>
               <p className="text-blue-100 max-w-2xl mx-auto mb-8">
-                Explore premium products from the world's most trusted technology brands.
-                Discover innovative solutions from industry leaders.
+                استكشف المنتجات المتميزة من أكثر العلامات التجارية التقنية الموثوقة في العالم.
+                اكتشف الحلول المبتكرة من رواد الصناعة.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50">
                   <Link to="/shop">
-                    Shop All Products
+تسوق جميع المنتجات
+
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="text-white border-white hover:bg-white/10">
                   <a href="#featured-brands">
-                    See All Brands
+                    شاهد جميع العلامات التجارية
                   </a>
                 </Button>
               </div>
@@ -150,8 +151,8 @@ const BrandsIndex: React.FC = () => {
                 <div className="mx-auto bg-blue-100 w-16 h-16 flex items-center justify-center rounded-full mb-4">
                   <ShieldCheck className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Authentic Products</h3>
-                <p className="text-gray-600">All products are 100% authentic with full manufacturer warranty.</p>
+                <h3 className="text-xl font-semibold mb-2">منتجات أصلية</h3>
+                <p className="text-gray-600">جميع المنتجات أصلية 100% مع ضمان كامل من الشركة المصنعة.</p>
               </motion.div>
               
               <motion.div 
@@ -164,8 +165,8 @@ const BrandsIndex: React.FC = () => {
                 <div className="mx-auto bg-amber-100 w-16 h-16 flex items-center justify-center rounded-full mb-4">
                   <Star className="h-8 w-8 text-amber-500" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Premium Selection</h3>
-                <p className="text-gray-600">Carefully curated products from the world's top technology brands.</p>
+                <h3 className="text-xl font-semibold mb-2">مجموعة مختارات متميزة</h3>
+                <p className="text-gray-600">منتجات مُنتقاة بعناية من أفضل العلامات التجارية التكنولوجية في العالم.</p>
               </motion.div>
               
               <motion.div 
@@ -178,8 +179,8 @@ const BrandsIndex: React.FC = () => {
                 <div className="mx-auto bg-green-100 w-16 h-16 flex items-center justify-center rounded-full mb-4">
                   <Zap className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Exclusive Deals</h3>
-                <p className="text-gray-600">Get access to exclusive deals and promotions from your favorite brands.</p>
+                <h3 className="text-xl font-semibold mb-2">عروض حصرية</h3>
+                <p className="text-gray-600">احصل على صفقات وعروض ترويجية حصرية من علاماتك التجارية المفضلة.</p>
               </motion.div>
             </div>
           </div>
@@ -189,10 +190,11 @@ const BrandsIndex: React.FC = () => {
         <section id="featured-brands" className="py-12 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Featured Brands</h2>
+              <h2 className="text-3xl font-bold mb-4">العلامات المميزة</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Explore our collection of premium products from these industry-leading brands.
-                Each brand offers unique innovations and quality craftsmanship.
+     استكشف مجموعتنا من المنتجات الفاخرة من هذه العلامات التجارية الرائدة في الصناعة. تقدم كل علامة تجارية ابتكارات فريدة وحرفية عالية الجودة.
+
+
               </p>
             </div>
             
@@ -329,7 +331,7 @@ const BrandsIndex: React.FC = () => {
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold text-white mb-4">Ready to Shop?</h2>
             <p className="text-blue-100 max-w-2xl mx-auto mb-8">
-              Browse our extensive collection of premium products from the world's most trusted brands.
+              تصفح مجموعتنا الواسعة من المنتجات المتميزة من أكثر العلامات التجارية الموثوقة في العالم.
             </p>
             <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50">
               <Link to="/shop">

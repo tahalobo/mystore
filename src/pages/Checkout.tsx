@@ -36,27 +36,61 @@ const iraqGovernorates = [
   "Anbar", "Maysan", "Wasit", "Najaf", "Karbala", 
   "Saladin", "Muthanna", "Qadisiyyah"
 ];
-
-// Districts for each governorate (simplified)
 const districts: Record<string, string[]> = {
-  "Baghdad": ["Adhamiyah", "Karkh", "Kadhimiya", "Mansour", "Sadr City", "Rusafa", "Dora"],
-  "Basra": ["Basra City", "Abu Al-Khaseeb", "Al-Zubair", "Faw", "Shatt Al-Arab"],
-  "Erbil": ["Erbil City", "Koya", "Soran", "Shaqlawa", "Choman"],
-  "Sulaymaniyah": ["Sulaymaniyah City", "Halabja", "Rania", "Penjwin", "Darbandikhan"],
-  "Duhok": ["Duhok City", "Zakho", "Amedi", "Akre", "Sheikhan"],
-  "Kirkuk": ["Kirkuk City", "Hawija", "Daquq", "Dibis"],
-  "Nineveh": ["Mosul", "Tal Afar", "Sinjar", "Al-Hamdaniya", "Telkef"],
-  "Dhi Qar": ["Nasiriyah", "Al-Rifai", "Suq Al-Shuyukh", "Al-Chibayish"],
-  "Babylon": ["Hillah", "Al-Mahawil", "Al-Musayab", "Al-Hashimiyah"],
-  "Diyala": ["Baqubah", "Al-Muqdadiyah", "Khanaqin", "Kifri"],
-  "Anbar": ["Ramadi", "Fallujah", "Hit", "Haditha", "Al-Qa'im"],
-  "Maysan": ["Amarah", "Ali Al-Gharbi", "Al-Kahla", "Al-Maimouna"],
-  "Wasit": ["Kut", "Al-Hay", "Al-Numaniyah", "Badra", "Al-Suwaira"],
-  "Najaf": ["Najaf City", "Kufa", "Al-Manathira", "Al-Mishkhab"],
-  "Karbala": ["Karbala City", "Al-Hindiya", "Ain Al-Tamur"],
-  "Saladin": ["Tikrit", "Samarra", "Baiji", "Al-Shirqat", "Balad"],
-  "Muthanna": ["Samawah", "Al-Rumaitha", "Al-Khidhir", "Al-Salman"],
-  "Qadisiyyah": ["Diwaniyah", "Afaq", "Al-Shamiya", "Al-Hamza"]
+  "Baghdad": [
+    "Adhamiyah", "Karkh", "Kadhimiya", "Mansour", "Sadr City", "Rusafa", "Dora", "New Baghdad", "Al-Amin", "Al-Mansour", "Al-Sha'ab", "Al-Sadr", "Al-Jadiriya", "Al-Waziriya", "Al-Rusafa", "Al-Khadhimiyah"
+  ],
+  "Basra": [
+    "Basra City", "Abu Al-Khaseeb", "Al-Zubair", "Faw", "Shatt Al-Arab", "Maysan", "Qurna", "Al-Maqal", "Al-Khobar", "Al-Jubayr", "Al-Dair", "Al-Qubla", "Al-Bakr", "Abu Flous", "Al-Shuaiba", "Al-Hartha"
+  ],
+  "Erbil": [
+    "Erbil City", "Koya", "Soran", "Shaqlawa", "Choman", "Hawler", "Makhmur", "Khabat", "Rawanduz", "Shaqlawa", "Kurkuk", "Shekhan"
+  ],
+  "Sulaymaniyah": [
+    "Sulaymaniyah City", "Halabja", "Rania", "Penjwin", "Darbandikhan", "Said Sadiq", "Sharbazher", "Kalar", "Qal'at Dizeh", "Al-Sadya", "Kewzha"
+  ],
+  "Duhok": [
+    "Duhok City", "Zakho", "Amedi", "Akre", "Sheikhan", "Sumel", "Bardarash", "Duhok", "Rabea", "Gurash", "Gulish"
+  ],
+  "Kirkuk": [
+    "Kirkuk City", "Hawija", "Daquq", "Dibis", "Riyadh", "Al-Tuz Khurmatu", "Al-Multaqa", "Al-Sharqat", "Abu Saida", "Khanaqin", "Qara Tapa", "Al-Bashir", "Al-Dor"
+  ],
+  "Nineveh": [
+    "Mosul", "Tal Afar", "Sinjar", "Al-Hamdaniya", "Telkef", "Al-Shoura", "Ba'aj", "Al-Qayyarah", "Hatra", "Khan Al-Baghdadi", "Al-Namrud", "Al-Mahmoudiya", "Al-Mohandesin"
+  ],
+  "Dhi Qar": [
+    "Nasiriyah", "Al-Rifai", "Suq Al-Shuyukh", "Al-Chibayish", "Al-Daraji", "Al-Fajr", "Al-Kahla", "Al-Tameem", "Al-Tajil", "Al-Nassiriya", "Al-Shatt", "Al-Diwaniyah", "Al-Qadisiya"
+  ],
+  "Babylon": [
+    "Hillah", "Al-Mahawil", "Al-Musayab", "Al-Hashimiyah", "Qasim", "Al-Suwaira", "Al-Jadidah", "Al-Talaba", "Al-Furat", "Al-Hillah", "Al-Baghdadi", "Al-Nukhayb"
+  ],
+  "Diyala": [
+    "Baqubah", "Al-Muqdadiyah", "Khanaqin", "Kifri", "Miqdadiyah", "Al-Hashimiyah", "Balad Ruz", "Al-Obaidi", "Al-Saadiyah", "Al-Tahrir", "Al-Makhmoor", "Al-Qara Tapa"
+  ],
+  "Anbar": [
+    "Ramadi", "Fallujah", "Hit", "Haditha", "Al-Qa'im", "Al-Rutbah", "Heet", "Ar-Ramadi", "Habbaniyah", "Al-Karmah", "Al-Saqlawiyah", "Al-Mahmudiya", "Al-Khamsa", "Tariq"
+  ],
+  "Maysan": [
+    "Amarah", "Ali Al-Gharbi", "Al-Kahla", "Al-Maimouna", "Al-Qurna", "Al-Jalawla", "Al-Hashimiyah", "Al-Diwaniyah", "Al-Kufa", "Shatrah"
+  ],
+  "Wasit": [
+    "Kut", "Al-Hay", "Al-Numaniyah", "Badra", "Al-Suwaira", "Zubaid", "Al-Mansour", "Al-Rashid", "Al-Qudus", "Al-Radhwan", "Al-Furat", "Al-Khalis"
+  ],
+  "Najaf": [
+    "Najaf City", "Kufa", "Al-Manathira", "Al-Mishkhab", "Al-Najaf Al-Ashraf", "Al-Hashimiyah", "Al-Furat", "Al-Sadr", "Al-Salam", "Al-Qadisiyyah"
+  ],
+  "Karbala": [
+    "Karbala City", "Al-Hindiya", "Ain Al-Tamur", "Al-Qasim", "Al-Karim", "Al-Tayr", "Al-Qadisiyyah"
+  ],
+  "Saladin": [
+    "Tikrit", "Samarra", "Baiji", "Al-Shirqat", "Balad", "Dujail", "Al-Dour", "Al-Ishaqi", "Al-Aitham", "Al-Mukhayyam", "Al-Bashir"
+  ],
+  "Muthanna": [
+    "Samawah", "Al-Rumaitha", "Al-Khidhir", "Al-Salman", "Al-Shatrah", "Al-Furat", "Al-Hilal", "Kifl", "Muthanna", "Al-Khales"
+  ],
+  "Qadisiyyah": [
+    "Diwaniyah", "Afaq", "Al-Shamiya", "Al-Hamza", "Al-Mukhayyam", "Al-Hilal", "Al-Rafidain", "Al-Jadidah", "Al-Saidiya"
+  ]
 };
 
 interface FormData {
@@ -119,18 +153,18 @@ const Checkout: React.FC = () => {
     if (currentStep === 1) {
       // Validate customer information
       if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
-        toast.error("Please fill out all required customer information fields.");
+        toast.error("يرجى ملء جميع حقول معلومات العميل المطلوبة.");
         return;
       }
       
       if (!formData.phone.startsWith('07') || formData.phone.length !== 11) {
-        toast.error("Please enter a valid Iraqi phone number (starts with 07 and 11 digits).");
+        toast.error("يرجى إدخال رقم هاتف عراقي صالح (يبدأ بـ 07 و11 رقماً).");
         return;
       }
     } else if (currentStep === 2) {
       // Validate shipping information
       if (!formData.address || !formData.governorate || !formData.district) {
-        toast.error("Please fill out all required shipping information fields.");
+        toast.error("يرجى ملء جميع حقول معلومات الشحن المطلوبة.");
         return;
       }
     }
@@ -181,15 +215,15 @@ const Checkout: React.FC = () => {
         <main className="flex-grow flex items-center justify-center p-4">
           <Card className="w-full max-w-md">
             <CardHeader>
-              <CardTitle>Your cart is empty</CardTitle>
-              <CardDescription>Add some products to your cart to continue checkout</CardDescription>
+              <CardTitle>عربة التسوق الخاصة بك فارغة</CardTitle>
+              <CardDescription>أضف بعض المنتجات إلى سلة التسوق لمتابعة عملية الدفع</CardDescription>
             </CardHeader>
             <CardFooter>
               <Button 
                 className="w-full" 
                 onClick={() => navigate('/shop')}
               >
-                Continue Shopping
+                مواصلة التسوق
               </Button>
             </CardFooter>
           </Card>
@@ -201,9 +235,9 @@ const Checkout: React.FC = () => {
   }
   
   const steps = [
-    { number: 1, title: "Customer Info", icon: <User className="w-5 h-5" /> },
-    { number: 2, title: "Shipping", icon: <MapPin className="w-5 h-5" /> },
-    { number: 3, title: "Review", icon: <ShoppingBag className="w-5 h-5" /> }
+    { number: 1, title: "معلومات العميل", icon: <User className="w-5 h-5" /> },
+    { number: 2, title: "الشحن", icon: <MapPin className="w-5 h-5" /> },
+    { number: 3, title: "المراجعة", icon: <ShoppingBag className="w-5 h-5" /> }
   ];
   
   const calculateDeliveryFee = () => {
@@ -229,7 +263,7 @@ const Checkout: React.FC = () => {
       
       <main className="flex-grow pt-24 pb-12">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-8 text-center">Checkout</h1>
+          <h1 className="text-3xl font-bold mb-8 text-center">الطلب</h1>
           
           {/* Checkout Steps */}
           <div className="flex justify-center mb-8 overflow-x-auto">
@@ -289,14 +323,14 @@ const Checkout: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle>
-                    {currentStep === 1 && "Customer Information"}
-                    {currentStep === 2 && "Shipping Information"}
-                    {currentStep === 3 && "Review Your Order"}
+                    {currentStep === 1 && "معلومات العميل"}
+                    {currentStep === 2 && "معلومات الشحن"}
+                    {currentStep === 3 && "مراجعة طلبك"}
                   </CardTitle>
                   <CardDescription>
-                    {currentStep === 1 && "Please enter your contact details"}
-                    {currentStep === 2 && "Where should we ship your order?"}
-                    {currentStep === 3 && "Please review your order before confirming"}
+                    {currentStep === 1 && "الرجاء إدخال بيانات الاتصال الخاصة بك"}
+                    {currentStep === 2 && "إلى أين يجب أن نشحن طلبك؟"}
+                    {currentStep === 3 && "يُرجى مراجعة طلبك قبل التأكيد"}
                   </CardDescription>
                 </CardHeader>
                 
@@ -306,7 +340,7 @@ const Checkout: React.FC = () => {
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="firstName">First Name *</Label>
+                          <Label htmlFor="firstName">اسم العميل *</Label>
                           <Input 
                             id="firstName" 
                             name="firstName" 
@@ -317,7 +351,7 @@ const Checkout: React.FC = () => {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="lastName">Last Name *</Label>
+                          <Label htmlFor="lastName">اسم والد العميل *</Label>
                           <Input 
                             id="lastName" 
                             name="lastName" 
@@ -330,7 +364,7 @@ const Checkout: React.FC = () => {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email Address *</Label>
+                        <Label htmlFor="email">الايميل *</Label>
                         <Input 
                           id="email" 
                           name="email" 
@@ -343,7 +377,7 @@ const Checkout: React.FC = () => {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Phone Number * (Iraqi format, e.g., 07XXXXXXXXX)</Label>
+                        <Label htmlFor="phone">رقم الهاتف * (بالصيغة العراقية، على سبيل المثال، 07XXXXXXXXXXXXXXX)</Label>
                         <Input 
                           id="phone" 
                           name="phone" 
@@ -353,7 +387,7 @@ const Checkout: React.FC = () => {
                           placeholder="07XXXXXXXXX"
                           required
                         />
-                        <p className="text-xs text-gray-500">Start with 07, must be 11 digits</p>
+                        <p className="text-xs text-gray-500">يجب ان يبدأ الرقم ب 07 و متكون من 11 رقم</p>
                       </div>
                     </div>
                   )}
@@ -362,26 +396,26 @@ const Checkout: React.FC = () => {
                   {currentStep === 2 && (
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="address">Street Address / Neighborhood *</Label>
+                        <Label htmlFor="address">عنوان الشارع والحي *</Label>
                         <Input 
                           id="address" 
                           name="address" 
                           value={formData.address} 
                           onChange={handleInputChange} 
-                          placeholder="Street name, building number, etc."
+                          placeholder="اسم الشارع، رقم المبنى، إلخ."
                           required
                         />
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="governorate">Governorate *</Label>
+                          <Label htmlFor="governorate">المحافطة *</Label>
                           <Select
                             value={formData.governorate}
                             onValueChange={(value) => handleSelectChange('governorate', value)}
                           >
                             <SelectTrigger id="governorate">
-                              <SelectValue placeholder="Select governorate" />
+                              <SelectValue placeholder="اختر المحافظة" />
                             </SelectTrigger>
                             <SelectContent>
                               {iraqGovernorates.map(governorate => (
@@ -394,14 +428,14 @@ const Checkout: React.FC = () => {
                         </div>
                         
                         <div className="space-y-2">
-                          <Label htmlFor="district">District *</Label>
+                          <Label htmlFor="district">اقرب منطقة لك *</Label>
                           <Select
                             value={formData.district}
                             onValueChange={(value) => handleSelectChange('district', value)}
                             disabled={!formData.governorate}
                           >
                             <SelectTrigger id="district">
-                              <SelectValue placeholder={formData.governorate ? "Select district" : "Select governorate first"} />
+                              <SelectValue placeholder={formData.governorate ? "حدد اقرب منطقة" : "حدد المحافظة اولا"} />
                             </SelectTrigger>
                             <SelectContent>
                               {availableDistricts.map(district => (
@@ -415,13 +449,13 @@ const Checkout: React.FC = () => {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="notes">Additional Notes (Optional)</Label>
+                        <Label htmlFor="notes">ملاحظات (يمكن ترك الحقل فارغ </Label>
                         <Input 
                           id="notes" 
                           name="notes" 
                           value={formData.notes} 
                           onChange={handleInputChange} 
-                          placeholder="Delivery instructions, landmarks, etc."
+                          placeholder="تعليمات التسليم، والمعالم، وما إلى ذلك."
                         />
                       </div>
                       
@@ -429,9 +463,9 @@ const Checkout: React.FC = () => {
                         <div className="flex items-start">
                           <Truck className="h-5 w-5 text-amber-500 mt-0.5 mr-2 flex-shrink-0" />
                           <div>
-                            <h4 className="font-medium text-amber-800">Payment Method</h4>
+                            <h4 className="font-medium text-amber-800">طريقة الدفع</h4>
                             <p className="text-sm text-amber-700">
-                              Payment is cash on delivery only. You will pay when your order arrives.
+                              الدفع نقداً عند الاستلام فقط. ستدفع عند وصول طلبك.
                             </p>
                           </div>
                         </div>

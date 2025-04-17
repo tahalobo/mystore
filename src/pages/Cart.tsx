@@ -43,12 +43,12 @@ const Cart: React.FC = () => {
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <ShoppingBag className="h-8 w-8 text-gray-500" />
           </div>
-          <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
+          <h2 className="text-2xl font-bold mb-4">عربة التسوق الخاصة بك فارغة</h2>
           <p className="text-gray-600 mb-8">
-            Looks like you haven't added any products to your cart yet.
+            يبدو أنك لم تقم بإضافة أي منتجات إلى عربة التسوق الخاصة بك حتى الآن.
           </p>
           <Button asChild>
-            <Link to="/shop">Continue Shopping</Link>
+            <Link to="/shop">مواصلة التسوق</Link>
           </Button>
         </div>
       </main>
@@ -87,8 +87,8 @@ const Cart: React.FC = () => {
         <div className="container mx-auto px-4 py-8">
           <Tabs defaultValue="cart" className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto mb-8 grid-cols-2">
-              <TabsTrigger value="cart">Current Cart</TabsTrigger>
-              <TabsTrigger value="orders">Order History</TabsTrigger>
+              <TabsTrigger value="cart">عربة التسوق الحالية</TabsTrigger>
+              <TabsTrigger value="orders">سجل الطلبات</TabsTrigger>
             </TabsList>
             
             <TabsContent value="cart">
@@ -97,24 +97,24 @@ const Cart: React.FC = () => {
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <ShoppingBag className="h-8 w-8 text-gray-500" />
                   </div>
-                  <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
+                  <h2 className="text-2xl font-bold mb-4">عربة التسوق الخاصة بك فارغة</h2>
                   <p className="text-gray-600 mb-8">
-                    Looks like you haven't added any products to your cart yet.
+                    يبدو أنك لم تقم بإضافة أي منتجات إلى عربة التسوق الخاصة بك حتى الآن.
                   </p>
                   <Button asChild>
-                    <Link to="/shop">Continue Shopping</Link>
+                    <Link to="/shop">مواصلة التسوق</Link>
                   </Button>
                 </div>
               ) : (
                 <>
-                  <h1 className="text-3xl font-bold mb-8">Your Shopping Cart</h1>
+                  <h1 className="text-3xl font-bold mb-8">عربة التسوق الخاصة بك</h1>
                   
                   <div className="flex flex-col lg:flex-row gap-8">
                     {/* Cart Items */}
                     <div className="lg:w-2/3">
                       <div className="bg-white rounded-lg shadow-md overflow-hidden">
                         <div className="p-4 border-b">
-                          <h2 className="text-lg font-semibold">Cart Items ({cartItems.length})</h2>
+                          <h2 className="text-lg font-semibold">عناصر عربة التسوق ({cartItems.length})</h2>
                         </div>
                         
                         <div className="divide-y">
@@ -138,7 +138,7 @@ const Cart: React.FC = () => {
                                 <h3 className="font-medium">{item.product.name}</h3>
                                 {item.color && (
                                   <div className="flex items-center mt-1">
-                                    <span className="text-sm text-gray-600 mr-2">Color:</span>
+                                    <span className="text-sm text-gray-600 mr-2">اللون:</span>
                                     <span 
                                       className="w-4 h-4 rounded-full border border-gray-300" 
                                       style={{ backgroundColor: item.color }}
@@ -192,12 +192,12 @@ const Cart: React.FC = () => {
                           <Button variant="outline" asChild>
                             <Link to="/shop" className="flex items-center">
                               <ChevronLeft className="mr-2 h-4 w-4" />
-                              Continue Shopping
+                            مواصلة التسوق
                             </Link>
                           </Button>
                           
                           <Button variant="outline" onClick={clearCart} className="text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600">
-                            Clear Cart
+                            مسح عربة التسوق
                           </Button>
                         </div>
                       </div>
@@ -207,36 +207,36 @@ const Cart: React.FC = () => {
                     <div className="lg:w-1/3">
                       <div className="bg-white rounded-lg shadow-md overflow-hidden sticky top-24">
                         <div className="p-4 border-b">
-                          <h2 className="text-lg font-semibold">Order Summary</h2>
+                          <h2 className="text-lg font-semibold">ملخص الطلب</h2>
                         </div>
                         
                         <div className="p-4 space-y-4">
                           <div className="flex justify-between">
-                            <span className="text-gray-600">Subtotal</span>
+                            <span className="text-gray-600">المجموع الفرعي</span>
                             <span>${cartTotal.toFixed(2)}</span>
                           </div>
                           
                           <div className="flex justify-between">
-                            <span className="text-gray-600">Shipping</span>
+                            <span className="text-gray-600">التوصيل</span>
                             <span>{cartTotal >= 50 ? "Free" : "$5.00"}</span>
                           </div>
                           
                           <div className="flex justify-between">
-                            <span className="text-gray-600">Tax</span>
+                            <span className="text-gray-600">الاجور</span>
                             <span>${(cartTotal * 0.07).toFixed(2)}</span>
                           </div>
                           
                           <div className="border-t pt-4 flex justify-between font-bold">
-                            <span>Total</span>
+                            <span>المجموع</span>
                             <span>${(cartTotal + (cartTotal >= 50 ? 0 : 5) + (cartTotal * 0.07)).toFixed(2)}</span>
                           </div>
                           
                           <div className="flex items-center text-sm text-gray-600 mt-2">
                             <Truck className="h-4 w-4 mr-2 text-green-500" />
                             {cartTotal >= 50 ? (
-                              <span>Free shipping applied</span>
+                              <span>تم تطبيق التوصيل المجاني</span>
                             ) : (
-                              <span>Add ${(50 - cartTotal).toFixed(2)} more for free shipping</span>
+                              <span>اشتري بقيمة ${(50 - cartTotal).toFixed(2)} اضافية للحصول على توصيل مجاني</span>
                             )}
                           </div>
                           
@@ -245,7 +245,7 @@ const Cart: React.FC = () => {
                               className="w-full"
                               onClick={() => navigate('/checkout')}
                             >
-                              Proceed to Checkout
+الطلب
                             </Button>
                           </div>
                           
@@ -255,14 +255,14 @@ const Cart: React.FC = () => {
                                 <div className="w-full border-t border-gray-200"></div>
                               </div>
                               <div className="relative flex justify-center">
-                                <span className="bg-white px-2 text-sm text-gray-500">or</span>
+                                <span className="bg-white px-2 text-sm text-gray-500">او</span>
                               </div>
                             </div>
                             
                             <div className="mt-4">
                               <div className="flex gap-2 mb-4">
                                 <Input placeholder="Coupon code" />
-                                <Button variant="outline">Apply</Button>
+                                <Button variant="outline">تطبيق</Button>
                               </div>
                             </div>
                           </div>
@@ -276,17 +276,17 @@ const Cart: React.FC = () => {
             
             <TabsContent value="orders">
               <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl font-bold mb-8">Your Order History</h1>
+                <h1 className="text-3xl font-bold mb-8">سجل طلباتك</h1>
                 
                 {orders.length === 0 ? (
                   <div className="text-center py-16 bg-white rounded-lg shadow-md">
                     <Package className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-                    <h2 className="text-2xl font-bold mb-4">No orders yet</h2>
+                    <h2 className="text-2xl font-bold mb-4">لا توجد طلبات</h2>
                     <p className="text-gray-600 mb-8">
-                      You haven't placed any orders yet. Start shopping and your orders will appear here.
+                      لم تقم بتقديم أي طلبات حتى الآن. ابدأ التسوق وستظهر طلباتك هنا.
                     </p>
                     <Button asChild>
-                      <Link to="/shop">Start Shopping</Link>
+                      <Link to="/shop">تسوق المنتجات</Link>
                     </Button>
                   </div>
                 ) : (
@@ -301,7 +301,7 @@ const Cart: React.FC = () => {
                         <div className="p-4 border-b flex flex-wrap items-center justify-between gap-4">
                           <div>
                             <div className="flex items-center gap-2">
-                              <h3 className="font-semibold">Order #{order.id}</h3>
+                              <h3 className="font-semibold">طلب #{order.id}</h3>
                               <Badge className={getStatusColor(order.status)}>
                                 {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                               </Badge>
@@ -313,7 +313,7 @@ const Cart: React.FC = () => {
                         
                         <Accordion type="single" collapsible>
                           <AccordionItem value="items">
-                            <AccordionTrigger className="px-4">Order Items</AccordionTrigger>
+                            <AccordionTrigger className="px-4">المنتجات </AccordionTrigger>
                             <AccordionContent>
                               <div className="px-4 pb-4 divide-y">
                                 {order.items.map((item) => (
@@ -341,7 +341,7 @@ const Cart: React.FC = () => {
                           </AccordionItem>
                           
                           <AccordionItem value="shipping">
-                            <AccordionTrigger className="px-4">Shipping Details</AccordionTrigger>
+                            <AccordionTrigger className="px-4">معلومات العميل</AccordionTrigger>
                             <AccordionContent>
                               <div className="px-4 pb-4 space-y-2">
                                 <div className="flex items-start gap-2">
@@ -358,10 +358,10 @@ const Cart: React.FC = () => {
                                   <Clock className="h-4 w-4 text-amber-500" />
                                   <span className="text-amber-700">
                                     {order.status === 'delivered' 
-                                      ? 'Delivered' 
+                                      ? 'تم التوصيل' 
                                       : order.status === 'cancelled' 
-                                        ? 'Cancelled' 
-                                        : 'Estimated delivery in 3-5 days'}
+                                        ? 'ملغى' 
+                                        : 'يتم التوصيل بمدة لاتزيد عن 5 ايام'}
                                   </span>
                                 </div>
                               </div>
@@ -371,7 +371,7 @@ const Cart: React.FC = () => {
                         
                         <div className="p-4 border-t flex justify-end">
                           <Button variant="outline" size="sm" asChild>
-                            <Link to={`/shop`}>Reorder</Link>
+                            <Link to={`/shop`}>اعادة الططلب</Link>
                           </Button>
                         </div>
                       </motion.div>

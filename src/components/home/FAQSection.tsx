@@ -10,28 +10,28 @@ import {
 
 const faqs = [
   {
-    question: "How long does shipping take?",
-    answer: "Standard shipping typically takes 3-5 business days within the continental US. Express shipping options are available at checkout for faster delivery."
+    question: "كم من الوقت تستغرق عملية الشحن؟",
+    answer: "يستغرق الشحن القياسي عادةً 3-5 أيام عمل داخل البلاد. تتوفر خيارات الشحن السريع عند الدفع للتوصيل الأسرع."
   },
   {
-    question: "What is your return policy?",
-    answer: "We offer a 30-day return policy for most items. Products must be in their original condition with all packaging. Some exclusions may apply to certain product categories."
+    question: "ما هي سياسة الإرجاع الخاصة بكم؟",
+    answer: "نقدم سياسة إرجاع لمدة 30 يومًا لمعظم العناصر. يجب أن تكون المنتجات في حالتها الأصلية مع جميع العبوات. قد تنطبق بعض الاستثناءات على فئات منتجات معينة."
   },
   {
-    question: "Do you ship internationally?",
-    answer: "Yes, we ship to most countries worldwide. International shipping times vary based on location, typically ranging from 7-14 business days. Additional customs fees may apply."
+    question: "هل تشحنون دوليًا؟",
+    answer: "نعم، نشحن إلى معظم البلدان في جميع أنحاء العالم. تختلف أوقات الشحن الدولي حسب الموقع، وتتراوح عادةً بين 7-14 يوم عمل. قد تنطبق رسوم جمركية إضافية."
   },
   {
-    question: "How can I track my order?",
-    answer: "Once your order ships, you'll receive a tracking number via email. You can also track your order by logging into your account and viewing your order history."
+    question: "كيف يمكنني تتبع طلبي؟",
+    answer: "بمجرد شحن طلبك، ستتلقى رقم تتبع عبر البريد الإلكتروني. يمكنك أيضًا تتبع طلبك عن طريق تسجيل الدخول إلى حسابك وعرض سجل طلباتك."
   },
   {
-    question: "Are your products covered by warranty?",
-    answer: "Most of our products come with a manufacturer's warranty. The warranty period varies by product and brand. Extended warranty options are available for select items at checkout."
+    question: "هل منتجاتكم مشمولة بالضمان؟",
+    answer: "تأتي معظم منتجاتنا مع ضمان المصنّع. تختلف فترة الضمان حسب المنتج والعلامة التجارية. تتوفر خيارات الضمان الممتد لبعض العناصر عند الدفع."
   },
   {
-    question: "Do you offer price matching?",
-    answer: "Yes, we offer price matching for identical products sold by major retailers. Contact our customer service team with the competitor's price information to request a price match."
+    question: "هل تقدمون مطابقة الأسعار؟",
+    answer: "نعم، نقدم مطابقة الأسعار للمنتجات المتطابقة التي تبيعها متاجر التجزئة الرئيسية. اتصل بفريق خدمة العملاء لدينا مع معلومات سعر المنافس لطلب مطابقة السعر."
   }
 ];
 
@@ -46,9 +46,9 @@ const FAQSection: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold mb-2">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold mb-2">الأسئلة المتكررة</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Find answers to the most common questions about our products and services
+            اعثر على إجابات للأسئلة الأكثر شيوعًا حول منتجاتنا وخدماتنا
           </p>
         </motion.div>
         
@@ -63,10 +63,10 @@ const FAQSection: React.FC = () => {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
               >
                 <AccordionItem value={`item-${index}`} className="border-none py-2">
-                  <AccordionTrigger className="text-left text-lg font-medium hover:text-primary">
+                  <AccordionTrigger className="text-right text-lg font-medium hover:text-primary">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-gray-600 text-right">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -83,9 +83,9 @@ const FAQSection: React.FC = () => {
           className="mt-12 text-center"
         >
           <p className="text-gray-600">
-            Didn't find what you're looking for?{" "}
+            لم تجد ما تبحث عنه؟{" "}
             <a href="/contact" className="text-primary font-medium hover:underline">
-              Contact our support team
+              تواصل مع فريق الدعم لدينا
             </a>
           </p>
         </motion.div>

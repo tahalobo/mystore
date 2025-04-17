@@ -18,43 +18,43 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: "Ahmed Khalid",
-    role: "Tech Enthusiast",
+    name: "أحمد خالد",
+    role: "مهتم بالتكنولوجيا",
     image: "/placeholder.svg",
-    comment: "The wireless earbuds exceeded my expectations. Great sound quality and battery life is impressive. Definitely worth every dinar spent!",
+    comment: "سماعات الأذن اللاسلكية تجاوزت توقعاتي. جودة الصوت رائعة وعمر البطارية مثير للإعجاب. تستحق بالتأكيد كل دينار أنفقته!",
     rating: 5,
-    product: "Wireless Bluetooth Earbuds",
-    date: "March 15, 2025"
+    product: "سماعات أذن بلوتوث لاسلكية",
+    date: "15 مارس 2025"
   },
   {
     id: 2,
-    name: "Fatima Al-Mahmoud",
-    role: "Student",
+    name: "فاطمة المحمود",
+    role: "طالبة",
     image: "/placeholder.svg",
-    comment: "This phone case is both stylish and durable. Has protected my phone from several drops already! The design is exactly as shown in pictures.",
+    comment: "غطاء الهاتف هذا أنيق ومتين في نفس الوقت. لقد حمى هاتفي من عدة سقطات بالفعل! التصميم مطابق تمامًا لما هو موضح في الصور.",
     rating: 4,
-    product: "Premium Silicone Phone Case",
-    date: "February 28, 2025"
+    product: "غطاء هاتف سيليكون متميز",
+    date: "28 فبراير 2025"
   },
   {
     id: 3,
-    name: "Mohammed Ali",
-    role: "Photographer",
+    name: "محمد علي",
+    role: "مصور فوتوغرافي",
     image: "/placeholder.svg",
-    comment: "The fast charger is a game-changer. Charges my devices in half the time of my old charger. Perfect for my photography gear when I'm out on shoots.",
+    comment: "الشاحن السريع هو تغيير جذري. يشحن أجهزتي في نصف الوقت مقارنة بالشاحن القديم. مثالي لمعدات التصوير الخاصة بي عندما أكون في جولات التصوير.",
     rating: 5,
-    product: "65W GaN Fast Charger",
-    date: "April 2, 2025"
+    product: "شاحن سريع 65 واط",
+    date: "2 أبريل 2025"
   },
   {
     id: 4,
-    name: "Zainab Hassan",
-    role: "Business Owner",
+    name: "زينب حسن",
+    role: "صاحبة أعمال",
     image: "/placeholder.svg",
-    comment: "These noise-cancelling headphones help me focus during my workday. The sound quality is excellent and the comfort level is perfect for long sessions.",
+    comment: "سماعات إلغاء الضوضاء هذه تساعدني على التركيز خلال يوم عملي. جودة الصوت ممتازة ومستوى الراحة مثالي للجلسات الطويلة.",
     rating: 5,
-    product: "Premium Noise-Cancelling Headphones",
-    date: "March 20, 2025"
+    product: "سماعات رأس متميزة بخاصية إلغاء الضوضاء",
+    date: "20 مارس 2025"
   }
 ];
 
@@ -72,9 +72,9 @@ const TestimonialsSection: React.FC = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">What Our Customers Say</h2>
+          <h2 className="text-3xl font-bold mb-4">ماذا يقول عملاؤنا</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Don't just take our word for it. Here's what our satisfied customers have to say about our products.
+            لا تأخذ كلامنا فقط. إليك ما يقوله عملاؤنا الراضون عن منتجاتنا.
           </p>
         </div>
 
@@ -91,7 +91,7 @@ const TestimonialsSection: React.FC = () => {
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center ml-3">
                         <User className="h-5 w-5 text-gray-500" />
                       </div>
                       <div>
@@ -106,14 +106,14 @@ const TestimonialsSection: React.FC = () => {
                   
                   <div className="border-t pt-4">
                     <div className="flex items-center mb-2">
-                      <span className="text-sm font-medium mr-2">Rating:</span>
+                      <span className="text-sm font-medium ml-2">التقييم:</span>
                       <div className="flex">{renderStars(testimonial.rating)}</div>
                     </div>
                     <p className="text-sm text-gray-600">
-                      <span className="font-medium">Product:</span> {testimonial.product}
+                      <span className="font-medium">المنتج:</span> {testimonial.product}
                     </p>
                     <div className="flex items-center text-sm text-gray-500 mt-2">
-                      <Calendar className="h-3.5 w-3.5 mr-1" />
+                      <Calendar className="h-3.5 w-3.5 ml-1" />
                       {testimonial.date}
                     </div>
                   </div>

@@ -42,7 +42,7 @@ const OrderSuccess: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              Order Confirmed!
+              تم تأكيد الطلب!
             </motion.h1>
             
             <motion.p 
@@ -51,7 +51,7 @@ const OrderSuccess: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              Thank you for your purchase. Your order has been successfully placed.
+              شكراً لك على شرائك. تم تأكيد طلبك بنجاح.
             </motion.p>
             
             <motion.div
@@ -60,7 +60,7 @@ const OrderSuccess: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <p className="font-medium mb-1">Order Number:</p>
+              <p className="font-medium mb-1">رقم الطلب:</p>
               <p className="text-lg font-bold text-primary">{orderNumber}</p>
             </motion.div>
             
@@ -70,7 +70,7 @@ const OrderSuccess: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
             >
-              You will receive an email confirmation with order details and tracking information shortly.
+              ستتلقى تأكيداً عبر البريد الإلكتروني يتضمن تفاصيل الطلب ومعلومات التتبع قريباً.
             </motion.p>
             
             <motion.div 
@@ -81,15 +81,15 @@ const OrderSuccess: React.FC = () => {
             >
               <Button asChild className="flex items-center">
                 <Link to="/">
-                  <Home className="w-4 h-4 mr-2" />
-                  Return to Home
+                  <Home className="w-4 h-4 ml-2" />
+                  العودة للرئيسية
                 </Link>
               </Button>
               
               <Button variant="outline" asChild>
                 <Link to="/shop">
-                  <ShoppingBag className="w-4 h-4 mr-2" />
-                  Continue Shopping
+                  <ShoppingBag className="w-4 h-4 ml-2" />
+                  متابعة التسوق
                 </Link>
               </Button>
             </motion.div>

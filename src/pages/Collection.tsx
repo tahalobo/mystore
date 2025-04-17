@@ -19,26 +19,26 @@ import ProductCard from "@/components/ProductCard";
 
 const collections = {
   "featured": {
-    title: "Featured Products",
-    description: "Our handpicked selection of premium products",
+    title: "منتجات مقترحة",
+    description: "مجموعتنا المختارة بعناية من المنتجات الفاخرة",
     getProducts: getFeaturedProducts,
     image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=2070"
   },
   "best-sellers": {
-    title: "Best Sellers",
-    description: "Our most popular products that customers love",
+    title: "الاكثر مبيعا",
+    description: "منتجاتنا الأكثر شعبية التي يحبها عملاؤنا",
     getProducts: getBestSellers,
     image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?q=80&w=2070"
   },
   "new-arrivals": {
-    title: "New Arrivals",
-    description: "Check out our latest products and innovations",
+    title: "جديدنا",
+    description: "اطلع على أحدث منتجاتنا وابتكاراتنا",
     getProducts: getNewArrivals,
     image: "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=2070"
   },
   "deals": {
-    title: "Special Deals & Offers",
-    description: "Limited time offers and special discounts",
+    title: "خصومات وعروض خاصة",
+    description: "عروض لفترة محدودة وخصومات خاصة",
     getProducts: getProductsByDiscount,
     image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=2070"
   }

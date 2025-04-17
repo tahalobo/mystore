@@ -42,6 +42,13 @@ export const categories: Category[] = [
     image: "https://images.unsplash.com/photo-1572345071877-afc5e2c5951e?q=80&w=600",
     description: "Tough screen protectors to prevent scratches",
     count: 35
+  },
+  {
+    id: "accessories",
+    name: "Accessories",
+    image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?q=80&w=600",
+    description: "Essential tech accessories to enhance your digital experience",
+    count: 25
   }
 ];
 

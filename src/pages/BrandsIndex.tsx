@@ -335,7 +335,7 @@ const BrandsIndex: React.FC = () => {
             </p>
             <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50">
               <Link to="/shop">
-                Shop All Products
+                تسوق جميع المنتجات
               </Link>
             </Button>
           </div>

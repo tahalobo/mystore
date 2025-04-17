@@ -20,13 +20,13 @@ import { cn } from "@/lib/utils";
 
 const categories = [
   "All Categories",
-  "Phone Cases",
-  "Headphones",
-  "Chargers",
-  "Cables",
-  "Speakers",
-  "Screen Protectors",
-  "Accessories"
+  "اغلفة الهاتف",
+  "سماعات راس",
+  "شاحنات",
+  "كيابل",
+  "سماعات",
+  "شاشات الحماية",
+  "ملحقات"
 ];
 
 const brandsData = [
@@ -357,7 +357,7 @@ const BrandPage: React.FC = () => {
                         className="mr-2 text-blue-600"
                       />
                       <label htmlFor="best-seller" className="text-sm cursor-pointer flex items-center gap-1.5">
-                        Best Sellers
+                   الاكثر مبيعا
                         <Star className="h-3.5 w-3.5 text-amber-400" />
                       </label>
                     </div>
@@ -369,7 +369,7 @@ const BrandPage: React.FC = () => {
                         className="mr-2"
                       />
                       <label htmlFor="new-arrival" className="text-sm cursor-pointer">
-                        New Arrivals
+                 جديدنا
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -380,7 +380,7 @@ const BrandPage: React.FC = () => {
                         className="mr-2"
                       />
                       <label htmlFor="featured" className="text-sm cursor-pointer">
-                        Featured Products
+                    منتجات مقترحة
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -391,7 +391,7 @@ const BrandPage: React.FC = () => {
                         className="mr-2"
                       />
                       <label htmlFor="in-stock" className="text-sm cursor-pointer">
-                        In Stock
+               متوفر
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -402,7 +402,7 @@ const BrandPage: React.FC = () => {
                         className="mr-2"
                       />
                       <label htmlFor="on-sale" className="text-sm cursor-pointer flex items-center gap-1.5">
-                        On Sale
+                    معروض
                         <Zap className="h-3.5 w-3.5 text-orange-500" />
                       </label>
                     </div>
@@ -414,7 +414,7 @@ const BrandPage: React.FC = () => {
                         className="mr-2"
                       />
                       <label htmlFor="free-shipping" className="text-sm cursor-pointer flex items-center gap-1.5">
-                        Free Shipping
+                     توصيل مجاني
                         <ShieldCheck className="h-3.5 w-3.5 text-green-500" />
                       </label>
                     </div>
@@ -423,10 +423,10 @@ const BrandPage: React.FC = () => {
                 
                 <div className="flex flex-col space-y-2 pt-2">
                   <Button onClick={applyFilters} className="w-full">
-                    Apply Filters
+                  تطبيق
                   </Button>
                   <Button variant="outline" onClick={clearFilters} className="w-full">
-                    Clear Filters
+               ازالة
                   </Button>
                 </div>
               </div>
@@ -451,11 +451,11 @@ const BrandPage: React.FC = () => {
                         onChange={(e) => setSortOption(e.target.value)}
                         className="border rounded-md py-1.5 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                       >
-                        <option value="featured">Featured</option>
-                        <option value="price-asc">Price: Low to High</option>
-                        <option value="price-desc">Price: High to Low</option>
-                        <option value="newest">Newest</option>
-                        <option value="popular">Most Popular</option>
+                        <option value="featured">مقترحة</option>
+                        <option value="price-asc">الاغلى</option>
+                        <option value="price-desc">الارخص</option>
+                        <option value="newest">الاجدد</option>
+                        <option value="popular">الاشهر</option>
                       </select>
                     </div>
                   </div>

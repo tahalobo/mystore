@@ -19,7 +19,7 @@ import MobileProductList from "@/components/MobileProductList";
 import { cn } from "@/lib/utils";
 
 const categories = [
-  "All Categories",
+  "كل الاقسام",
   "اغلفة الهاتف",
   "سماعات راس",
   "شاحنات",

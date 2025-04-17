@@ -346,7 +346,7 @@ const Checkout: React.FC = () => {
                             name="firstName" 
                             value={formData.firstName} 
                             onChange={handleInputChange} 
-                            placeholder="John"
+                            placeholder="طه"
                             required
                           />
                         </div>
@@ -357,7 +357,7 @@ const Checkout: React.FC = () => {
                             name="lastName" 
                             value={formData.lastName} 
                             onChange={handleInputChange} 
-                            placeholder="Doe"
+                            placeholder="عبدالرحمن"
                             required
                           />
                         </div>
@@ -477,7 +477,7 @@ const Checkout: React.FC = () => {
                   {currentStep === 3 && (
                     <div className="space-y-6">
                       <div>
-                        <h3 className="font-medium text-lg">Customer Information</h3>
+                        <h3 className="font-medium text-lg">معلومات العميل</h3>
                         <div className="mt-2 text-sm">
                           <p>{formData.firstName} {formData.lastName}</p>
                           <p>{formData.email}</p>
@@ -488,14 +488,14 @@ const Checkout: React.FC = () => {
                       <Separator />
                       
                       <div>
-                        <h3 className="font-medium text-lg">Shipping Address</h3>
+                        <h3 className="font-medium text-lg">عنوان الشحن</h3>
                         <div className="mt-2 text-sm">
                           <p>{formData.address}</p>
                           <p>{formData.district}, {formData.governorate}</p>
                           <p>Iraq</p>
                           {formData.notes && (
                             <div className="mt-2">
-                              <span className="font-medium">Notes: </span>
+                              <span className="font-medium">الملاحظات: </span>
                               <span>{formData.notes}</span>
                             </div>
                           )}
@@ -507,12 +507,13 @@ const Checkout: React.FC = () => {
                       <div>
                         <h3 className="font-medium text-lg flex items-center">
                           <Truck className="h-5 w-5 mr-2 text-primary" />
-                          Payment Method
+                          طريقة الدفع
                         </h3>
                         <div className="mt-2 text-sm bg-gray-50 p-3 rounded-md">
-                          <p className="font-medium">Cash on Delivery</p>
+                          <p className="font-medium">الدفع عند الاستلام</p>
                           <p className="text-gray-600 text-xs mt-1">
-                            You'll pay when your order arrives. Please have the exact amount ready.
+ستدفع عند وصول طلبك. يرجى تجهيز المبلغ بالضبط.
+
                           </p>
                         </div>
                       </div>
@@ -520,7 +521,7 @@ const Checkout: React.FC = () => {
                       <Separator />
                       
                       <div>
-                        <h3 className="font-medium text-lg">Order Items</h3>
+                        <h3 className="font-medium text-lg">المنتجات</h3>
                         <ScrollArea className="h-[200px] mt-2">
                           <div className="space-y-4">
                             {cartItems.map((item) => (
@@ -537,7 +538,7 @@ const Checkout: React.FC = () => {
                                     <p className="font-medium">{item.product.name}</p>
                                     <div className="text-xs text-gray-500">
                                       <span>Qty: {item.quantity}</span>
-                                      {item.color && <span className="ml-2">Color: {item.color}</span>}
+                                      {item.color && <span className="ml-2">اللون: {item.color}</span>}
                                     </div>
                                   </div>
                                 </div>
@@ -570,10 +571,10 @@ const Checkout: React.FC = () => {
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
-                          Processing...
+                 يرجى الانتظار....
                         </>
                       ) : (
-                        'Place Order'
+                        ' الطلب'
                       )}
                     </Button>
                   )}
@@ -589,9 +590,9 @@ const Checkout: React.FC = () => {
             >
               <Card className="sticky top-24">
                 <CardHeader>
-                  <CardTitle>Order Summary</CardTitle>
+                  <CardTitle>ملخص الطلب</CardTitle>
                   <CardDescription>
-                    {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart
+                    {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} بطلبك
                   </CardDescription>
                 </CardHeader>
                 
@@ -606,7 +607,7 @@ const Checkout: React.FC = () => {
                     
                     {cartItems.length > 3 && (
                       <div className="text-sm text-gray-500 italic">
-                        + {cartItems.length - 3} more items
+                        + {cartItems.length - 3} منتجات
                       </div>
                     )}
                   </div>
@@ -614,26 +615,26 @@ const Checkout: React.FC = () => {
                   <Separator />
                   
                   <div className="flex justify-between text-sm">
-                    <span>Subtotal</span>
+                    <span>المجموع الفرعي</span>
                     <span className="font-medium">${cartTotal.toFixed(2)}</span>
                   </div>
                   
                   <div className="flex justify-between text-sm">
-                    <span>Shipping</span>
+                    <span>التوصيل</span>
                     <span className="font-medium">
                       {calculateDeliveryFee() === 0 ? "FREE" : `$${calculateDeliveryFee().toFixed(2)}`}
                     </span>
                   </div>
                   
                   <div className="flex justify-between text-sm">
-                    <span>Tax (10%)</span>
+                    <span>الاجر (10%)</span>
                     <span className="font-medium">${calculateTax().toFixed(2)}</span>
                   </div>
                   
                   <Separator />
                   
                   <div className="flex justify-between font-bold">
-                    <span>Total</span>
+                    <span>المجموع</span>
                     <span>${calculateTotal().toFixed(2)}</span>
                   </div>
                 </CardContent>
@@ -641,17 +642,17 @@ const Checkout: React.FC = () => {
                 <CardFooter className="flex flex-col space-y-4">
                   <div className="flex items-center text-sm text-green-600">
                     <Truck className="w-4 h-4 mr-2" />
-                    <span>Free shipping on orders over $50</span>
+                    <span>شحن مجاني على الطلبات التي تزيد قيمتها عن 50 دولار</span>
                   </div>
                   
                   <div className="flex items-center text-sm text-blue-600">
                     <Box className="w-4 h-4 mr-2" />
-                    <span>Cash on delivery in Iraq</span>
+                    <span>الدفع نقداً عند الاستلام في العراق</span>
                   </div>
                   
                   <div className="flex items-center text-sm text-purple-600">
                     <Clock className="w-4 h-4 mr-2" />
-                    <span>Delivery within 3-7 business days</span>
+                    <span>التوصيل يتم بمدة لاتزيد عن 5 ايام</span>
                   </div>
                 </CardFooter>
               </Card>

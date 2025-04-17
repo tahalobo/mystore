@@ -12,9 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const contactInfo = {
   address: {
-    street: "14 Ramadan Street",
-    city: "Baghdad",
-    country: "Iraq",
+    street: "شارع 18 الصناعة",
+    city: "بغداد",
+    country: "العراق",
     mapUrl: "https://maps.google.com/?q=14+Ramadan+Street+Baghdad+Iraq"
   },
   phone: {
@@ -32,12 +32,12 @@ const contactInfo = {
     twitter: "https://twitter.com/mystore_iraq"
   },
   hours: {
-    weekdays: "Saturday - Thursday: 9:00 AM - 10:00 PM",
-    weekend: "Friday: 2:00 PM - 10:00 PM"
+    weekdays: "السبت - الخميس: 9:00 صباحاً - 10:00 مساءً",
+    weekend: "الجمعة: 2:00 مساءً - 10:00 مساءً"
   },
   company: {
-    name: "MyStore Iraq",
-    description: "Your premier destination for authentic tech products in Iraq. We offer the latest gadgets and accessories with reliable nationwide delivery."
+    name: "متجري ",
+    description: "وجهتك الأولى للمنتجات التقنية الأصلية في العراق. نحن نقدم أحدث الأدوات والإكسسوارات مع توصيل موثوق به في جميع أنحاء البلاد."
   }
 };
 
@@ -67,7 +67,7 @@ const Contact: React.FC = () => {
 
     // Simulate form submission
     setTimeout(() => {
-      toast.success("Your message has been sent successfully! We'll get back to you soon.");
+      toast.success("تم إرسال رسالتك بنجاح! سنعاود الاتصال بك قريباً.");
       setFormData({
         name: "",
         email: "",
@@ -112,21 +112,21 @@ const Contact: React.FC = () => {
           <div className="container mx-auto px-4 text-center relative z-10">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-                Get in Touch
+                تواصل معنا
               </h1>
               <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-6">
-                Have questions about our products or services? We're here to help!
+                هل لديك أسئلة حول منتجاتنا أو خدماتنا؟ نحن هنا لمساعدتك!
               </p>
             </motion.div>
             
             <motion.div className="flex flex-wrap justify-center gap-4 mt-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
               <Button size="lg" className="gap-2">
                 <Phone className="h-5 w-5" />
-                Call Us Now
+                اتصل بنا الآن
               </Button>
               <Button variant="outline" size="lg" className="gap-2">
                 <Mail className="h-5 w-5" />
-                Email Us
+                راسلنا عبر البريد الإلكتروني
               </Button>
             </motion.div>
           </div>
@@ -141,9 +141,9 @@ const Contact: React.FC = () => {
           <div className="container mx-auto px-4">
             <motion.div className="max-w-5xl mx-auto" variants={containerAnimation} initial="hidden" animate="visible">
               <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold mb-4">Multiple Ways to Reach Us</h2>
+                <h2 className="text-3xl font-bold mb-4">طرق متعددة للوصول إلينا</h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
-                  Choose your preferred way to contact us. We're here to assist you.
+                  اختر طريقتك المفضلة للاتصال بنا. نحن هنا لمساعدتك.
                 </p>
               </div>
               
@@ -151,27 +151,27 @@ const Contact: React.FC = () => {
                 {[
                   {
                     icon: <Phone className="h-6 w-6" />,
-                    title: "Call Us",
-                    description: "Speak directly with our support team",
+                    title: "اتصل بنا",
+                    description: "تحدث مباشرةً مع فريق الدعم لدينا",
                     info: contactInfo.phone.support,
                     color: "bg-green-50 text-green-600",
-                    action: "Call now"
+                    action: "اتصل الآن"
                   },
                   {
                     icon: <Mail className="h-6 w-6" />,
-                    title: "Email Us",
-                    description: "Send us a detailed message anytime",
+                    title: "راسلنا عبر البريد الإلكتروني",
+                    description: "أرسل لنا رسالة مفصّلة في أي وقت",
                     info: contactInfo.email.support,
                     color: "bg-blue-50 text-blue-600",
-                    action: "Send email"
+                    action: "إرسال بريد إلكتروني"
                   },
                   {
                     icon: <MapPin className="h-6 w-6" />,
-                    title: "Visit Us",
-                    description: "Come to our store location",
+                    title: "قم بزيارتنا",
+                    description: "تعال إلى موقع متجرنا",
                     info: contactInfo.address.street,
                     color: "bg-amber-50 text-amber-600",
-                    action: "Get directions"
+                    action: "احصل على الاتجاهات"
                   }
                 ].map((item, index) => (
                   <motion.div key={index} variants={itemAnimation} className="bg-white rounded-xl shadow-md transition-all hover:shadow-lg border border-gray-100">
@@ -208,30 +208,30 @@ const Contact: React.FC = () => {
               }} transition={{
                 duration: 0.6
               }}>
-                  <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
+                  <h2 className="text-3xl font-bold mb-6">أرسل لنا رسالةأرسل لنا رسالة</h2>
                   
                   <Tabs defaultValue="support" className="mb-8">
                     <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="support">Support</TabsTrigger>
-                      <TabsTrigger value="sales">Sales</TabsTrigger>
-                      <TabsTrigger value="feedback">Feedback</TabsTrigger>
+                      <TabsTrigger value="support">مساعدة</TabsTrigger>
+                      <TabsTrigger value="sales">مبيعات</TabsTrigger>
+                      <TabsTrigger value="feedback">مراجعة واقتراح</TabsTrigger>
                     </TabsList>
                     
                     <TabsContent value="support" className="mt-4">
                       <p className="text-gray-600 mb-6">
-                        Need help with your order or product? Our support team is ready to assist you with any technical issues or questions.
+                        هل تحتاج إلى مساعدة بشأن طلبك أو منتجك؟ فريق الدعم لدينا جاهز لمساعدتك في أي مشاكل أو أسئلة فنية.
                       </p>
                     </TabsContent>
                     
                     <TabsContent value="sales" className="mt-4">
                       <p className="text-gray-600 mb-6">
-                        Interested in bulk orders or business partnerships? Our sales team would love to discuss how we can work together.
+                        هل أنت مهتم بالطلبات بالجملة أو الشراكات التجارية؟ يود فريق المبيعات لدينا مناقشة كيفية العمل معاً.
                       </p>
                     </TabsContent>
                     
                     <TabsContent value="feedback" className="mt-4">
                       <p className="text-gray-600 mb-6">
-                        We value your feedback! Let us know about your experience with our products or suggest improvements.
+                        نحن نقدر ملاحظاتك! أطلعنا على تجربتك مع منتجاتنا أو اقترح تحسينات.
                       </p>
                     </TabsContent>
                   </Tabs>
@@ -240,7 +240,7 @@ const Contact: React.FC = () => {
                     <CardHeader>
                       <CardTitle>Contact Form</CardTitle>
                       <CardDescription>
-                        Fill out the form below and we'll get back to you as soon as possible.
+                        املأ النموذج أدناه وسنعاود الاتصال بك في أقرب وقت ممكن.
                       </CardDescription>
                     </CardHeader>
                     
@@ -249,14 +249,14 @@ const Contact: React.FC = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <label htmlFor="name" className="text-sm font-medium">
-                              Full Name
+                              الاسم الكامل
                             </label>
-                            <Input id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="John Doe" required />
+                            <Input id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="طه عبدالرحمن" required />
                           </div>
                           
                           <div className="space-y-2">
                             <label htmlFor="email" className="text-sm font-medium">
-                              Email Address
+                              عنوان البريد الإلكتروني
                             </label>
                             <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="john@example.com" required />
                           </div>
@@ -264,16 +264,16 @@ const Contact: React.FC = () => {
                         
                         <div className="space-y-2">
                           <label htmlFor="subject" className="text-sm font-medium">
-                            Subject
+                            الموضوع
                           </label>
-                          <Input id="subject" name="subject" value={formData.subject} onChange={handleInputChange} placeholder="How can we help you?" required />
+                          <Input id="subject" name="subject" value={formData.subject} onChange={handleInputChange} placeholder="عنوان الموضوع" required />
                         </div>
                         
                         <div className="space-y-2">
                           <label htmlFor="message" className="text-sm font-medium">
-                            Message
+                            الرسالة
                           </label>
-                          <Textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="Please provide as much detail as possible..." rows={5} required />
+                          <Textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="يرجى تقديم أكبر قدر ممكن من التفاصيل..." rows={2} required />
                         </div>
                         
                         <Button type="submit" className="w-full" disabled={formSubmitting}>
@@ -282,10 +282,10 @@ const Contact: React.FC = () => {
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                               </svg>
-                              Sending...
+                  يتم الارسال....
                             </> : <>
                               <Send className="mr-2 h-4 w-4" />
-                              Send Message
+                           ارسال
                             </>}
                         </Button>
                       </form>
@@ -305,7 +305,7 @@ const Contact: React.FC = () => {
               }} className="flex flex-col">
                   <div className="rounded-xl overflow-hidden bg-white shadow-lg border border-gray-100 mb-8">
                     <div className="p-6 border-b">
-                      <h3 className="text-xl font-bold">Visit Our Store</h3>
+                      <h3 className="text-xl font-bold">زيارة متجرنا</h3>
                     </div>
                     <div className="aspect-video w-full">
                       <iframe src="https://www.google.pl/maps/place/%D8%B4%D8%B1%D9%83%D8%A9+%D8%B3%D9%85%D8%A7+%D8%A7%D9%88%D8%B1+%D9%84%D8%AA%D9%82%D9%86%D9%8A%D8%A9+%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA%E2%80%AD/@33.3074457,44.4512219,17z/data=!4m6!3m5!1s0x155781f525e1071d:0xd3e7eb7dc833043!8m2!3d33.3074457!4d44.448647!16s%2Fg%2F11rsv87jp7?entry=ttu&g_ep=EgoyMDI1MDQxMy4wIKXMDSoASAFQAw%3D%3D" className="w-full h-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="TechHaven Store Location"></iframe>
@@ -314,16 +314,16 @@ const Contact: React.FC = () => {
                       <div className="flex items-start">
                         <MapPin className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
                         <div>
-                          <h4 className="font-medium">Address</h4>
-                          <p className="text-gray-600">here are the addres</p>
+                          <h4 className="font-medium">العنوان</h4>
+                          <p className="text-gray-600">الصناعة شارع 18</p>
                         </div>
                       </div>
                       
                       <div className="flex items-start">
                         <Clock className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
                         <div>
-                          <h4 className="font-medium">Store Hours</h4>
-                          <p className="text-gray-600">Monday - Friday: 9am - 6pm<br />Saturday: 10am - 4pm<br />Sunday: Closed</p>
+                          <h4 className="font-medium">ساعات العمل</h4>
+                          <p className="text-gray-600">الإثنين - الاحد: 9 صباحاً - 6 مساءً<br />يوم السبت 10 صباحاً - 4 عصراً<br />الجمعة مغلق</p>
                         </div>
                       </div>
                     </div>
@@ -341,25 +341,25 @@ const Contact: React.FC = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center mb-12">
               <Sparkles className="h-8 w-8 text-primary mx-auto mb-4" />
-              <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+              <h2 className="text-3xl font-bold mb-4">اسالة شائعة</h2>
               <p className="text-gray-600">
-                Find quick answers to common questions about our products and services.
+                اعثر على إجابات سريعة للأسئلة الشائعة حول منتجاتنا وخدماتنا.
               </p>
             </div>
             
             <div className="max-w-3xl mx-auto">
               {[{
-              question: "What payment methods do you accept?",
-              answer: "We accept payment Cash on delivery only."
+              question: "ما هي طرق الدفع التي تقبلونها؟",
+              answer: "نقبل الدفع نقداً عند الاستلام فقط."
             }, {
-              question: "How long does shipping take?",
-              answer: "Standard shipping typically takes 3-5 business days."
+              question: "كم من الوقت يستغرق الشحن؟",
+              answer: "يستغرق الشحن القياسي عادةً من 3 إلى 5 أيام عمل."
             }, {
-              question: "What is your return policy?",
-              answer: "We offer a 30-day return policy for most items. Products must be in original packaging and unused condition. Some exceptions apply for certain electronic components."
+              question: "ما هي سياسة الإرجاع لديكم؟",
+              answer: "نقدم سياسة إرجاع لمدة 30 يوماً لمعظم المنتجات. يجب أن تكون المنتجات في عبواتها الأصلية وبحالة غير مستخدمة. تنطبق بعض الاستثناءات على بعض المكونات الإلكترونية."
             }, {
-              question: "Do you offer international shipping?",
-              answer: "No , We deliver inside iraq only"
+              question: "هل تقدمون الشحن الدولي؟",
+              answer: "لا، نحن نقوم بالتوصيل داخل العراق فقط"
             }, ].map((faq, index) => <motion.div key={index} className="border-b border-gray-200 py-4" initial={{
               opacity: 0,
               y: 20

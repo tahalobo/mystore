@@ -452,8 +452,8 @@ const BrandPage: React.FC = () => {
                         className="border rounded-md py-1.5 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="featured">مقترحة</option>
-                        <option value="price-asc">الاغلى</option>
-                        <option value="price-desc">الارخص</option>
+                        <option value="price-asc">الارخص</option>
+                        <option value="price-desc">الاغلى</option>
                         <option value="newest">الاجدد</option>
                         <option value="popular">الاشهر</option>
                       </select>

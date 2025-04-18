@@ -32,11 +32,10 @@ const BrandsShowcase: React.FC = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent mb-6">
-            Trusted by Leading Brands
-          </h2>
+موثوق بها من قبل العلامات التجارية الرائدة          </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            Partner with industry leaders to bring you the finest in technology and innovation.
-            Every product is authentic with full manufacturer warranty.
+       نتشارك مع رواد الصناعة لنقدم لك أفضل التقنيات والابتكارات.
+كل منتج أصلي مع ضمان كامل من الشركة المصنعة.
           </p>
         </motion.div>
 
@@ -52,8 +51,8 @@ const BrandsShowcase: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
             <div className="relative p-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-gray-200/50 hover:border-blue-200/50 transition-all duration-300">
               <Shield className="h-10 w-10 text-blue-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Authentic Products</h3>
-              <p className="text-gray-600">Guaranteed genuine products with full warranty coverage.</p>
+              <h3 className="text-xl font-semibold mb-2">منتجات أصلية</h3>
+              <p className="text-gray-600">منتجات أصلية مضمونة مع تغطية ضمان كاملة.</p>
             </div>
           </motion.div>
 
@@ -67,8 +66,8 @@ const BrandsShowcase: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
             <div className="relative p-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-gray-200/50 hover:border-blue-200/50 transition-all duration-300">
               <Star className="h-10 w-10 text-amber-500 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Premium Selection</h3>
-              <p className="text-gray-600">Carefully curated collection of top-tier brands.</p>
+              <h3 className="text-xl font-semibold mb-2">مجموعة مختارات متميزة</h3>
+              <p className="text-gray-600">مجموعة منتقاة بعناية من أرقى العلامات التجارية.</p>
             </div>
           </motion.div>
 
@@ -82,8 +81,8 @@ const BrandsShowcase: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
             <div className="relative p-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-gray-200/50 hover:border-blue-200/50 transition-all duration-300">
               <Zap className="h-10 w-10 text-violet-500 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Exclusive Deals</h3>
-              <p className="text-gray-600">Special offers and promotions from premium brands.</p>
+              <h3 className="text-xl font-semibold mb-2">عروض حصرية</h3>
+              <p className="text-gray-600">عروض خاصة وعروض ترويجية من العلامات التجارية المتميزة.</p>
             </div>
           </motion.div>
         </div>
@@ -126,7 +125,7 @@ const BrandsShowcase: React.FC = () => {
             className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white font-medium group"
           >
             <Link to="/brands" className="flex items-center gap-2">
-              Explore All Brands
+      استكشف جميع العلامات التجارية
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>

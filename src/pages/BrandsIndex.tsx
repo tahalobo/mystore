@@ -15,7 +15,7 @@ const brands = [
     name: "Apple",
     logo: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1516245556508-7d60d4ff0f39?q=80&w=2000&h=500&fit=crop",
-    description: "Apple Inc. is an American multinational technology company that designs, develops, and sells consumer electronics, computer software, and online services.",
+    description: "Apple Inc." هي شركة تكنولوجيا أمريكية متعددة الجنسيات تقوم بتصميم وتطوير وبيع الإلكترونيات الاستهلاكية وبرامج الكمبيوتر والخدمات عبر الإنترنت.",
     founded: "April 1, 1976",
     headquarters: "Cupertino, California, United States",
     websiteUrl: "https://www.apple.com",
@@ -28,7 +28,7 @@ const brands = [
     name: "Samsung",
     logo: "https://images.unsplash.com/photo-1587817229766-65fa3f8fda08?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?q=80&w=2000&h=500&fit=crop",
-    description: "Samsung Electronics Co., Ltd. is a South Korean multinational electronics company headquartered in Suwon, South Korea. It is the flagship division of the Samsung Group.",
+    description: "شركة سامسونج للإلكترونيات المحدودة هي شركة كورية جنوبية متعددة الجنسيات للإلكترونيات يقع مقرها الرئيسي في سوون، كوريا الجنوبية. وهي القسم الرئيسي لمجموعة سامسونج.",
     founded: "January 13, 1969",
     headquarters: "Suwon, South Korea",
     websiteUrl: "https://www.samsung.com",
@@ -41,7 +41,7 @@ const brands = [
     name: "Sony",
     logo: "https://images.unsplash.com/photo-1511268011861-691ed210aae8?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=2000&h=500&fit=crop",
-    description: "Sony Corporation is a Japanese multinational conglomerate corporation headquartered in Kōnan, Minato, Tokyo. The company operates as one of the world's largest manufacturers of consumer and professional electronic products.",
+    description: "شركة سوني هي شركة يابانية متعددة الجنسيات يقع مقرها الرئيسي في كونان، ميناتو، طوكيو. وتعمل الشركة كواحدة من أكبر الشركات المصنعة للمنتجات الإلكترونية الاستهلاكية والمهنية في العالم.",
     founded: "May 7, 1946",
     headquarters: "Tokyo, Japan",
     websiteUrl: "https://www.sony.com",
@@ -54,7 +54,7 @@ const brands = [
     name: "Bose",
     logo: "https://images.unsplash.com/photo-1558741181-501bbbb2dda3?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2000&h=500&fit=crop",
-    description: "Bose Corporation is an American manufacturing company that predominantly sells audio equipment. The company was established by Amar Bose in 1964 and is based in Framingham, Massachusetts.",
+    description: "شركة Bose Corporation هي شركة تصنيع أمريكية تبيع في الغالب المعدات الصوتية. وقد تأسست الشركة على يد عمار بوز في عام 1964 ويقع مقرها في فرامنغهام، ماساتشوستس.",
     founded: "1964",
     headquarters: "Framingham, Massachusetts, United States",
     websiteUrl: "https://www.bose.com",
@@ -67,7 +67,7 @@ const brands = [
     name: "JBL",
     logo: "https://images.unsplash.com/photo-1548921441-89c8bd86ffb7?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2000&h=500&fit=crop",
-    description: "JBL is an American audio hardware manufacturer founded in 1946 by James Bullough Lansing. Their products include loudspeakers and headphones for consumer and professional markets.",
+    description: "JBL هي شركة أمريكية لتصنيع الأجهزة الصوتية تأسست عام 1946 على يد جيمس بولو لانسنج. وتشمل منتجاتها مكبرات الصوت وسماعات الرأس للأسواق الاستهلاكية والمهنية.",
     founded: "1946",
     headquarters: "Los Angeles, California, United States",
     websiteUrl: "https://www.jbl.com",
@@ -80,7 +80,7 @@ const brands = [
     name: "Anker",
     logo: "https://images.unsplash.com/photo-1601999009162-2459b78386c9?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1543332164-6e82f355badc?q=80&w=2000&h=500&fit=crop",
-    description: "Anker Innovations is a Chinese electronics company founded by Steven Yang, a former Google software engineer. The company produces computer and mobile peripherals, including phone chargers, power banks, earbuds, headphones, speakers, and cables.",
+    description: "أنكر إنوفيشنز هي شركة إلكترونيات صينية أسسها ستيفن يانغ، وهو مهندس برمجيات سابق في جوجل. تنتج الشركة أجهزة الكمبيوتر والأجهزة الطرفية المحمولة، بما في ذلك شواحن الهواتف وبنوك الطاقة وسماعات الأذن وسماعات الرأس ومكبرات الصوت والكابلات.",
     founded: "2011",
     headquarters: "Shenzhen, China",
     websiteUrl: "https://www.anker.com",
@@ -329,7 +329,7 @@ const BrandsIndex: React.FC = () => {
         {/* CTA Section */}
         <section className="py-16 bg-gradient-to-r from-blue-600 to-indigo-700">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">Ready to Shop?</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">هل أنت جاهز للتسوق؟</h2>
             <p className="text-blue-100 max-w-2xl mx-auto mb-8">
               تصفح مجموعتنا الواسعة من المنتجات المتميزة من أكثر العلامات التجارية الموثوقة في العالم.
             </p>

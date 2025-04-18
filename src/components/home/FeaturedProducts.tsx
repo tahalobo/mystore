@@ -19,13 +19,12 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
-            <h2 className="text-3xl font-bold">Featured Products</h2>
-            <p className="text-gray-600 mt-2">Handpicked products curated for you</p>
+            <h2 className="text-3xl font-bold">المنتجات المميزة</h2>
+            <p className="text-gray-600 mt-2">منتجات مُنتقاة بعناية فائقة منتقاة بعناية فائقة</p>
           </div>
           <Button variant="link" asChild className="mt-2 md:mt-0 text-primary">
             <Link to="/shop" className="flex items-center">
-              View All Products
-              <ChevronRight className="ml-1 h-4 w-4" />
+عرض جميع المنتجات              <ChevronRight className="ml-1 h-4 w-4" />
             </Link>
           </Button>
         </div>

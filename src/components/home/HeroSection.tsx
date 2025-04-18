@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => {
           delay: 0.2,
           duration: 0.5
         }}>
-            Upgrade Your <span className="text-gradient">Tech Experience</span>
+           طور <span className="text-gradient">تجربتك التقنية</span>
           </motion.h1>
           
           <motion.p className="text-lg text-gray-700 max-w-md" initial={{
@@ -53,13 +53,13 @@ const HeroSection: React.FC = () => {
         }}>
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white btn-hover-effect">
               <Link to="/shop">
-                Shop Now
+         تسوق الان
                 <ChevronRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="btn-hover-effect">
               <Link to="/shop">
-                New Arrivals
+             الوافدون الجدد
               </Link>
             </Button>
           </motion.div>
@@ -80,7 +80,7 @@ const HeroSection: React.FC = () => {
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
             </div>
             <div className="text-sm">
-              <span className="font-semibold text-primary">500+</span> happy customers
+              <span className="font-semibold text-primary">500+</span> عملاء سعداء
             </div>
           </motion.div>
         </motion.div>

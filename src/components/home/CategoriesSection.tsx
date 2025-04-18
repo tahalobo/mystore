@@ -19,7 +19,7 @@ const CategoriesSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Shop By Category
+        تسوق حسب الفئة
           </motion.h2>
           <motion.p 
             className="text-gray-600 mt-2"
@@ -28,7 +28,7 @@ const CategoriesSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Browse our wide selection of products by category
+           تصفح مجموعتنا الواسعة من المنتجات حسب الفئة
           </motion.p>
         </div>
         

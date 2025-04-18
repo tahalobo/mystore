@@ -75,7 +75,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
         <ScrollArea className="h-full">
           <div className="px-4 py-4">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold">Filters</h2>
+              <h2 className="text-lg font-bold">الفلاتر</h2>
               <DrawerClose asChild>
                 <Button variant="ghost" size="icon">
                   <X className="h-4 w-4" />
@@ -96,36 +96,36 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="default" id="sort-default-mobile" />
-                      <Label htmlFor="sort-default-mobile">Default</Label>
+                      <Label htmlFor="sort-default-mobile">الاصلي</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="priceAsc" id="sort-price-asc-mobile" />
-                      <Label htmlFor="sort-price-asc-mobile">Price: Low to High</Label>
+                      <Label htmlFor="sort-price-asc-mobile">السعر : من الاغلى للارخص</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="priceDesc" id="sort-price-desc-mobile" />
-                      <Label htmlFor="sort-price-desc-mobile">Price: High to Low</Label>
+                      <Label htmlFor="sort-price-desc-mobile">السعر: من الاغلى للارخص</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="nameAsc" id="sort-name-asc-mobile" />
-                      <Label htmlFor="sort-name-asc-mobile">Name: A to Z</Label>
+                      <Label htmlFor="sort-name-asc-mobile">الاسم من ألف إلى ياء</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="nameDesc" id="sort-name-desc-mobile" />
-                      <Label htmlFor="sort-name-desc-mobile">Name: Z to A</Label>
+                      <Label htmlFor="sort-name-desc-mobile">الاسم من ياء إلى ألف </Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="newest" id="sort-newest-mobile" />
-                      <Label htmlFor="sort-newest-mobile">Newest First</Label>
+                      <Label htmlFor="sort-newest-mobile">الأحدث أولاً</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="popular" id="sort-popular-mobile" />
-                      <Label htmlFor="sort-popular-mobile">Most Popular</Label>
+                      <Label htmlFor="sort-popular-mobile">الأكثر شهرة</Label>
                     </div>
                     {handleDiscountRangeChange && (
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="discount" id="sort-discount-mobile" />
-                        <Label htmlFor="sort-discount-mobile">Biggest Discount</Label>
+                        <Label htmlFor="sort-discount-mobile">أكبر خصم</Label>
                       </div>
                     )}
                   </RadioGroup>
@@ -140,7 +140,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                   <div className="px-2 mt-2">
                     <div className="flex items-center mb-2">
                       <DollarSign className="h-4 w-4 text-primary mr-1" />
-                      <span className="text-sm font-medium">Filter by price</span>
+                      <span className="text-sm font-medium">التصفية حسب السعر</span>
                     </div>
                     <Slider
                       defaultValue={[0, 150]}
@@ -199,7 +199,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                     <div className="mt-2 space-y-2">
                       <div className="flex items-center mb-2">
                         <Percent className="h-4 w-4 text-primary mr-1" />
-                        <span className="text-sm font-medium">Discount options</span>
+                        <span className="text-sm font-medium">خيارات الخصم</span>
                       </div>
                       
                       <div className="flex items-center">
@@ -223,11 +223,11 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                           >
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="all" id="discount-all-mobile" />
-                              <Label htmlFor="discount-all-mobile">All discounts</Label>
+                              <Label htmlFor="discount-all-mobile">جميع الخصومات</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="under25" id="discount-under25-mobile" />
-                              <Label htmlFor="discount-under25-mobile">Under 25%</Label>
+                              <Label htmlFor="discount-under25-mobile">أقل من 25%</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="25to50" id="discount-25to50-mobile" />
@@ -235,7 +235,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="over50" id="discount-over50-mobile" />
-                              <Label htmlFor="discount-over50-mobile">Over 50%</Label>
+                              <Label htmlFor="discount-over50-mobile"> 50% فوق </Label>
                             </div>
                           </RadioGroup>
                         </div>
@@ -253,7 +253,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                   <div className="mt-2 space-y-2">
                     <div className="flex items-center mb-2">
                       <Tag className="h-4 w-4 text-primary mr-1" />
-                      <span className="text-sm font-medium">Product status</span>
+                      <span className="text-sm font-medium">حالة المنتج</span>
                     </div>
                     
                     <div className="flex items-center">
@@ -264,7 +264,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                         className="mr-2"
                       />
                       <label htmlFor="best-seller-mobile" className="text-sm cursor-pointer">
-                        Best Sellers
+                الأكثر مبيعاً
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -275,7 +275,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                         className="mr-2"
                       />
                       <label htmlFor="new-arrival-mobile" className="text-sm cursor-pointer">
-                        New Arrivals
+                 الوافدون الجدد
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -286,7 +286,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                         className="mr-2"
                       />
                       <label htmlFor="featured-mobile" className="text-sm cursor-pointer">
-                        Featured Products
+                       المنتجات المميزة
                       </label>
                     </div>
                   </div>
@@ -307,7 +307,7 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
                         className="mr-2"
                       />
                       <label htmlFor="in-stock-mobile" className="text-sm cursor-pointer">
-                        In Stock Only
+                      متوفر في المخزون فقط
                       </label>
                     </div>
                   </div>
@@ -318,11 +318,11 @@ const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
               <div className="flex flex-col space-y-2 sticky bottom-0 bg-white p-3 border-t border-gray-200 mt-4">
                 <Button onClick={applyFilters} className="gap-2">
                   <SlidersHorizontal className="h-4 w-4" />
-                  Apply Filters
+              تطبيق الفلاتر
                 </Button>
                 <Button variant="outline" onClick={resetFilters} className="gap-2">
                   <X className="h-4 w-4" />
-                  Clear Filters
+                مسح الفلاتر
                 </Button>
               </div>
             </div>

@@ -117,7 +117,7 @@ const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-white font-semibold border-b border-gray-800 pb-2">Quick Links</h3>
+            <h3 className="text-white font-semibold border-b border-gray-800 pb-2">روابط سريعة</h3>
             <div className="grid grid-cols-1 gap-2">
               <ul className="space-y-2">
                 <li>
@@ -161,7 +161,7 @@ const Footer: React.FC = () => {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-white font-semibold border-b border-gray-800 pb-2">Contact Us</h3>
+            <h3 className="text-white font-semibold border-b border-gray-800 pb-2">تواصل</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 mr-2 text-primary mt-0.5" />
@@ -197,7 +197,7 @@ const Footer: React.FC = () => {
 
           {/* Newsletter */}
           <div className="space-y-4">
-            <h3 className="text-white font-semibold border-b border-gray-800 pb-2">Newsletter</h3>
+            <h3 className="text-white font-semibold border-b border-gray-800 pb-2">النشرة الاخبارية</h3>
             <p className="text-gray-400">
 اشترك في نشرتنا الإخبارية للحصول على أحدث المنتجات والعروض الحصرية.            </p>
             <form onSubmit={handleSubscribe} className="space-y-2">

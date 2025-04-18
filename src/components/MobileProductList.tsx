@@ -23,16 +23,16 @@ const MobileProductList: React.FC<MobileProductListProps> = ({
         <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
           <Package2 className="h-8 w-8 text-gray-400" />
         </div>
-        <AlertTitle className="text-xl font-medium text-center">No products found</AlertTitle>
+        <AlertTitle className="text-xl font-medium text-center">لم يتم العثور على منتجات</AlertTitle>
         <AlertDescription className="text-center">
-          <p className="text-gray-600 mt-2">Try adjusting your filters</p>
+          <p className="text-gray-600 mt-2">حاول ضبط الفلاتر</p>
           <Button 
             variant="outline" 
             className="mt-4"
             onClick={resetFilters}
           >
             <X className="h-4 w-4 mr-2" />
-            Reset Filters
+       إعادة تعيين الفلاتر
           </Button>
         </AlertDescription>
       </Alert>
@@ -43,7 +43,7 @@ const MobileProductList: React.FC<MobileProductListProps> = ({
     <div className="bg-background pb-6">
       <div className="flex items-center justify-between mb-6">
         <p className="text-sm text-gray-500">
-          Showing <span className="font-medium">{products.length}</span> products
+          يتم عرض <span className="font-medium">{products.length}</span> منتج
         </p>
       </div>
       

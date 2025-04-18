@@ -74,7 +74,7 @@ const BrandsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Top Brands
+ اشهر العلامات التجارية
           </motion.h2>
           <motion.p 
             className="text-gray-600 mt-2"
@@ -83,7 +83,7 @@ const BrandsSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            We partner with the world's leading technology brands
+نحن نتشارك مع العلامات التجارية الرائدة في مجال التكنولوجيا في العالم
           </motion.p>
         </div>
         
@@ -113,7 +113,7 @@ const BrandsSection: React.FC = () => {
                       <div className="text-xs text-gray-400 mb-4">{brand.category}</div>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-blue-600">{brand.productCount} Products</span>
+                        <span className="text-sm font-medium text-blue-600">{brand.productCount} منتج</span>
                         <Button 
                           variant="ghost" 
                           size="sm" 

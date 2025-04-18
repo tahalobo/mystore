@@ -245,7 +245,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
             ) : (
               <>
                 <ShoppingBag className="mr-2 h-4 w-4" />
-                أضف للعربة
+                اضافة للسلة
               </>
             )}
           </Button>

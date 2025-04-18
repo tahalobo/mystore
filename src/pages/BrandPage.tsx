@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
@@ -17,6 +16,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import MobileCollectionHeader from "@/components/MobileCollectionHeader";
 import MobileProductList from "@/components/MobileProductList";
 import { cn } from "@/lib/utils";
+import { useRTL } from "@/contexts/RTLContext";
+import { rtlAwareClasses } from "@/lib/rtl-utils";
 
 const categories = [
   "كل الاقسام",
@@ -35,7 +36,7 @@ const brandsData = [
     name: "Apple",
     logo: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1516245556508-7d60d4ff0f39?q=80&w=2000&h=500&fit=crop",
-    description: "Apple Inc. هي شركة تكنولوجيا أمريكية متعددة الجنسيات تقوم بتصميم وتطوير وبيع الإلكترونيات الاستهلاكية وبرامج الكمبيوتر والخدمات عبر الإنترنت. تشمل منتجات الشركة من الأجهزة الهاتف الذكي iPhone، والكمبيوتر اللوحي iPad، والكمبيوتر الشخصي Mac، ومشغل الوسائط المحمول iPod، وساعة Apple Watch الذكية، ومشغل الوسائط الرقمية Apple TV، وسماعات الأذن اللاسلكية AirPods، ومكبر الصوت الذكي HomePod.",
+    description: "شركة آبل هي شركة تكنولوجيا أمريكية متعددة الجنسيات تقوم بتصميم وتطوير وبيع الإلكترونيات الاستهلاكية وبرامج الكمبيوتر والخدمات عبر الإنترنت. تشمل منتجات الشركة من الأجهزة الهاتف الذكي iPhone، والكمبيوتر اللوحي iPad، والكمبيوتر الشخصي Mac، ومشغل الوسائط المحمول iPod، وساعة Apple Watch الذكية، ومشغل الوسائط الرقمية Apple TV، وسماعات الأذن اللاسلكية AirPods، ومكبر الصوت الذكي HomePod.",
     founded: "April 1, 1976",
     headquarters: "Cupertino, California, United States",
     website: "https://www.apple.com",
@@ -79,7 +80,7 @@ const brandsData = [
     name: "JBL",
     logo: "https://images.unsplash.com/photo-1548921441-89c8bd86ffb7?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2000&h=500&fit=crop",
-    description: "JBL" هي شركة أمريكية لتصنيع الأجهزة الصوتية تأسست في عام 1946 على يد جيمس بولو لانسنج. وتشمل منتجاتها مكبرات الصوت وسماعات الرأس للأسواق الاستهلاكية والمهنية. ومنذ عام 1969، أصبحت JBL أحد أقسام شركة Harman International، وهي شركة تابعة لشركة Samsung Electronics.",
+    description: "شركة جي بي إل هي شركة أمريكية لتصنيع الأجهزة الصوتية تأسست في عام 1946 على يد جيمس بولو لانسنج. وتشمل منتجاتها مكبرات الصوت وسماعات الرأس للأسواق الاستهلاكية والمهنية. ومنذ عام 1969، أصبحت JBL أحد أقسام شركة Harman International، وهي شركة تابعة لشركة Samsung Electronics.",
     founded: "1946",
     headquarters: "Los Angeles, California, United States",
     website: "https://www.jbl.com",
@@ -90,7 +91,7 @@ const brandsData = [
     name: "Anker",
     logo: "https://images.unsplash.com/photo-1601999009162-2459b78386c9?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1543332164-6e82f355badc?q=80&w=2000&h=500&fit=crop",
-    description:"أنكر إنوفيشنز هي شركة إلكترونيات صينية أسسها ستيفن يانج، وهو مهندس برمجيات سابق في جوجل. وتنتج الشركة أجهزة الكمبيوتر والأجهزة الطرفية المحمولة، بما في ذلك شواحن الهواتف وبنوك الطاقة وسماعات الأذن وسماعات الرأس ومكبرات الصوت والكابلات.",
+    description: "أنكر إنوفيشنز هي شركة إلكترونيات صينية أسسها ستيفن يانغ، وهو مهندس برمجيات سابق في جوجل. وتنتج الشركة أجهزة الكمبيوتر والأجهزة الطرفية المحمولة، بما في ذلك شواحن الهواتف وبنوك الطاقة وسماعات الأذن وسماعات الرأس ومكبرات الصوت والكابلات.",
     founded: "2011",
     headquarters: "Shenzhen, China",
     website: "https://www.anker.com",
@@ -120,6 +121,7 @@ const BrandPage: React.FC = () => {
   });
   
   const isMobile = useIsMobile();
+  const { isRTL } = useRTL();
   const brand = brandsData.find(b => b.id === brandId);
   
   useEffect(() => {
@@ -234,10 +236,10 @@ const BrandPage: React.FC = () => {
         <Header />
         <main className="flex-grow pt-24">
           <div className="container mx-auto px-4 py-16 text-center">
-            <h1 className="text-3xl font-bold mb-4">Brand Not Found</h1>
-            <p className="mb-8">The brand you're looking for doesn't exist or has been removed.</p>
+            <h1 className="text-3xl font-bold mb-4">العلامة التجارية غير موجودة</h1>
+            <p className="mb-8">العلامة التجارية التي تبحث عنها غير موجودة أو تمت إزالتها.</p>
             <Button asChild>
-              <Link to="/brands">Browse All Brands</Link>
+              <Link to="/brands">تصفح كل العلامات التجارية</Link>
             </Button>
           </div>
         </main>
@@ -283,7 +285,7 @@ const BrandPage: React.FC = () => {
         )}
         
         <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row gap-6">
+          <div className={rtlAwareClasses(isRTL, "flex flex-col md:flex-row gap-6", "flex flex-col md:flex-row-reverse gap-6")}>
             <div className={cn(
               "md:w-1/4 lg:w-1/5",
               filterOpen ? "block" : "hidden",
@@ -293,7 +295,7 @@ const BrandPage: React.FC = () => {
               "transform transition-transform duration-300 ease-in-out"
             )}>
               <div className="flex items-center justify-between mb-4 md:hidden">
-                <h3 className="font-semibold text-lg">Filters</h3>
+                <h3 className="font-semibold text-lg">الفلاتر</h3>
                 <Button 
                   variant="ghost" 
                   size="icon" 
@@ -305,7 +307,7 @@ const BrandPage: React.FC = () => {
               
               <div className="bg-white rounded-lg shadow-sm p-4 space-y-6">
                 <div>
-                  <h3 className="font-semibold mb-3 text-gray-800">Categories</h3>
+                  <h3 className="font-semibold mb-3 text-gray-800">الفئات</h3>
                   <div className="space-y-1">
                     {categories.map(category => (
                       <div 
@@ -324,7 +326,7 @@ const BrandPage: React.FC = () => {
                 </div>
                 
                 <div>
-                  <h3 className="font-semibold mb-3 text-gray-800">Price Range</h3>
+                  <h3 className="font-semibold mb-3 text-gray-800">نطاق السعر</h3>
                   <div className="px-2">
                     <Slider
                       defaultValue={[0, 150]}
@@ -338,7 +340,7 @@ const BrandPage: React.FC = () => {
                       <div className="bg-gray-50 border rounded py-1 px-2 w-16 text-center">
                         ${priceRange[0]}
                       </div>
-                      <span className="text-gray-400">to</span>
+                      <span className="text-gray-400">إلى</span>
                       <div className="bg-gray-50 border rounded py-1 px-2 w-16 text-center">
                         ${priceRange[1]}
                       </div>
@@ -347,14 +349,14 @@ const BrandPage: React.FC = () => {
                 </div>
                 
                 <div>
-                  <h3 className="font-semibold mb-3 text-gray-800">Product Filters</h3>
+                  <h3 className="font-semibold mb-3 text-gray-800">فلاتر المنتجات</h3>
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <Checkbox 
                         id="best-seller" 
                         checked={selectedFilters.bestSeller}
                         onCheckedChange={() => toggleFilter('bestSeller')}
-                        className="mr-2 text-blue-600"
+                        className={rtlAwareClasses(isRTL, "mr-2 text-blue-600", "ml-2 text-blue-600")}
                       />
                       <label htmlFor="best-seller" className="text-sm cursor-pointer flex items-center gap-1.5">
                    الاكثر مبيعا
@@ -366,7 +368,7 @@ const BrandPage: React.FC = () => {
                         id="new-arrival" 
                         checked={selectedFilters.newArrival}
                         onCheckedChange={() => toggleFilter('newArrival')}
-                        className="mr-2"
+                        className={rtlAwareClasses(isRTL, "mr-2", "ml-2")}
                       />
                       <label htmlFor="new-arrival" className="text-sm cursor-pointer">
                  جديدنا
@@ -377,7 +379,7 @@ const BrandPage: React.FC = () => {
                         id="featured" 
                         checked={selectedFilters.featured}
                         onCheckedChange={() => toggleFilter('featured')}
-                        className="mr-2"
+                        className={rtlAwareClasses(isRTL, "mr-2", "ml-2")}
                       />
                       <label htmlFor="featured" className="text-sm cursor-pointer">
                     منتجات مقترحة
@@ -388,7 +390,7 @@ const BrandPage: React.FC = () => {
                         id="in-stock" 
                         checked={selectedFilters.inStock}
                         onCheckedChange={() => toggleFilter('inStock')}
-                        className="mr-2"
+                        className={rtlAwareClasses(isRTL, "mr-2", "ml-2")}
                       />
                       <label htmlFor="in-stock" className="text-sm cursor-pointer">
                متوفر
@@ -399,7 +401,7 @@ const BrandPage: React.FC = () => {
                         id="on-sale" 
                         checked={selectedFilters.onSale}
                         onCheckedChange={() => toggleFilter('onSale')}
-                        className="mr-2"
+                        className={rtlAwareClasses(isRTL, "mr-2", "ml-2")}
                       />
                       <label htmlFor="on-sale" className="text-sm cursor-pointer flex items-center gap-1.5">
                     معروض
@@ -411,7 +413,7 @@ const BrandPage: React.FC = () => {
                         id="free-shipping" 
                         checked={selectedFilters.freeShipping}
                         onCheckedChange={() => toggleFilter('freeShipping')}
-                        className="mr-2"
+                        className={rtlAwareClasses(isRTL, "mr-2", "ml-2")}
                       />
                       <label htmlFor="free-shipping" className="text-sm cursor-pointer flex items-center gap-1.5">
                      توصيل مجاني
@@ -426,7 +428,7 @@ const BrandPage: React.FC = () => {
                   تطبيق
                   </Button>
                   <Button variant="outline" onClick={clearFilters} className="w-full">
-               ازالة
+               إزالة
                   </Button>
                 </div>
               </div>
@@ -443,7 +445,7 @@ const BrandPage: React.FC = () => {
                 <>
                   <div className="flex justify-between items-center mb-6">
                     <p className="text-sm text-gray-500">
-                      Showing <span className="font-medium">{products.length}</span> products
+                      عرض <span className="font-medium">{products.length}</span> منتج
                     </p>
                     <div className="flex items-center gap-2">
                       <select

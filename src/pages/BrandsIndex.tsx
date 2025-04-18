@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { ChevronRight, ExternalLink, Info, Star, Zap, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useRTL } from "@/contexts/RTLContext";
+import { rtlAwareClasses } from "@/lib/rtl-utils";
 
 // Brand data
 const brands = [
@@ -15,7 +17,7 @@ const brands = [
     name: "Apple",
     logo: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1516245556508-7d60d4ff0f39?q=80&w=2000&h=500&fit=crop",
-    description: "Apple Inc." هي شركة تكنولوجيا أمريكية متعددة الجنسيات تقوم بتصميم وتطوير وبيع الإلكترونيات الاستهلاكية وبرامج الكمبيوتر والخدمات عبر الإنترنت.",
+    description: "شركة آبل هي شركة تكنولوجيا أمريكية متعددة الجنسيات تقوم بتصميم وتطوير وبيع الإلكترونيات الاستهلاكية وبرامج الكمبيوتر والخدمات عبر الإنترنت.",
     founded: "April 1, 1976",
     headquarters: "Cupertino, California, United States",
     websiteUrl: "https://www.apple.com",
@@ -67,7 +69,7 @@ const brands = [
     name: "JBL",
     logo: "https://images.unsplash.com/photo-1548921441-89c8bd86ffb7?q=80&w=200&h=100&fit=crop",
     banner: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2000&h=500&fit=crop",
-    description: "JBL هي شركة أمريكية لتصنيع الأجهزة الصوتية تأسست عام 1946 على يد جيمس بولو لانسنج. وتشمل منتجاتها مكبرات الصوت وسماعات الرأس للأسواق الاستهلاكية والمهنية.",
+    description: "شركة جي بي إل هي شركة أمريكية لتصنيع الأجهزة الصوتية تأسست عام 1946 على يد جيمس بولو لانسنج. وتشمل منتجاتها مكبرات الصوت وسماعات الرأس للأسواق الاستهلاكية والمهنية.",
     founded: "1946",
     headquarters: "Los Angeles, California, United States",
     websiteUrl: "https://www.jbl.com",
@@ -100,6 +102,8 @@ const gradients = [
 ];
 
 const BrandsIndex: React.FC = () => {
+  const { isRTL } = useRTL();
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -124,7 +128,6 @@ const BrandsIndex: React.FC = () => {
                 <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50">
                   <Link to="/shop">
 تسوق جميع المنتجات
-
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="text-white border-white hover:bg-white/10">
@@ -193,16 +196,14 @@ const BrandsIndex: React.FC = () => {
               <h2 className="text-3xl font-bold mb-4">العلامات المميزة</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
      استكشف مجموعتنا من المنتجات الفاخرة من هذه العلامات التجارية الرائدة في الصناعة. تقدم كل علامة تجارية ابتكارات فريدة وحرفية عالية الجودة.
-
-
               </p>
             </div>
             
             <Tabs defaultValue="grid" className="w-full mb-8">
               <div className="flex justify-center">
                 <TabsList>
-                  <TabsTrigger value="grid">Grid View</TabsTrigger>
-                  <TabsTrigger value="list">List View</TabsTrigger>
+                  <TabsTrigger value="grid">عرض شبكي</TabsTrigger>
+                  <TabsTrigger value="list">عرض قائمة</TabsTrigger>
                 </TabsList>
               </div>
               
@@ -238,10 +239,10 @@ const BrandsIndex: React.FC = () => {
                         </div>
                         
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium text-blue-600">{brand.productCount} Products</span>
+                          <span className="text-sm font-medium text-blue-600">{brand.productCount} منتج</span>
                           <Button asChild variant="ghost" size="sm" className="text-gray-600 hover:text-primary transition-colors">
-                            <Link to={`/brand/${brand.id}`} className="flex items-center gap-1">
-                              View Brand
+                            <Link to={`/brand/${brand.id}`} className={rtlAwareClasses(isRTL, "flex items-center gap-1", "flex items-center gap-1 flex-row-reverse")}>
+                              عرض العلامة التجارية
                               <ChevronRight className="h-4 w-4" />
                             </Link>
                           </Button>
@@ -261,7 +262,11 @@ const BrandsIndex: React.FC = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: index * 0.1 }}
-                      className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col md:flex-row"
+                      className={rtlAwareClasses(
+                        isRTL, 
+                        "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col md:flex-row",
+                        "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col md:flex-row-reverse"
+                      )}
                     >
                       <div className={`md:w-1/4 ${gradients[index % gradients.length]} flex items-center justify-center p-6`}>
                         <img 
@@ -276,16 +281,16 @@ const BrandsIndex: React.FC = () => {
                           <h3 className="text-xl font-semibold">{brand.name}</h3>
                           <div className="flex items-center mt-2 md:mt-0">
                             <span className="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
-                              {brand.productCount} Products
+                              {brand.productCount} منتج
                             </span>
                             <a 
                               href={brand.websiteUrl} 
                               target="_blank" 
                               rel="noopener noreferrer" 
-                              className="ml-3 text-gray-500 hover:text-gray-700 text-sm flex items-center"
+                              className={rtlAwareClasses(isRTL, "ml-3 text-gray-500 hover:text-gray-700 text-sm flex items-center", "mr-3 text-gray-500 hover:text-gray-700 text-sm flex items-center")}
                             >
-                              Official Website
-                              <ExternalLink className="ml-1 h-3 w-3" />
+                              الموقع الرسمي
+                              <ExternalLink className={rtlAwareClasses(isRTL, "ml-1 h-3 w-3", "mr-1 h-3 w-3")} />
                             </a>
                           </div>
                         </div>
@@ -303,17 +308,17 @@ const BrandsIndex: React.FC = () => {
                         <div className="flex items-center justify-between border-t pt-4 mt-2">
                           <div className="flex items-center gap-4">
                             <div className="flex items-center text-sm text-gray-500">
-                              <Info className="mr-1 h-4 w-4 text-gray-400" />
-                              Founded: {brand.founded}
+                              <Info className={rtlAwareClasses(isRTL, "mr-1 h-4 w-4 text-gray-400", "ml-1 h-4 w-4 text-gray-400")} />
+                              تأسست: {brand.founded}
                             </div>
                             <div className="hidden md:block text-sm text-gray-500">
-                              HQ: {brand.headquarters}
+                              المقر: {brand.headquarters}
                             </div>
                           </div>
                           
                           <Button asChild>
                             <Link to={`/brand/${brand.id}`}>
-                              Explore Products
+                              استكشاف المنتجات
                             </Link>
                           </Button>
                         </div>

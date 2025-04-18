@@ -12,6 +12,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useRTL } from "@/contexts/RTLContext";
+import { rtlAwareClasses } from "@/lib/rtl-utils";
 
 const categories = [
   { name: "أغطية الهاتف", href: "/category/phone-cases" },
@@ -42,6 +44,7 @@ const brands = [
 export function MainNav() {
   const location = useLocation();
   const isMobile = useIsMobile();
+  const { isRTL } = useRTL();
 
   if (isMobile) {
     return null;
@@ -59,7 +62,7 @@ export function MainNav() {
                 location.pathname === "/" && "text-primary font-medium"
               )}
             >
-              Home
+              الرئيسية
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -69,7 +72,7 @@ export function MainNav() {
             "bg-transparent hover:bg-transparent hover:text-primary",
             categories.some(category => location.pathname === category.href) && "text-primary font-medium"
           )}>
-            Categories
+            الفئات
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
@@ -99,7 +102,7 @@ export function MainNav() {
             "bg-transparent hover:bg-transparent hover:text-primary",
             collections.some(collection => location.pathname === collection.href) && "text-primary font-medium"
           )}>
-            Collections
+            المجموعات
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
@@ -129,7 +132,7 @@ export function MainNav() {
             "bg-transparent hover:bg-transparent hover:text-primary",
             (location.pathname === "/brands" || location.pathname.startsWith("/brand/")) && "text-primary font-medium"
           )}>
-            Brands
+            العلامات التجارية
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
@@ -173,7 +176,7 @@ export function MainNav() {
                 location.pathname === "/shop" && "text-primary font-medium"
               )}
             >
-              Shop
+              المتجر
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -187,7 +190,7 @@ export function MainNav() {
                 location.pathname === "/deals" && "text-primary font-medium"
               )}
             >
-              Deals
+              العروض
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -201,7 +204,7 @@ export function MainNav() {
                 location.pathname === "/about" && "text-primary font-medium"
               )}
             >
-              About
+              عن المتجر
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -215,7 +218,7 @@ export function MainNav() {
                 location.pathname === "/contact" && "text-primary font-medium"
               )}
             >
-              Contact
+              اتصل بنا
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

@@ -94,13 +94,11 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             {/* Product Labels */}
             <div className="absolute top-4 left-4 flex flex-col gap-1">
               {product.bestSeller && <Badge variant="secondary" className="bg-amber-500 text-white">
-                  Best Seller
-                </Badge>}
+الأكثر مبيعاً                </Badge>}
               {product.newArrival && <Badge variant="secondary" className="bg-green-500 text-white">
-                  New Arrival
-                </Badge>}
+الوافدون الجدد                </Badge>}
               {product.featured && <Badge variant="secondary" className="bg-purple-500 text-white">
-                  Featured
+                  مميز
                 </Badge>}
             </div>
             
@@ -149,7 +147,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               
               {/* Color Selection */}
               {product.colors && product.colors.length > 0 && <div className="mt-5 md:mt-6">
-                  <h4 className="text-sm font-medium mb-2">Color</h4>
+                  <h4 className="text-sm font-medium mb-2">اللون</h4>
                   <div className="flex space-x-2">
                     {product.colors.map(color => <button key={color} onClick={() => setSelectedColor(color)} className={`w-7 h-7 md:w-8 md:h-8 rounded-full border-2 transition-all ${selectedColor === color ? "border-primary ring-2 ring-primary ring-opacity-30" : "border-gray-300"}`} style={{
                   backgroundColor: color
@@ -161,7 +159,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               
               {/* Quantity Selector */}
               <div className="mt-5 md:mt-6">
-                <h4 className="text-sm font-medium mb-2">Quantity</h4>
+                <h4 className="text-sm font-medium mb-2">العدد</h4>
                 <div className="flex items-center">
                   <Button variant="outline" size="icon" onClick={decrementQuantity} disabled={quantity <= 1} className="h-8 w-8 md:h-9 md:w-9">
                     -
@@ -171,7 +169,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     +
                   </Button>
                   <span className="ml-3 md:ml-4 text-xs md:text-sm text-gray-500">
-                    {product.stock} available
+                    {product.stock} متوفر
                   </span>
                 </div>
               </div>
@@ -191,7 +189,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Adding...
+                     إضافة...
                       </motion.div> : <motion.div key="default" initial={{
                     opacity: 0
                   }} animate={{
@@ -199,7 +197,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   }} exit={{
                     opacity: 0
                   }} className="flex items-center">
-                        <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+                        <ShoppingCart className="mr-2 h-4 w-4" /> إضافة إلى عربة التسوق
                       </motion.div>}
                   </AnimatePresence>
                 </Button>
@@ -213,19 +211,19 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="mt-6 md:mt-8 grid grid-cols-2 gap-3 md:gap-4 text-xs">
                 <div className="flex items-center">
                   <Truck className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-primary" />
-                  <span>Free shipping over $50</span>
+                  <span>شحن مجاني فوق 50$</span>
                 </div>
                 <div className="flex items-center">
                   <RefreshCw className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-primary" />
-                  <span>30-day returns</span>
+                  <span>ضمان الارجاع خلال 30 يوماً</span>
                 </div>
                 <div className="flex items-center">
                   <Package className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-primary" />
-                  <span>Secure packaging</span>
+                  <span>تغليف ممتاز وامن</span>
                 </div>
                 <div className="flex items-center">
                   <Shield className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-primary" />
-                  <span>2-year warranty</span>
+                  <span>ضمان سنة كاملة</span>
                 </div>
               </div>
             </div>

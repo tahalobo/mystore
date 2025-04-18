@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
     if (email) {
       toast({
         title: "Subscription Successful",
-        description: `Thank you for subscribing with ${email}. You'll receive our newsletter soon.`
+        description: `شكراً لاشتراكك مع${email}.ستصلك رسالتنا الإخبارية قريباً.`
       });
       form.reset();
     }
@@ -40,8 +40,8 @@ const Footer: React.FC = () => {
               </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-white">Fast Shipping</h3>
-              <p className="text-sm text-gray-400">Throughout all Iraqi provinces</p>
+              <h3 className="font-semibold text-white">شحن سريع</h3>
+              <p className="text-sm text-gray-400">في جميع المحافظات العراقية</p>
             </div>
           </motion.div>
           
@@ -62,8 +62,8 @@ const Footer: React.FC = () => {
               </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-white">Quality Assurance</h3>
-              <p className="text-sm text-gray-400">Authentic products, guaranteed</p>
+              <h3 className="font-semibold text-white">ضمان الجودة</h3>
+              <p className="text-sm text-gray-400">منتجات أصلية، مضمونة</p>
             </div>
           </motion.div>
           
@@ -83,8 +83,8 @@ const Footer: React.FC = () => {
               </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-white">Customer Support</h3>
-              <p className="text-sm text-gray-400">7 days a week, 9AM - 9PM</p>
+              <h3 className="font-semibold text-white">دعم العملاء</h3>
+              <p className="text-sm text-gray-400">7 أيام في الأسبوع، 9 صباحاً - 9 مساءً</p>
             </div>
           </motion.div>
         </div>
@@ -92,9 +92,9 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white">MyStore Iraq</h2>
+            <h2 className="text-xl font-bold text-white">متجري</h2>
             <p className="text-gray-400 max-w-xs">
-              Your trusted destination for premium tech products in Iraq. We offer a wide selection of authentic gadgets and accessories delivered to your doorstep.
+            وجهتك الموثوقة للمنتجات التقنية المتميزة في العراق. نحن نقدم مجموعة واسعة من الأدوات والإكسسوارات الأصلية التي يتم توصيلها إلى باب منزلك.
             </p>
             <div className="flex space-x-4">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
@@ -123,37 +123,36 @@ const Footer: React.FC = () => {
                 <li>
                   <Link to="/shop" className="text-gray-400 hover:text-white transition-colors flex items-center">
                     <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    Shop
+                    المتجر
                   </Link>
                 </li>
                 <li>
                   <Link to="/about" className="text-gray-400 hover:text-white transition-colors flex items-center">
                     <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    About Us
-                  </Link>
+عنا                  </Link>
                 </li>
                 <li>
                   <Link to="/contact" className="text-gray-400 hover:text-white transition-colors flex items-center">
                     <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    Contact
+                    تواصل
                   </Link>
                 </li>
                 <li>
                   <Link to="/brands" className="text-gray-400 hover:text-white transition-colors flex items-center">
                     <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    Brands
+                    العلامات التجارية
                   </Link>
                 </li>
                 <li>
                   <Link to="/wishlist" className="text-gray-400 hover:text-white transition-colors flex items-center">
                     <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    Wishlist
+                    قائمة الرغبات
                   </Link>
                 </li>
                 <li>
                   <Link to="/cart" className="text-gray-400 hover:text-white transition-colors flex items-center">
                     <span className="h-1 w-1 bg-gray-500 rounded-full mr-2"></span>
-                    Cart
+                    سلة التسوق
                   </Link>
                 </li>
               </ul>
@@ -167,7 +166,7 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 mr-2 text-primary mt-0.5" />
                 <span className="text-gray-400">
-                  Baghdad Mall, Al-Mansour District, Baghdad, Iraq
+                بغداد مول، حي المنصور، بغداد، العراق
                 </span>
               </li>
               <li className="flex items-center">
@@ -187,11 +186,11 @@ const Footer: React.FC = () => {
             <div className="pt-4">
               <h4 className="text-white font-medium mb-2 flex items-center">
                 <Clock className="h-4 w-4 mr-2 text-primary" />
-                Business Hours:
+            ساعات العمل:
               </h4>
               <p className="text-gray-400 text-sm">
-                Saturday - Thursday: 10AM - 9PM<br />
-                Friday: 2PM - 9PM
+              السبت - الخميس: 10 صباحًا - 9 مساءً<br />
+الجمعة: 2 مساءً - 9 مساءً
               </p>
             </div>
           </div>
@@ -200,13 +199,12 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-white font-semibold border-b border-gray-800 pb-2">Newsletter</h3>
             <p className="text-gray-400">
-              Subscribe to our newsletter for the latest products and exclusive offers.
-            </p>
+اشترك في نشرتنا الإخبارية للحصول على أحدث المنتجات والعروض الحصرية.            </p>
             <form onSubmit={handleSubscribe} className="space-y-2">
               <div className="relative">
                 <Input type="email" name="email" placeholder="Your email address" className="bg-gray-800 border-gray-700 text-gray-300 pr-12" required />
                 <Button type="submit" className="absolute right-0 top-0 bottom-0 bg-primary hover:bg-primary/90 text-white rounded-l-none">
-                  Subscribe
+                  اشتراك
                 </Button>
               </div>
               
@@ -218,7 +216,7 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} TechHaven Iraq. All rights reserved.
+            &copy; {new Date().getFullYear()} كل الحقوق محفوظة لصالح متجر متجري
           </p>
         </div>
       </div>

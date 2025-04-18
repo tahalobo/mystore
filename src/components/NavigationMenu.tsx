@@ -84,7 +84,7 @@ export function MainNav() {
                         {category.name}
                       </div>
                       <p className="text-sm leading-tight text-muted-foreground">
-                        Browse our {category.name.toLowerCase()} collection
+                      تصفح منتجات  {category.name.toLowerCase()} 
                       </p>
                     </Link>
                   </NavigationMenuLink>

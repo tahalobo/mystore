@@ -17,7 +17,7 @@ const featuredBrand: Brand = {
   id: "apple",
   name: "TechGear Pro",
   logo: "/lovable-uploads/8c2df3b9-50c3-4839-b072-91db82a03f1d.png",
-  description: "Experience premium quality accessories crafted for modern tech enthusiasts",
+  description: "اختبر الإكسسوارات عالية الجودة المصممة خصيصاً لعشاق التكنولوجيا الحديثة",
   category: "headphones"
 };
 
@@ -67,7 +67,7 @@ const FeaturedBrandSection: React.FC = () => {
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
                   <h2 className="text-sm text-primary font-semibold uppercase tracking-wider mb-2">
-                    Featured Brand
+         العلامة التجارية المميزة
                   </h2>
                   <h3 className="text-3xl md:text-4xl font-bold mb-4">
                     {featuredBrand.name}
@@ -83,7 +83,7 @@ const FeaturedBrandSection: React.FC = () => {
                       onClick={handleShopNow}
                     >
                       <ShoppingBag className="h-5 w-5" />
-                      Shop Now
+                تسوق الان
                     </Button>
                     <Button
                       variant="outline"
@@ -91,7 +91,7 @@ const FeaturedBrandSection: React.FC = () => {
                       className="rounded-full gap-2"
                       onClick={() => navigate('/shop')}
                     >
-                      View All Brands
+                   عرض جميع العلامات التجارية
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </div>
@@ -99,15 +99,15 @@ const FeaturedBrandSection: React.FC = () => {
                   <div className="mt-8 grid grid-cols-3 gap-4">
                     <div className="text-center">
                       <div className="text-3xl font-bold text-primary">50+</div>
-                      <div className="text-sm text-gray-500">Products</div>
+                      <div className="text-sm text-gray-500">المنتجات</div>
                     </div>
                     <div className="text-center">
                       <div className="text-3xl font-bold text-primary">4.9</div>
-                      <div className="text-sm text-gray-500">Average Rating</div>
+                      <div className="text-sm text-gray-500">متوسط التقييم</div>
                     </div>
                     <div className="text-center">
                       <div className="text-3xl font-bold text-primary">24h</div>
-                      <div className="text-sm text-gray-500">Support</div>
+                      <div className="text-sm text-gray-500">الدعم</div>
                     </div>
                   </div>
                 </motion.div>

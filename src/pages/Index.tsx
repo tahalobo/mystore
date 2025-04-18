@@ -105,7 +105,7 @@ const Index: React.FC = () => {
                   transition={{ delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  Best Sellers
+                  الأكثر مبيعاً
                 </motion.h2>
                 <motion.p 
                   className="text-gray-600 mt-2"
@@ -114,7 +114,7 @@ const Index: React.FC = () => {
                   transition={{ delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  Our most popular products
+                  منتجاتنا الأكثر شعبية
                 </motion.p>
               </div>
               <Button variant="link" asChild className="mt-2 md:mt-0 text-primary">
@@ -180,7 +180,7 @@ const Index: React.FC = () => {
                   transition={{ delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  New Arrivals
+                  الوافدون الجدد
                 </motion.h2>
                 <motion.p 
                   className="text-gray-600 mt-2"
@@ -189,8 +189,7 @@ const Index: React.FC = () => {
                   transition={{ delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  Check out our latest products
-                </motion.p>
+اطلع على أحدث منتجاتنا                </motion.p>
               </div>
               <Button variant="link" asChild className="mt-2 md:mt-0 text-primary">
                 <Link to="/new-arrivals" className="flex items-center">

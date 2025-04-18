@@ -37,7 +37,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className, onSearch }) => {
       )}>
         <Input
           type="text"
-          placeholder="Search products..."
+          placeholder="ابحث عن المنتجات..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
@@ -65,7 +65,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className, onSearch }) => {
                 onClick={handleClear}
               >
                 <X className="h-4 w-4" />
-                <span className="sr-only">Clear search</span>
+                <span className="sr-only">مسح البحث</span>
               </Button>
             </motion.div>
           )}
@@ -78,7 +78,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className, onSearch }) => {
           className="absolute right-0 h-full aspect-square hover:bg-primary/10 rounded-r-md"
         >
           <Search className="h-4 w-4" />
-          <span className="sr-only">Search</span>
+          <span className="sr-only">البحث</span>
         </Button>
       </div>
     </form>

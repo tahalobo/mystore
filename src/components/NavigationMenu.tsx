@@ -14,29 +14,29 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const categories = [
-  { name: "Phone Cases", href: "/category/phone-cases" },
-  { name: "Headphones", href: "/category/headphones" },
-  { name: "Chargers", href: "/category/chargers" },
-  { name: "Cables", href: "/category/cables" },
-  { name: "Speakers", href: "/category/speakers" },
-  { name: "Screen Protectors", href: "/category/screen-protectors" },
-  { name: "Accessories", href: "/category/accessories" },
+  { name: "أغطية الهاتف", href: "/category/phone-cases" },
+  { name: "سماعات الرأس", href: "/category/headphones" },
+  { name: "الشواحن", href: "/category/chargers" },
+  { name: "الكيبلات", href: "/category/cables" },
+  { name: "السماعات", href: "/category/speakers" },
+  { name: "شاشات الحماية", href: "/category/screen-protectors" },
+  { name: "ملحقات", href: "/category/accessories" },
 ];
 
 const collections = [
-  { name: "New Arrivals", href: "/new-arrivals", description: "See our latest products fresh to the store" },
-  { name: "Best Sellers", href: "/best-sellers", description: "Our most popular products that customers love" },
-  { name: "Featured", href: "/featured", description: "Handpicked products showcased for their quality" },
-  { name: "Sale", href: "/sale", description: "Great deals and discounts you shouldn't miss" },
+  { name: "الوافدون الجدد", href: "/new-arrivals", description: "شاهد أحدث منتجاتنا الطازجة في المتجر" },
+  { name: "الأكثر مبيعاً", href: "/best-sellers", description: "منتجاتنا الأكثر شعبية التي يحبها عملاؤنا" },
+  { name: "مميز", href: "/featured", description: "منتجات منتقاة بعناية معروضة لجودتها" },
+  { name: "عروض", href: "/sale", description: "عروض وخصومات رائعة لا يجب أن تفوتك" },
 ];
 
 const brands = [
-  { name: "Apple", href: "/brand/apple", description: "Innovative tech products with sleek design" },
-  { name: "Samsung", href: "/brand/samsung", description: "Cutting-edge electronics spanning mobile and home" },
-  { name: "Sony", href: "/brand/sony", description: "Premium audio, video, and gaming products" },
-  { name: "Bose", href: "/brand/bose", description: "Superior sound systems and headphones" },
-  { name: "JBL", href: "/brand/jbl", description: "High-performance speakers and audio accessories" },
-  { name: "Anker", href: "/brand/anker", description: "Reliable charging solutions and accessories" },
+  { name: "Apple", href: "/brand/apple", description: "منتجات تقنية مبتكرة بتصميم أنيق" },
+  { name: "Samsung", href: "/brand/samsung", description:"إلكترونيات متطورة تشمل الأجهزة المحمولة والمنزلية" },
+  { name: "Sony", href: "/brand/sony", description: "منتجات الصوت والفيديو والألعاب المتميزة"},
+  { name: "Bose", href: "/brand/bose", description: "أنظمة صوت وسماعات وسماعات رأس ممتازة"},
+  { name: "JBL", href: "/brand/jbl", description: "مكبرات صوت وملحقات صوت عالية الأداء" },
+  { name: "Anker", href: "/brand/anker", description: "حلول شحن موثوقة وملحقاتها" },
 ];
 
 export function MainNav() {
@@ -156,7 +156,7 @@ export function MainNav() {
                     to="/brands"
                     className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors bg-primary/5 hover:bg-primary/10 text-center"
                   >
-                    <div className="text-sm font-medium leading-none">View All Brands</div>
+                    <div className="text-sm font-medium leading-none">عرض جميع العلامات التجارية</div>
                   </Link>
                 </NavigationMenuLink>
               </li>

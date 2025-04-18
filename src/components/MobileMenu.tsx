@@ -30,28 +30,28 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
   };
 
   const menuItems = [
-    { icon: Home, label: "Home", path: "/" },
-    { icon: Package, label: "Shop", path: "/shop" },
-    { icon: Tag, label: "Deals", path: "/deals" },
-    { icon: Phone, label: "Contact", path: "/contact" },
-    { icon: Info, label: "About", path: "/about" },
+    { icon: Home, label: "الصفحة الرئيسية", path: "/" },
+    { icon: Package, label: "المتجر", path: "/shop" },
+    { icon: Tag, label: "العروض", path: "/deals" },
+    { icon: Phone, label: "تواصل", path: "/contact" },
+    { icon: Info, label: "عنا", path: "/about" },
   ];
 
   const categories = [
-    { name: "Phone Cases", href: "/category/phone-cases" },
-    { name: "Headphones", href: "/category/headphones" },
-    { name: "Chargers", href: "/category/chargers" },
-    { name: "Cables", href: "/category/cables" },
-    { name: "Speakers", href: "/category/speakers" },
-    { name: "Screen Protectors", href: "/category/screen-protectors" },
-    { name: "Accessories", href: "/category/accessories" },
+    { name: "أغطية الهاتف", href: "/category/phone-cases" },
+    { name: "سماعات الرأس", href: "/category/headphones" },
+    { name: "الشواحن", href: "/category/chargers" },
+    { name: "الكيبلات", href: "/category/cables" },
+    { name: "سماعات", href: "/category/speakers" },
+    { name: "شاشات الحماية", href: "/category/screen-protectors" },
+    { name: "الإكسسوارات", href: "/category/accessories" },
   ];
 
   const collections = [
-    { name: "New Arrivals", href: "/new-arrivals", description: "See our latest products fresh to the store" },
-    { name: "Best Sellers", href: "/best-sellers", description: "Our most popular products that customers love" },
-    { name: "Featured", href: "/featured", description: "Handpicked products showcased for their quality" },
-    { name: "Sale", href: "/sale", description: "Great deals and discounts you shouldn't miss" },
+    { name: "الوافدون الجدد", href: "/new-arrivals", description: "شاهد أحدث منتجاتنا الطازجة في المتجر" },
+    { name: "الأكثر مبيعاً", href: "/best-sellers", description: "منتجاتنا الأكثر شعبية التي يحبها عملاؤنا" },
+    { name: "مميز", href: "/featured", description: "منتجات منتقاة بعناية ومعروضة بعناية لجودتها" },
+    { name: "عروض", href: "/sale", description: "عروض وخصومات رائعة لا يجب أن تفوتك" },
   ];
   
   const brands = [
@@ -161,7 +161,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
                     >
                       <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full">
                         <Layers className="h-5 w-5 text-primary" />
-                        <span className="font-medium flex-1 text-left">Collections</span>
+                        <span className="font-medium flex-1 text-left">المجموعات</span>
                         <ChevronDown className={`h-5 w-5 transition-transform ${isCollectionsOpen ? 'transform rotate-180' : ''}`} />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
@@ -190,7 +190,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
                     >
                       <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full">
                         <Package className="h-5 w-5 text-primary" />
-                        <span className="font-medium flex-1 text-left">Brands</span>
+                        <span className="font-medium flex-1 text-left">العلامات التجارية</span>
                         <ChevronDown className={`h-5 w-5 transition-transform ${isBrandsOpen ? 'transform rotate-180' : ''}`} />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
@@ -217,13 +217,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ logo }) => {
                   <Link to="/wishlist" onClick={closeMenu}>
                     <Button variant="outline" className="w-full">
                       <Heart className="mr-2 h-4 w-4" />
-                      Wishlist
+                      قائمة الرغبات
                     </Button>
                   </Link>
                   <Link to="/cart" onClick={closeMenu}>
                     <Button className="w-full">
                       <ShoppingBag className="mr-2 h-4 w-4" />
-                      Cart
+                      سلة التسوق
                     </Button>
                   </Link>
                 </div>

@@ -208,7 +208,7 @@ const Contact: React.FC = () => {
               }} transition={{
                 duration: 0.6
               }}>
-                  <h2 className="text-3xl font-bold mb-6">أرسل لنا رسالةأرسل لنا رسالة</h2>
+                  <h2 className="text-3xl font-bold mb-6">أرسل لنا رسالة</h2>
                   
                   <Tabs defaultValue="support" className="mb-8">
                     <TabsList className="grid w-full grid-cols-3">

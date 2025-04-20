@@ -104,7 +104,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             
             {product.discount && <div className="absolute top-4 right-4">
                 <Badge variant="destructive" className="text-sm font-bold">
-                  {product.discount}% OFF
+                  {product.discount}% تخفيض
                 </Badge>
               </div>}
           </div>
@@ -141,7 +141,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {/* Stock Status */}
               <div className="mt-4 flex items-center">
                 <Badge variant={product.stock > 0 ? "outline" : "destructive"} className="px-2 py-1">
-                  {product.stock > 10 ? "In Stock" : product.stock > 0 ? `Only ${product.stock} left` : "Out of Stock"}
+                  {product.stock > 10 ? "متوفر في المخزون" : product.stock > 0 ? `بقي ${product.stock} فقط` : "غير متوفر من المخزون"}
                 </Badge>
               </div>
               

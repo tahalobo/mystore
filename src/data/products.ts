@@ -5,49 +5,49 @@ export const categories: Category[] = [
     id: "phone-cases",
     name: "Phone Cases",
     image: "https://images.unsplash.com/photo-1603313011638-94aa4b08b9dd?q=80&w=600",
-    description: "Stylish and protective cases for your phone",
+    description: "جرابات أنيقة وواقية لهاتفك",
     count: 52
   },
   {
     id: "headphones",
     name: "Headphones",
     image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=600",
-    description: "Premium quality headphones for immersive sound",
+    description: "سماعات رأس عالية الجودة لصوت غامر",
     count: 38
   },
   {
     id: "chargers",
     name: "Chargers",
     image: "https://images.unsplash.com/photo-1583863788434-e62bd5126776?q=80&w=600",
-    description: "Fast and reliable chargers for all your devices",
+    description: "شواحن سريعة وموثوقة لجميع أجهزتك",
     count: 45
   },
   {
     id: "cables",
     name: "Cables",
     image: "https://images.unsplash.com/photo-1601999009162-2459b78386c9?q=80&w=600",
-    description: "Durable cables for charging and data transfer",
+    description: "كابلات متينة للشحن ونقل البيانات",
     count: 60
   },
   {
     id: "speakers",
     name: "Speakers",
     image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=600",
-    description: "Powerful speakers for crystal clear audio",
+    description: "مكبرات صوت قوية لصوت فائق الوضوح",
     count: 28
   },
   {
     id: "screen-protectors",
     name: "Screen Protectors",
     image: "https://images.unsplash.com/photo-1572345071877-afc5e2c5951e?q=80&w=600",
-    description: "Tough screen protectors to prevent scratches",
+    description: "واقيات شاشة قوية لمنع الخدوش",
     count: 35
   },
   {
     id: "accessories",
     name: "Accessories",
     image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?q=80&w=600",
-    description: "Essential tech accessories to enhance your digital experience",
+    description: "ملحقات تقنية أساسية لتحسين تجربتك الرقمية",
     count: 25
   }
 ];

@@ -460,7 +460,7 @@ const Checkout: React.FC = () => {
                   <div className="flex justify-between text-sm">
                     <span>التوصيل</span>
                     <span className="font-medium">
-                      {calculateDeliveryFee() === 0 ? "FREE" : `$${calculateDeliveryFee().toFixed(2)}`}
+                      {calculateDeliveryFee() === 0 ? "مجانا" : `$${calculateDeliveryFee().toFixed(2)}`}
                     </span>
                   </div>
                   

@@ -403,7 +403,7 @@ const Checkout: React.FC = () => {
                 
                 <CardFooter className="flex justify-between">
                   {currentStep > 1 && <Button variant="outline" onClick={prevStep}>
-                      Back
+                      العودة
                     </Button>}
                   
                   {currentStep < 3 ? <Button onClick={nextStep} className={currentStep === 1 ? 'w-full' : ''}>التالي</Button> : <Button disabled={isLoading} onClick={placeOrder}>
@@ -434,7 +434,7 @@ const Checkout: React.FC = () => {
                 <CardHeader>
                   <CardTitle>ملخص الطلب</CardTitle>
                   <CardDescription>
-                    {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} بطلبك
+                    {cartItems.length} {cartItems.length === 1 ? 'منتج' : 'منتجات'} بطلبك
                   </CardDescription>
                 </CardHeader>
                 

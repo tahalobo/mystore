@@ -225,7 +225,7 @@ const CategoryPage: React.FC = () => {
                 onClick={applyFilters}
               >
                 <Filter className="mr-2 h-4 w-4" />
-                Apply Filters
+          تطبيق الفلاتر
               </Button>
             </div>
             

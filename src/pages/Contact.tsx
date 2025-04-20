@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 const contactInfo = {
   address: {
     street: "شارع 18 الصناعة",
@@ -40,7 +39,6 @@ const contactInfo = {
     description: "وجهتك الأولى للمنتجات التقنية الأصلية في العراق. نحن نقدم أحدث الأدوات والإكسسوارات مع توصيل موثوق به في جميع أنحاء البلاد."
   }
 };
-
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -49,7 +47,6 @@ const Contact: React.FC = () => {
     message: ""
   });
   const [formSubmitting, setFormSubmitting] = useState(false);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
       name,
@@ -60,7 +57,6 @@ const Contact: React.FC = () => {
       [name]: value
     }));
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitting(true);
@@ -77,7 +73,6 @@ const Contact: React.FC = () => {
       setFormSubmitting(false);
     }, 1500);
   };
-
   const containerAnimation = {
     hidden: {
       opacity: 0
@@ -90,7 +85,6 @@ const Contact: React.FC = () => {
       }
     }
   };
-
   const itemAnimation = {
     hidden: {
       y: 20,
@@ -101,16 +95,22 @@ const Contact: React.FC = () => {
       opacity: 1
     }
   };
-
-  return (
-    <div className="flex flex-col min-h-screen">
+  return <div className="flex flex-col min-h-screen">
       <Header />
       
       <main className="flex-grow pt-24">
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-primary/10 to-blue-50 py-20">
           <div className="container mx-auto px-4 text-center relative z-10">
-            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <motion.div initial={{
+            opacity: 0,
+            y: -20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.6
+          }}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
                 تواصل معنا
               </h1>
@@ -119,7 +119,16 @@ const Contact: React.FC = () => {
               </p>
             </motion.div>
             
-            <motion.div className="flex flex-wrap justify-center gap-4 mt-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
+            <motion.div className="flex flex-wrap justify-center gap-4 mt-8" initial={{
+            opacity: 0,
+            y: 20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.6,
+            delay: 0.2
+          }}>
               <Button size="lg" className="gap-2">
                 <Phone className="h-5 w-5" />
                 اتصل بنا الآن
@@ -148,33 +157,28 @@ const Contact: React.FC = () => {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    icon: <Phone className="h-6 w-6" />,
-                    title: "اتصل بنا",
-                    description: "تحدث مباشرةً مع فريق الدعم لدينا",
-                    info: contactInfo.phone.support,
-                    color: "bg-green-50 text-green-600",
-                    action: "اتصل الآن"
-                  },
-                  {
-                    icon: <Mail className="h-6 w-6" />,
-                    title: "راسلنا عبر البريد الإلكتروني",
-                    description: "أرسل لنا رسالة مفصّلة في أي وقت",
-                    info: contactInfo.email.support,
-                    color: "bg-blue-50 text-blue-600",
-                    action: "إرسال بريد إلكتروني"
-                  },
-                  {
-                    icon: <MapPin className="h-6 w-6" />,
-                    title: "قم بزيارتنا",
-                    description: "تعال إلى موقع متجرنا",
-                    info: contactInfo.address.street,
-                    color: "bg-amber-50 text-amber-600",
-                    action: "احصل على الاتجاهات"
-                  }
-                ].map((item, index) => (
-                  <motion.div key={index} variants={itemAnimation} className="bg-white rounded-xl shadow-md transition-all hover:shadow-lg border border-gray-100">
+                {[{
+                icon: <Phone className="h-6 w-6" />,
+                title: "اتصل بنا",
+                description: "تحدث مباشرةً مع فريق الدعم لدينا",
+                info: contactInfo.phone.support,
+                color: "bg-green-50 text-green-600",
+                action: "اتصل الآن"
+              }, {
+                icon: <Mail className="h-6 w-6" />,
+                title: "راسلنا عبر البريد الإلكتروني",
+                description: "أرسل لنا رسالة مفصّلة في أي وقت",
+                info: contactInfo.email.support,
+                color: "bg-blue-50 text-blue-600",
+                action: "إرسال بريد إلكتروني"
+              }, {
+                icon: <MapPin className="h-6 w-6" />,
+                title: "قم بزيارتنا",
+                description: "تعال إلى موقع متجرنا",
+                info: contactInfo.address.street,
+                color: "bg-amber-50 text-amber-600",
+                action: "احصل على الاتجاهات"
+              }].map((item, index) => <motion.div key={index} variants={itemAnimation} className="bg-white rounded-xl shadow-md transition-all hover:shadow-lg border border-gray-100">
                     <div className="p-6">
                       <div className={`w-12 h-12 rounded-full ${item.color} flex items-center justify-center mb-4`}>
                         {item.icon}
@@ -187,8 +191,7 @@ const Contact: React.FC = () => {
                         <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
-                  </motion.div>
-                ))}
+                  </motion.div>)}
               </div>
             </motion.div>
           </div>
@@ -238,7 +241,7 @@ const Contact: React.FC = () => {
                   
                   <Card>
                     <CardHeader>
-                      <CardTitle>Contact Form</CardTitle>
+                      <CardTitle>تواصل معنا</CardTitle>
                       <CardDescription>
                         املأ النموذج أدناه وسنعاود الاتصال بك في أقرب وقت ممكن.
                       </CardDescription>
@@ -360,7 +363,7 @@ const Contact: React.FC = () => {
             }, {
               question: "هل تقدمون الشحن الدولي؟",
               answer: "لا، نحن نقوم بالتوصيل داخل العراق فقط"
-            }, ].map((faq, index) => <motion.div key={index} className="border-b border-gray-200 py-4" initial={{
+            }].map((faq, index) => <motion.div key={index} className="border-b border-gray-200 py-4" initial={{
               opacity: 0,
               y: 20
             }} animate={{
@@ -387,8 +390,6 @@ const Contact: React.FC = () => {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Contact;

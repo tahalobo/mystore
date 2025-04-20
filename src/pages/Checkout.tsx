@@ -16,26 +16,29 @@ import { Truck, User, MapPin, Box, Clock, ShoppingBag, ChevronRight, CheckCircle
 import { saveOrder, generateOrderId } from '@/utils/orderStorage';
 
 // Iraq governorates
-const iraqGovernorates = ["Baghdad", "Basra", "Erbil", "Sulaymaniyah", "Duhok", "Kirkuk", "Nineveh", "Dhi Qar", "Babylon", "Diyala", "Anbar", "Maysan", "Wasit", "Najaf", "Karbala", "Saladin", "Muthanna", "Qadisiyyah"];
+const iraqGovernorates = ["بغداد"، "البصرة"، "أربيل"، "السليمانية"، "السليمانية"، "دهوك"، "كركوك"، "نينوى"، "ذي قار"، "بابل", "ديالى"، "الأنبار"، "ميسان"، "واسط"، "النجف"، "كربلاء"، "صلاح الدين"، "المثنى"، "القادسية "];
 const districts: Record<string, string[]> = {
-  "Baghdad": ["Adhamiyah", "Karkh", "Kadhimiya", "Mansour", "Sadr City", "Rusafa", "Dora", "New Baghdad", "Al-Amin", "Al-Mansour", "Al-Sha'ab", "Al-Sadr", "Al-Jadiriya", "Al-Waziriya", "Al-Rusafa", "Al-Khadhimiyah"],
-  "Basra": ["Basra City", "Abu Al-Khaseeb", "Al-Zubair", "Faw", "Shatt Al-Arab", "Maysan", "Qurna", "Al-Maqal", "Al-Khobar", "Al-Jubayr", "Al-Dair", "Al-Qubla", "Al-Bakr", "Abu Flous", "Al-Shuaiba", "Al-Hartha"],
-  "Erbil": ["Erbil City", "Koya", "Soran", "Shaqlawa", "Choman", "Hawler", "Makhmur", "Khabat", "Rawanduz", "Shaqlawa", "Kurkuk", "Shekhan"],
-  "Sulaymaniyah": ["Sulaymaniyah City", "Halabja", "Rania", "Penjwin", "Darbandikhan", "Said Sadiq", "Sharbazher", "Kalar", "Qal'at Dizeh", "Al-Sadya", "Kewzha"],
-  "Duhok": ["Duhok City", "Zakho", "Amedi", "Akre", "Sheikhan", "Sumel", "Bardarash", "Duhok", "Rabea", "Gurash", "Gulish"],
-  "Kirkuk": ["Kirkuk City", "Hawija", "Daquq", "Dibis", "Riyadh", "Al-Tuz Khurmatu", "Al-Multaqa", "Al-Sharqat", "Abu Saida", "Khanaqin", "Qara Tapa", "Al-Bashir", "Al-Dor"],
-  "Nineveh": ["Mosul", "Tal Afar", "Sinjar", "Al-Hamdaniya", "Telkef", "Al-Shoura", "Ba'aj", "Al-Qayyarah", "Hatra", "Khan Al-Baghdadi", "Al-Namrud", "Al-Mahmoudiya", "Al-Mohandesin"],
-  "Dhi Qar": ["Nasiriyah", "Al-Rifai", "Suq Al-Shuyukh", "Al-Chibayish", "Al-Daraji", "Al-Fajr", "Al-Kahla", "Al-Tameem", "Al-Tajil", "Al-Nassiriya", "Al-Shatt", "Al-Diwaniyah", "Al-Qadisiya"],
-  "Babylon": ["Hillah", "Al-Mahawil", "Al-Musayab", "Al-Hashimiyah", "Qasim", "Al-Suwaira", "Al-Jadidah", "Al-Talaba", "Al-Furat", "Al-Hillah", "Al-Baghdadi", "Al-Nukhayb"],
-  "Diyala": ["Baqubah", "Al-Muqdadiyah", "Khanaqin", "Kifri", "Miqdadiyah", "Al-Hashimiyah", "Balad Ruz", "Al-Obaidi", "Al-Saadiyah", "Al-Tahrir", "Al-Makhmoor", "Al-Qara Tapa"],
-  "Anbar": ["Ramadi", "Fallujah", "Hit", "Haditha", "Al-Qa'im", "Al-Rutbah", "Heet", "Ar-Ramadi", "Habbaniyah", "Al-Karmah", "Al-Saqlawiyah", "Al-Mahmudiya", "Al-Khamsa", "Tariq"],
-  "Maysan": ["Amarah", "Ali Al-Gharbi", "Al-Kahla", "Al-Maimouna", "Al-Qurna", "Al-Jalawla", "Al-Hashimiyah", "Al-Diwaniyah", "Al-Kufa", "Shatrah"],
-  "Wasit": ["Kut", "Al-Hay", "Al-Numaniyah", "Badra", "Al-Suwaira", "Zubaid", "Al-Mansour", "Al-Rashid", "Al-Qudus", "Al-Radhwan", "Al-Furat", "Al-Khalis"],
-  "Najaf": ["Najaf City", "Kufa", "Al-Manathira", "Al-Mishkhab", "Al-Najaf Al-Ashraf", "Al-Hashimiyah", "Al-Furat", "Al-Sadr", "Al-Salam", "Al-Qadisiyyah"],
-  "Karbala": ["Karbala City", "Al-Hindiya", "Ain Al-Tamur", "Al-Qasim", "Al-Karim", "Al-Tayr", "Al-Qadisiyyah"],
-  "Saladin": ["Tikrit", "Samarra", "Baiji", "Al-Shirqat", "Balad", "Dujail", "Al-Dour", "Al-Ishaqi", "Al-Aitham", "Al-Mukhayyam", "Al-Bashir"],
-  "Muthanna": ["Samawah", "Al-Rumaitha", "Al-Khidhir", "Al-Salman", "Al-Shatrah", "Al-Furat", "Al-Hilal", "Kifl", "Muthanna", "Al-Khales"],
-  "Qadisiyyah": ["Diwaniyah", "Afaq", "Al-Shamiya", "Al-Hamza", "Al-Mukhayyam", "Al-Hilal", "Al-Rafidain", "Al-Jadidah", "Al-Saidiya"]
+  {
+  "بغداد": ["الأعظمية", "الكرخ", "الكاظمية", "المنصور", "مدينة الصدر", "الرصافة", "الدورة", "بغداد الجديدة", "الأمين", "الشعب", "الجادرية", "الوزيرية"],
+  "البصرة": ["مدينة البصرة", "أبو الخصيب", "الزبير", "الفاو", "شط العرب", "القرنة", "المعقل", "الجبيلة", "الدير", "القبلة", "أبو فلوس", "الشعيبة", "الهارثة"],
+  "أربيل": ["مدينة أربيل", "كويسنجق", "سوران", "شقلاوة", "جومان", "هولير", "مخمور", "خبات", "رواندوز", "الشيخان"],
+  "السليمانية": ["مدينة السليمانية", "حلبجة", "رانية", "بنجوين", "دربندخان", "سعيد صادق", "شاربازير", "كلار", "قلعة دزة", "السعدية", "كيوةجه"],
+  "دهوك": ["مدينة دهوك", "زاخو", "العمادية", "عقرة", "الشيخان", "سيميل", "بردرش", "ربيعة", "كوراش", "كوليش"],
+  "كركوك": ["مدينة كركوك", "الحويجة", "داقوق", "الدبس", "الرياض", "طوز خورماتو", "الملتقى", "البشير"],
+  "نينوى": ["الموصل", "تلعفر", "سنجار", "الحمدانية", "تلكيف", "الشورة", "البعاج", "القيارة", "الحضر", "النمرود", "المهندسين"],
+  "ذي قار": ["الناصرية", "الرفاعي", "سوق الشيوخ", "الجبايش", "الدراجي", "الفجر", "الشط", "الإصلاح"],
+  "بابل": ["الحلة", "المحاويل", "المسيب", "الهاشمية", "القاسم", "المدحتية"],
+  "ديالى": ["بعقوبة", "المقدادية", "خانقين", "كفري", "بلدروز", "العبيدي", "السعدية", "قره تبة"],
+  "الأنبار": ["الرمادي", "الفلوجة", "هيت", "حديثة", "القائم", "الرطبة", "الحبانية", "الكرمة", "الصقلاوية"],
+  "ميسان": ["العمارة", "علي الغربي", "الكحلاء", "الميمونة", "المشرح", "قلعة صالح"],
+  "واسط": ["الكوت", "الحي", "النعمانية", "بدرة", "الصويرة", "الزبيدية"],
+  "النجف": ["النجف", "الكوفة", "المناذرة", "المشخاب"],
+  "كربلاء": ["كربلاء", "عين التمر", "الهندية"],
+  "صلاح الدين": ["تكريت", "سامراء", "بيجي", "الشرقاط", "بلد", "الدجيل", "الدور", "الإسحاقي"],
+  "المثنى": ["السماوة", "الرميثة", "الخضر", "السلمان"],
+  "القادسية": ["الديوانية", "عفك", "الشامية", "الحمزة"]
+}
+
 };
 interface FormData {
   firstName: string;

@@ -371,7 +371,7 @@ const Cart: React.FC = () => {
                         
                         <div className="p-4 border-t flex justify-end">
                           <Button variant="outline" size="sm" asChild>
-                            <Link to={`/shop`}>اعادة الططلب</Link>
+                            <Link to={`/shop`}>اعادة الطلب</Link>
                           </Button>
                         </div>
                       </motion.div>

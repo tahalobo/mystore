@@ -1,8 +1,10 @@
+
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Users, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
+
 const HeroSection: React.FC = () => {
   return <section className="mt-16 hero-gradient overflow-hidden relative">
       <div className="absolute inset-0 bg-gradient-to-b from-blue-50/80 via-blue-100/60 to-white pointer-events-none" />
@@ -54,7 +56,7 @@ const HeroSection: React.FC = () => {
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white btn-hover-effect">
               <Link to="/shop">
          تسوق الان
-                <ChevronRight className="ml-2 h-5 w-5" />
+                <ChevronRight className="mr-2 h-5 w-5" />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="btn-hover-effect">
@@ -64,23 +66,38 @@ const HeroSection: React.FC = () => {
             </Button>
           </motion.div>
           
-          <motion.div className="flex items-center space-x-4 pt-4" initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          delay: 0.8,
-          duration: 0.5
-        }}>
-            <div className="flex -space-x-3">
+          <motion.div 
+            className="flex items-center gap-4 mt-6 bg-white/80 backdrop-blur-sm py-3 px-4 rounded-xl border border-blue-100 shadow-sm" 
+            initial={{
+              opacity: 0,
+              y: 20
+            }}
+            animate={{
+              opacity: 1,
+              y: 0
+            }}
+            transition={{
+              delay: 0.8,
+              duration: 0.5
+            }}
+          >
+            <div className="flex -space-x-3 rtl:space-x-reverse">
               <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
               <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
             </div>
-            <div className="text-sm">
-              <span className="font-semibold text-primary">500+</span> عملاء سعداء
+            <div className="flex flex-col">
+              <div className="flex items-center">
+                <span className="font-semibold text-primary mr-1">+500</span>
+                <span className="text-gray-700">عملاء سعداء</span>
+              </div>
+              <div className="text-xs text-gray-500 flex items-center">
+                <ShieldCheck className="w-3 h-3 ml-1 text-green-500" />
+                <span>جودة موثوقة ومضمونة</span>
+              </div>
+            </div>
+            <div className="ml-auto flex items-center justify-center bg-blue-50 rounded-full w-10 h-10">
+              <Users className="h-5 w-5 text-blue-600" />
             </div>
           </motion.div>
         </motion.div>
@@ -147,4 +164,5 @@ const HeroSection: React.FC = () => {
       </div>
     </section>;
 };
+
 export default HeroSection;

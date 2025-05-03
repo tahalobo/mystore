@@ -89,9 +89,7 @@ const HeroSection: React.FC = () => {
                 <span>جودة موثوقة ومضمونة</span>
               </div>
             </div>
-            <div className="ml-auto flex items-center justify-center bg-blue-50 rounded-full w-10 h-10">
-              <Users className="h-5 w-5 text-blue-600" />
-            </div>
+            
           </motion.div>
         </motion.div>
         

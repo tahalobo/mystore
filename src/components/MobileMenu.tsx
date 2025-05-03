@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Home, ShoppingBag, Heart, Search, Phone, Info, Tag, Package, Layers, LayoutGrid } from "lucide-react";
@@ -7,9 +8,11 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
+
 interface MobileMenuProps {
   logo: React.ReactNode;
 }
+
 const MobileMenu: React.FC<MobileMenuProps> = ({
   logo
 }) => {
@@ -25,9 +28,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
   const [isBrandsOpen, setIsBrandsOpen] = useState(false);
+  
   const closeMenu = () => {
     setIsOpen(false);
   };
+  
   const menuItems = [{
     icon: Home,
     label: "الصفحة الرئيسية",
@@ -49,6 +54,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     label: "عنا",
     path: "/about"
   }];
+  
   const categories = [{
     name: "أغطية الهاتف",
     href: "/category/phone-cases"
@@ -71,6 +77,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     name: "الإكسسوارات",
     href: "/category/accessories"
   }];
+  
   const collections = [{
     name: "الوافدون الجدد",
     href: "/new-arrivals",
@@ -88,6 +95,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     href: "/sale",
     description: "عروض وخصومات رائعة لا يجب أن تفوتك"
   }];
+  
   const brands = [{
     name: "Apple",
     href: "/brand/apple"
@@ -107,6 +115,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     name: "Anker",
     href: "/brand/anker"
   }];
+  
   return <div className="md:hidden flex items-center justify-between w-full px-4">
       <div className="flex-1">
         {logo}
@@ -159,13 +168,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   {/* Categories Collapsible */}
                   <li>
                     <Collapsible open={isCategoriesOpen} onOpenChange={setIsCategoriesOpen} className="w-full">
-                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full">
+                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full text-right">
                         <LayoutGrid className="h-5 w-5 text-primary" />
-                        <span className="font-medium flex-1 text-left">الفئات</span>
+                        <span className="font-medium flex-1 text-right">الفئات</span>
                         <ChevronDown className={`h-5 w-5 transition-transform ${isCategoriesOpen ? 'transform rotate-180' : ''}`} />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
-                        <div className="pl-12 pr-4 space-y-2 py-2">
+                        <div className="pr-12 pl-4 space-y-2 py-2 text-right">
                           {categories.map(category => <Link key={category.href} to={category.href} className="block py-2 text-sm hover:text-primary" onClick={closeMenu}>
                               {category.name}
                             </Link>)}
@@ -177,13 +186,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   {/* Collections Collapsible */}
                   <li>
                     <Collapsible open={isCollectionsOpen} onOpenChange={setIsCollectionsOpen} className="w-full">
-                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full">
+                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full text-right">
                         <Layers className="h-5 w-5 text-primary" />
-                        <span className="font-medium flex-1 text-left">المجموعات</span>
+                        <span className="font-medium flex-1 text-right">المجموعات</span>
                         <ChevronDown className={`h-5 w-5 transition-transform ${isCollectionsOpen ? 'transform rotate-180' : ''}`} />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
-                        <div className="pl-12 pr-4 space-y-2 py-2">
+                        <div className="pr-12 pl-4 space-y-2 py-2 text-right">
                           {collections.map(collection => <Link key={collection.href} to={collection.href} className="block py-2 text-sm hover:text-primary" onClick={closeMenu}>
                               {collection.name}
                             </Link>)}
@@ -195,13 +204,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   {/* Brands Collapsible */}
                   <li>
                     <Collapsible open={isBrandsOpen} onOpenChange={setIsBrandsOpen} className="w-full">
-                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full">
+                      <CollapsibleTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 w-full text-right">
                         <Package className="h-5 w-5 text-primary" />
-                        <span className="font-medium flex-1 text-left">العلامات التجارية</span>
+                        <span className="font-medium flex-1 text-right">العلامات التجارية</span>
                         <ChevronDown className={`h-5 w-5 transition-transform ${isBrandsOpen ? 'transform rotate-180' : ''}`} />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
-                        <div className="pl-12 pr-4 space-y-2 py-2">
+                        <div className="pr-12 pl-4 space-y-2 py-2 text-right">
                           {brands.map(brand => <Link key={brand.href} to={brand.href} className="block py-2 text-sm hover:text-primary" onClick={closeMenu}>
                               {brand.name}
                             </Link>)}
@@ -234,4 +243,5 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       </div>
     </div>;
 };
+
 export default MobileMenu;

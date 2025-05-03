@@ -1,10 +1,8 @@
-
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Users, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
-
 const HeroSection: React.FC = () => {
   return <section className="mt-16 hero-gradient overflow-hidden relative">
       <div className="absolute inset-0 bg-gradient-to-b from-blue-50/80 via-blue-100/60 to-white pointer-events-none" />
@@ -66,21 +64,16 @@ const HeroSection: React.FC = () => {
             </Button>
           </motion.div>
           
-          <motion.div 
-            className="flex items-center gap-4 mt-6 bg-white/80 backdrop-blur-sm py-3 px-4 rounded-xl border border-blue-100 shadow-sm" 
-            initial={{
-              opacity: 0,
-              y: 20
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              delay: 0.8,
-              duration: 0.5
-            }}
-          >
+          <motion.div initial={{
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.8,
+          duration: 0.5
+        }} className="flex items-center gap-4 mt-6 backdrop-blur-sm py-3 px-4 rounded-xl border border-blue-100 shadow-sm bg-transparent">
             <div className="flex -space-x-3 rtl:space-x-reverse">
               <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
               <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
@@ -164,5 +157,4 @@ const HeroSection: React.FC = () => {
       </div>
     </section>;
 };
-
 export default HeroSection;

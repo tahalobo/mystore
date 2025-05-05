@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "@/components/Header";
@@ -16,6 +17,9 @@ import MobileFilterDrawer from "@/components/MobileFilterDrawer";
 import MobileProductList from "@/components/MobileProductList";
 import MobileCollectionHeader from "@/components/MobileCollectionHeader";
 import ProductCard from "@/components/ProductCard";
+import ProductPagination from "@/components/ProductPagination";
+
+const ITEMS_PER_PAGE = 7;
 
 const collections = {
   "featured": {
@@ -69,6 +73,11 @@ const Collection: React.FC = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [initialProducts, setInitialProducts] = useState<Product[]>([]);
   const isMobile = useIsMobile();
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginatedProducts, setPaginatedProducts] = useState<Product[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
 
   const uniqueColors: { [key: string]: string } = {
     "all": "All Colors",
@@ -90,6 +99,22 @@ const Collection: React.FC = () => {
       resetFilters();
     }
   }, [collectionId]);
+  
+  // Update pagination whenever filtered products change
+  useEffect(() => {
+    const total = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+    setTotalPages(total || 1);
+    
+    // Reset to page 1 if current page is beyond total pages
+    if (currentPage > total && total > 0) {
+      setCurrentPage(1);
+    }
+    
+    // Get products for current page
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    setPaginatedProducts(filteredProducts.slice(startIndex, endIndex));
+  }, [filteredProducts, currentPage]);
 
   const resetFilters = () => {
     setPriceRange([0, 150]);
@@ -107,6 +132,7 @@ const Collection: React.FC = () => {
     if (collectionId && collections[collectionId as keyof typeof collections]) {
       const products = collections[collectionId as keyof typeof collections].getProducts();
       setFilteredProducts(products);
+      setCurrentPage(1);
     }
   };
 
@@ -124,6 +150,14 @@ const Collection: React.FC = () => {
       ...prev,
       [filter]: !prev[filter]
     }));
+  };
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   const applyFilters = () => {
@@ -254,20 +288,45 @@ const Collection: React.FC = () => {
             />
             
             <div className={`${(isMobile && filterOpen) ? 'hidden' : 'block'} md:block md:w-full lg:w-full`}>
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-                {filteredProducts.map((product, index) => (
-                  <div 
-                    key={product.id} 
-                    className="animate-fade-up"
-                    style={{ animationDelay: `${index * 50}ms` }}
-                  >
-                    <ProductCard 
-                      product={product}
-                      onProductClick={openProductModal}
-                    />
+              {filteredProducts.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+                    {paginatedProducts.map((product, index) => (
+                      <div 
+                        key={product.id} 
+                        className="animate-fade-up"
+                        style={{ animationDelay: `${index * 50}ms` }}
+                      >
+                        <ProductCard 
+                          product={product}
+                          onProductClick={openProductModal}
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                  
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <ProductPagination 
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                    />
+                  )}
+                </>
+              ) : (
+                <div className="text-center py-12">
+                  <h3 className="text-xl font-medium">لم يتم العثور على منتجات</h3>
+                  <p className="text-gray-600 mt-2">حاول تعديل الفلاتر الخاصة بك</p>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4"
+                    onClick={resetFilters}
+                  >
+                    إعادة تعيين الفلاتر
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>

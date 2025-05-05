@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { allProducts } from "@/data/products";
@@ -9,6 +10,7 @@ import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
+import ProductPagination from "@/components/ProductPagination";
 import { 
   Filter, 
   SlidersHorizontal, 
@@ -28,8 +30,11 @@ const categories = [
   "الملحقات"
 ];
 
+const ITEMS_PER_PAGE = 7;
+
 const Shop: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>(allProducts);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 150]);
@@ -44,6 +49,32 @@ const Shop: React.FC = () => {
     inStock: false,
   });
   
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginatedProducts, setPaginatedProducts] = useState<Product[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  
+  useEffect(() => {
+    setProducts(allProducts);
+    setFilteredProducts(allProducts);
+  }, []);
+  
+  // Update pagination whenever filtered products change
+  useEffect(() => {
+    const total = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+    setTotalPages(total || 1);
+    
+    // Reset to page 1 if current page is beyond total pages
+    if (currentPage > total && total > 0) {
+      setCurrentPage(1);
+    }
+    
+    // Get products for current page
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    setPaginatedProducts(filteredProducts.slice(startIndex, endIndex));
+  }, [filteredProducts, currentPage]);
+
   const openProductModal = (product: Product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
@@ -89,7 +120,7 @@ const Shop: React.FC = () => {
       filtered = filtered.filter(product => product.stock > 0);
     }
     
-    setProducts(filtered);
+    setFilteredProducts(filtered);
     if (window.innerWidth < 768) {
       setFilterOpen(false);
     }
@@ -104,7 +135,8 @@ const Shop: React.FC = () => {
       featured: false,
       inStock: false,
     });
-    setProducts(allProducts);
+    setFilteredProducts(allProducts);
+    setCurrentPage(1);
   };
   
   const toggleFilter = (filter: string) => {
@@ -112,6 +144,14 @@ const Shop: React.FC = () => {
       ...prev,
       [filter]: !prev[filter]
     }));
+  };
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   return (
@@ -267,20 +307,31 @@ const Shop: React.FC = () => {
             
             {/* Products Grid */}
             <div className="md:w-3/4 lg:w-4/5">
-              {products.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
-                  {products.map((product, index) => (
-                    <div 
-                      key={product.id} 
-                      className={`animate-fade-up [animation-delay:${index * 50}ms]`}
-                    >
-                      <ProductCard 
-                        product={product}
-                        onProductClick={openProductModal}
-                      />
-                    </div>
-                  ))}
-                </div>
+              {filteredProducts.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+                    {paginatedProducts.map((product, index) => (
+                      <div 
+                        key={product.id} 
+                        className={`animate-fade-up [animation-delay:${index * 50}ms]`}
+                      >
+                        <ProductCard 
+                          product={product}
+                          onProductClick={openProductModal}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <ProductPagination 
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                    />
+                  )}
+                </>
               ) : (
                 <div className="text-center py-12">
                   <h3 className="text-xl font-medium">لم يتم العثور على منتجات</h3>

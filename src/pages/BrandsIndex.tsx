@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRTL } from "@/contexts/RTLContext";
 import { rtlAwareClasses } from "@/lib/rtl-utils";
+import ProductPagination from "@/components/ProductPagination";
 
 // Brand data
 const brands = [
@@ -101,8 +102,27 @@ const gradients = [
   "bg-gradient-to-r from-sky-600 to-cyan-700",
 ];
 
+const ITEMS_PER_PAGE = 7;
+
 const BrandsIndex: React.FC = () => {
   const { isRTL } = useRTL();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginatedBrands, setPaginatedBrands] = useState(brands.slice(0, ITEMS_PER_PAGE));
+  const [totalPages, setTotalPages] = useState(Math.ceil(brands.length / ITEMS_PER_PAGE));
+  
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    setPaginatedBrands(brands.slice(startIndex, endIndex));
+  }, [currentPage]);
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({
+      top: document.getElementById('featured-brands')?.offsetTop || 0,
+      behavior: 'smooth'
+    });
+  };
   
   return (
     <div className="flex flex-col min-h-screen">
@@ -209,7 +229,7 @@ const BrandsIndex: React.FC = () => {
               
               <TabsContent value="grid" className="mt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {brands.map((brand, index) => (
+                  {paginatedBrands.map((brand, index) => (
                     <motion.div
                       key={brand.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -255,7 +275,7 @@ const BrandsIndex: React.FC = () => {
               
               <TabsContent value="list" className="mt-6">
                 <div className="space-y-4">
-                  {brands.map((brand, index) => (
+                  {paginatedBrands.map((brand, index) => (
                     <motion.div
                       key={brand.id}
                       initial={{ opacity: 0, x: -20 }}
@@ -328,6 +348,15 @@ const BrandsIndex: React.FC = () => {
                 </div>
               </TabsContent>
             </Tabs>
+            
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <ProductPagination 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </div>
         </section>
         

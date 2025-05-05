@@ -42,7 +42,7 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
 }, ref) => {
   const { isRTL } = useRTL();
   
-  // Adjust side for RTL if needed
+  // For RTL, default to left side instead of right
   const rtlAdjustedSide = isRTL && (side === "left" || side === "right") 
     ? side === "left" ? "right" : "left" 
     : side;
@@ -73,7 +73,7 @@ SheetContent.displayName = SheetPrimitive.Content.displayName;
 const SheetHeader = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => <div className={cn("flex flex-col space-y-2 text-center sm:text-left", className)} {...props} />;
+}: React.HTMLAttributes<HTMLDivElement>) => <div className={cn("flex flex-col space-y-2 text-center sm:text-right", className)} {...props} />;
 SheetHeader.displayName = "SheetHeader";
 
 const SheetFooter = ({

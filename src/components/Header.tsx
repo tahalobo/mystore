@@ -44,15 +44,18 @@ const Header: React.FC = () => {
   return <header className={cn("fixed top-0 inset-x-0 z-40 transition-all duration-300 backdrop-blur-lg", isScrolled ? "py-3 bg-white/90 shadow-sm" : "py-5 bg-white/50")}>
       <div className="container flex flex-col px-4 mx-auto">
         <div className="flex items-center justify-between">
-          <div className="hidden md:block">
+          <div className={cn("hidden md:block", isRTL ? "order-3" : "order-1")}>
             {Logo}
           </div>
 
-          <div className="hidden md:block flex-1 px-6">
+          <div className={cn("hidden md:block flex-1 px-6", isRTL ? "order-2" : "order-2")}>
             <MainNav />
           </div>
 
-          <div className={cn("hidden md:flex items-center", isRTL ? "space-x-reverse space-x-1" : "space-x-1")}>
+          <div className={cn(
+            "hidden md:flex items-center", 
+            isRTL ? "space-x-reverse space-x-1 order-1" : "space-x-1 order-3"
+          )}>
             <SearchBar onSearch={handleSearchSubmit} />
             
             <Link to="/wishlist">

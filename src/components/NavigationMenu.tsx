@@ -50,10 +50,12 @@ export function MainNav() {
     return null;
   }
 
-  return (
-    <NavigationMenu className="hidden md:flex">
-      <NavigationMenuList>
-        <NavigationMenuItem>
+  // Reordering the navigation items for RTL layout
+  const menuItems = [
+    {
+      type: "link",
+      component: (
+        <NavigationMenuItem key="home">
           <Link to="/">
             <NavigationMenuLink
               className={cn(
@@ -66,8 +68,12 @@ export function MainNav() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-
-        <NavigationMenuItem>
+      )
+    },
+    {
+      type: "dropdown",
+      component: (
+        <NavigationMenuItem key="categories">
           <NavigationMenuTrigger className={cn(
             "bg-transparent hover:bg-transparent hover:text-primary",
             categories.some(category => location.pathname === category.href) && "text-primary font-medium"
@@ -96,8 +102,12 @@ export function MainNav() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-
-        <NavigationMenuItem>
+      )
+    },
+    {
+      type: "dropdown",
+      component: (
+        <NavigationMenuItem key="collections">
           <NavigationMenuTrigger className={cn(
             "bg-transparent hover:bg-transparent hover:text-primary",
             collections.some(collection => location.pathname === collection.href) && "text-primary font-medium"
@@ -126,8 +136,12 @@ export function MainNav() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        
-        <NavigationMenuItem>
+      )
+    },
+    {
+      type: "dropdown",
+      component: (
+        <NavigationMenuItem key="brands">
           <NavigationMenuTrigger className={cn(
             "bg-transparent hover:bg-transparent hover:text-primary",
             (location.pathname === "/brands" || location.pathname.startsWith("/brand/")) && "text-primary font-medium"
@@ -166,8 +180,12 @@ export function MainNav() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-
-        <NavigationMenuItem>
+      )
+    },
+    {
+      type: "link",
+      component: (
+        <NavigationMenuItem key="shop">
           <Link to="/shop">
             <NavigationMenuLink
               className={cn(
@@ -180,8 +198,12 @@ export function MainNav() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-
-        <NavigationMenuItem>
+      )
+    },
+    {
+      type: "link",
+      component: (
+        <NavigationMenuItem key="deals">
           <Link to="/deals">
             <NavigationMenuLink
               className={cn(
@@ -194,8 +216,12 @@ export function MainNav() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-
-        <NavigationMenuItem>
+      )
+    },
+    {
+      type: "link",
+      component: (
+        <NavigationMenuItem key="about">
           <Link to="/about">
             <NavigationMenuLink
               className={cn(
@@ -208,8 +234,12 @@ export function MainNav() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-
-        <NavigationMenuItem>
+      )
+    },
+    {
+      type: "link",
+      component: (
+        <NavigationMenuItem key="contact">
           <Link to="/contact">
             <NavigationMenuLink
               className={cn(
@@ -222,6 +252,16 @@ export function MainNav() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+      )
+    },
+  ];
+
+  return (
+    <NavigationMenu className="hidden md:flex">
+      <NavigationMenuList className="flex-row-reverse">
+        {menuItems.map((item) => (
+          React.cloneElement(item.component, { key: item.component.key })
+        ))}
       </NavigationMenuList>
     </NavigationMenu>
   );

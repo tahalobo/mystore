@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductDetailModal from "@/components/ProductDetailModal";
 import ScrollToTop from "@/components/ScrollToTop";
+import { Button } from "@/components/ui/button";
 import { 
   getProductsByDiscount, 
   getBestSellers, 

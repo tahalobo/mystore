@@ -1,4 +1,5 @@
 import { Product, Category } from "@/types";
+import { fetchProductsFromAPI } from "@/utils/api";
 
 export const categories: Category[] = [
   {
@@ -73,7 +74,7 @@ const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
       category,
       description: "Product description placeholder",
       stock: Math.floor(Math.random() * 100) + 10, // Random stock between 10-110
-      rating: (Math.random() * 2 + 3).toFixed(1), // Random rating between 3.0-5.0
+      rating: Number((Math.random() * 2 + 3).toFixed(1)), // Convert to number explicitly
       reviews: Math.floor(Math.random() * 200) + 10, // Random reviews count
       featured: index % 5 === 0, // Every 5th item is featured
       bestSeller: index % 7 === 0, // Every 7th item is bestseller
@@ -93,8 +94,6 @@ const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
 // This function will be called when the app starts to load products from API
 export const loadProductsFromAPI = async () => {
   try {
-    // Dynamically import to avoid server-side rendering issues
-    const { fetchProductsFromAPI } = await import('../utils/api');
     const apiProducts = await fetchProductsFromAPI();
     
     if (apiProducts && apiProducts.length > 0) {

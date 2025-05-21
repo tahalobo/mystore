@@ -1,3 +1,4 @@
+
 import { Product, Category } from "@/types";
 import { fetchProductsFromAPI } from "@/utils/api";
 
@@ -57,8 +58,26 @@ export const categories: Category[] = [
 export let products: Product[] = [];
 export let allProducts: Product[] = [];
 
+// Fallback data in case API is not accessible
+const fallbackProducts = [
+  { id: "MAT-1001", name: "قطعة كهربائية صناعية" },
+  { id: "MAT-1002", name: "قطعة ميكانيكية متطورة" },
+  { id: "MAT-1003", name: "كابل توصيل عالي الجودة" },
+  { id: "MAT-1004", name: "بطارية ليثيوم قابلة للشحن" },
+  { id: "MAT-1005", name: "جهاز تحكم رقمي" },
+  { id: "MAT-1006", name: "شاشة عرض متطورة" },
+  { id: "MAT-1007", name: "سماعة صوت لاسلكية" },
+  { id: "MAT-1008", name: "حامل هاتف للسيارة" },
+  { id: "MAT-1009", name: "شاحن متعدد المنافذ" },
+  { id: "MAT-1010", name: "غطاء حماية للهاتف" },
+  { id: "MAT-1011", name: "ذاكرة تخزين خارجية" },
+  { id: "MAT-1012", name: "محول طاقة كهربائية" }
+];
+
 // Initialize with placeholder products until API data is loaded
 const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
+  console.log('Initializing products with', apiProducts.length, 'items from API or fallback');
+  
   // Create products array from API data
   const newProducts = apiProducts.map((item, index) => {
     // Calculate which category to use (rotating through the categories)
@@ -88,23 +107,27 @@ const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
   products = newProducts.slice(0, Math.min(newProducts.length, 12));
   allProducts = newProducts;
   
-  console.log(`Initialized ${newProducts.length} products from API`);
+  console.log(`Initialized ${newProducts.length} products from API or fallback`);
 };
 
 // This function will be called when the app starts to load products from API
 export const loadProductsFromAPI = async () => {
+  console.log('Attempting to load products from API...');
   try {
     const apiProducts = await fetchProductsFromAPI();
     
     if (apiProducts && apiProducts.length > 0) {
+      console.log('Successfully loaded products from API:', apiProducts.length);
       initializeProducts(apiProducts);
       return true;
     } else {
-      console.error('No products loaded from API');
+      console.log('API returned no products, using fallback data');
+      initializeProducts(fallbackProducts);
       return false;
     }
   } catch (error) {
-    console.error('Error loading products from API:', error);
+    console.error('Error loading products from API, using fallback data:', error);
+    initializeProducts(fallbackProducts);
     return false;
   }
 };

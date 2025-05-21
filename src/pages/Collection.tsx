@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "@/components/Header";
@@ -10,7 +9,8 @@ import {
   getProductsByDiscount, 
   getBestSellers, 
   getNewArrivals, 
-  getFeaturedProducts
+  getFeaturedProducts,
+  loadProductsFromAPI
 } from "@/data/products";
 import { Product } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -19,6 +19,7 @@ import MobileProductList from "@/components/MobileProductList";
 import MobileCollectionHeader from "@/components/MobileCollectionHeader";
 import ProductCard from "@/components/ProductCard";
 import ProductPagination from "@/components/ProductPagination";
+import { toast } from "sonner";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -91,14 +92,31 @@ const Collection: React.FC = () => {
     "#78350F": "Brown",
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    if (collectionId && collections[collectionId as keyof typeof collections]) {
-      const products = collections[collectionId as keyof typeof collections].getProducts();
-      setInitialProducts(products);
-      setFilteredProducts(products);
-      
-      resetFilters();
-    }
+    const initializeProducts = async () => {
+      setIsLoading(true);
+      try {
+        // Load products from API
+        await loadProductsFromAPI();
+        
+        if (collectionId && collections[collectionId as keyof typeof collections]) {
+          const products = collections[collectionId as keyof typeof collections].getProducts();
+          setInitialProducts(products);
+          setFilteredProducts(products);
+          resetFilters();
+        }
+        toast.success("تم تحميل المنتجات بنجاح");
+      } catch (error) {
+        console.error("Error initializing products:", error);
+        toast.error("حدث خطأ أثناء تحميل المنتجات");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    initializeProducts();
   }, [collectionId]);
   
   // Update pagination whenever filtered products change
@@ -272,64 +290,73 @@ const Collection: React.FC = () => {
         />
         
         <div className="container mx-auto px-4 py-4 md:py-8">
-          <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-            <MobileFilterDrawer 
-              isOpen={filterOpen}
-              onClose={() => setFilterOpen(false)}
-              priceRange={priceRange}
-              onPriceChange={handlePriceChange}
-              selectedFilters={selectedFilters}
-              toggleFilter={toggleFilter}
-              handleSortChange={handleSortChange}
-              handleDiscountRangeChange={handleDiscountRangeChange}
-              handleColorFilterChange={handleColorFilterChange}
-              applyFilters={applyFilters}
-              resetFilters={resetFilters}
-              availableColors={uniqueColors}
-            />
-            
-            <div className={`${(isMobile && filterOpen) ? 'hidden' : 'block'} md:block md:w-full lg:w-full`}>
-              {filteredProducts.length > 0 ? (
-                <>
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-                    {paginatedProducts.map((product, index) => (
-                      <div 
-                        key={product.id} 
-                        className="animate-fade-up"
-                        style={{ animationDelay: `${index * 50}ms` }}
-                      >
-                        <ProductCard 
-                          product={product}
-                          onProductClick={openProductModal}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Pagination */}
-                  {totalPages > 1 && (
-                    <ProductPagination 
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={handlePageChange}
-                    />
-                  )}
-                </>
-              ) : (
-                <div className="text-center py-12">
-                  <h3 className="text-xl font-medium">لم يتم العثور على منتجات</h3>
-                  <p className="text-gray-600 mt-2">حاول تعديل الفلاتر الخاصة بك</p>
-                  <Button 
-                    variant="outline" 
-                    className="mt-4"
-                    onClick={resetFilters}
-                  >
-                    إعادة تعيين الفلاتر
-                  </Button>
-                </div>
-              )}
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="text-center">
+                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+                <p className="mt-4 text-gray-600">جاري تحميل المنتجات...</p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+              <MobileFilterDrawer 
+                isOpen={filterOpen}
+                onClose={() => setFilterOpen(false)}
+                priceRange={priceRange}
+                onPriceChange={handlePriceChange}
+                selectedFilters={selectedFilters}
+                toggleFilter={toggleFilter}
+                handleSortChange={handleSortChange}
+                handleDiscountRangeChange={handleDiscountRangeChange}
+                handleColorFilterChange={handleColorFilterChange}
+                applyFilters={applyFilters}
+                resetFilters={resetFilters}
+                availableColors={uniqueColors}
+              />
+              
+              <div className={`${(isMobile && filterOpen) ? 'hidden' : 'block'} md:block md:w-full lg:w-full`}>
+                {filteredProducts.length > 0 ? (
+                  <>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+                      {paginatedProducts.map((product, index) => (
+                        <div 
+                          key={product.id} 
+                          className="animate-fade-up"
+                          style={{ animationDelay: `${index * 50}ms` }}
+                        >
+                          <ProductCard 
+                            product={product}
+                            onProductClick={openProductModal}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                      <ProductPagination 
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <div className="text-center py-12">
+                    <h3 className="text-xl font-medium">لم يتم العثور على منتجات</h3>
+                    <p className="text-gray-600 mt-2">حاول تعديل الفلاتر الخاصة بك</p>
+                    <Button 
+                      variant="outline" 
+                      className="mt-4"
+                      onClick={resetFilters}
+                    >
+                      إعادة تعيين الفلاتر
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </main>
       

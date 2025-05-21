@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -20,6 +21,8 @@ import { motion } from "framer-motion";
 import FeaturedBrandSection from "@/components/home/FeaturedBrandSection";
 import SpecialOffersSection from "@/components/home/SpecialOffersSection";
 import BrandsShowcase from "@/components/home/BrandsShowcase";
+import BannerSection from "@/components/home/BannerSection";
+
 const Index: React.FC = () => {
   const bestSellers = getBestSellers().slice(0, 4);
   const newArrivals = getNewArrivals().slice(0, 4);
@@ -52,6 +55,13 @@ const Index: React.FC = () => {
       
       <main className="flex-grow">
         <HeroSection />
+        
+        <motion.div initial="hidden" whileInView="visible" viewport={{
+        once: true,
+        amount: 0.2
+      }} variants={sectionVariants}>
+          <BannerSection />
+        </motion.div>
         
         <motion.div initial="hidden" whileInView="visible" viewport={{
         once: true,

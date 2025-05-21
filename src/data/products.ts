@@ -60,18 +60,22 @@ export let allProducts: Product[] = [];
 
 // Fallback data in case API is not accessible
 const fallbackProducts = [
-  { id: "MAT-1001", name: "قطعة كهربائية صناعية" },
-  { id: "MAT-1002", name: "قطعة ميكانيكية متطورة" },
-  { id: "MAT-1003", name: "كابل توصيل عالي الجودة" },
-  { id: "MAT-1004", name: "بطارية ليثيوم قابلة للشحن" },
-  { id: "MAT-1005", name: "جهاز تحكم رقمي" },
-  { id: "MAT-1006", name: "شاشة عرض متطورة" },
-  { id: "MAT-1007", name: "سماعة صوت لاسلكية" },
-  { id: "MAT-1008", name: "حامل هاتف للسيارة" },
-  { id: "MAT-1009", name: "شاحن متعدد المنافذ" },
-  { id: "MAT-1010", name: "غطاء حماية للهاتف" },
-  { id: "MAT-1011", name: "ذاكرة تخزين خارجية" },
-  { id: "MAT-1012", name: "محول طاقة كهربائية" }
+  { id: "5485", name: "RPP-310 REMAX" },
+  { id: "5493", name: "RPP-320 REMAX" },
+  { id: "5495", name: "RPP-321 REMAX" },
+  { id: "5497", name: "RPP-311 REMAX" },
+  { id: "5503", name: "RPP-287 REMAX" },
+  { id: "5507", name: "RPP-289 REMAX" },
+  { id: "5511", name: "RPP-65 REMAX" },
+  { id: "5513", name: "RPP-180 REMAX" },
+  { id: "5515", name: "RPP-199 REMAX" },
+  { id: "5521", name: "RPP-266 REMAX" },
+  { id: "5523", name: "RPP-226 REMAX" },
+  { id: "5605", name: "8021-LCD" },
+  { id: "5607", name: "3091-SP" },
+  { id: "5609", name: "3267-SP" },
+  { id: "6213", name: "GT3 PRO G-TAB SMART WATCH" },
+  { id: "6223", name: "A10 1.2M CL JOYROOM" }
 ];
 
 // Initialize with placeholder products until API data is loaded
@@ -89,7 +93,7 @@ const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
       id: item.id,
       name: item.name,
       price: 19.99 + (index * 5), // Generate placeholder price
-      image: `https://images.unsplash.com/photo-${1600000000 + (index * 1000)}?q=80&w=600`, // Placeholder image
+      image: `/lovable-uploads/e9f3b555-0da2-47b3-a199-b5ee1fced447.png`, // Use fixed placeholder image
       category,
       description: "Product description placeholder",
       stock: Math.floor(Math.random() * 100) + 10, // Random stock between 10-110
@@ -104,7 +108,7 @@ const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
   });
 
   // Update the products and allProducts arrays
-  products = newProducts.slice(0, Math.min(newProducts.length, 12));
+  products = newProducts.slice(0, Math.min(newProducts.length, 16));
   allProducts = newProducts;
   
   console.log(`Initialized ${newProducts.length} products from API or fallback`);

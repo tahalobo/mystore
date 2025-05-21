@@ -34,8 +34,8 @@ export async function fetchProductsFromAPI(): Promise<{ id: string; name: string
     // Check if the data has the expected structure
     if (data && Array.isArray(data.items)) {
       return data.items.map((item: any) => ({
-        id: item.mat_id?.toString() || "",
-        name: item.mat_name || ""
+        id: item.ma_sequ?.toString() || "",
+        name: item.ma_namear || ""
       }));
     }
     

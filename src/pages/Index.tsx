@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,11 +8,6 @@ import PromotionSection from "@/components/home/PromotionSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import NewsletterSection from "@/components/home/NewsletterSection";
 import ScrollToTop from "@/components/ScrollToTop";
-import { getBestSellers, getNewArrivals } from "@/data/products";
-import ProductCard from "@/components/ProductCard";
-import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { Product } from "@/types";
 import ProductDetailModal from "@/components/ProductDetailModal";
 import TrendingSection from "@/components/home/TrendingSection";
@@ -24,8 +18,6 @@ import BrandsShowcase from "@/components/home/BrandsShowcase";
 import BannerSection from "@/components/home/BannerSection";
 
 const Index: React.FC = () => {
-  const bestSellers = getBestSellers().slice(0, 4);
-  const newArrivals = getNewArrivals().slice(0, 4);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openProductModal = (product: Product) => {
@@ -91,9 +83,6 @@ const Index: React.FC = () => {
           <FeaturedBrandSection />
         </motion.div>
         
-        {/* Best Sellers Section */}
-        
-        
         <motion.div initial="hidden" whileInView="visible" viewport={{
         once: true,
         amount: 0.2
@@ -107,9 +96,6 @@ const Index: React.FC = () => {
       }} variants={sectionVariants}>
           <PromotionSection />
         </motion.div>
-        
-        {/* New Arrivals Section */}
-        
         
         <motion.div initial="hidden" whileInView="visible" viewport={{
         once: true,

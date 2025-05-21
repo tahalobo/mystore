@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,60 @@ const BannerSection: React.FC = () => {
     }
   };
 
+  // Banner data with images
+  const banners = [
+    {
+      id: 1,
+      bgColor: "from-blue-600 to-cyan-500",
+      title: "أحدث الإكسسوارات التقنية",
+      description: "استكشف مجموعتنا من الإكسسوارات الحديثة لأجهزتك الذكية بأفضل الأسعار",
+      buttonText: "تسوق الآن",
+      buttonLink: "/shop",
+      buttonColor: "bg-white text-blue-600 hover:bg-white/90",
+      imageUrl: "https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?q=80&w=2072&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      bgColor: "from-purple-600 to-pink-500",
+      title: "عروض حصرية",
+      description: "خصومات رائعة على منتجات مختارة لفترة محدودة فقط",
+      buttonText: "اكتشف العروض",
+      buttonLink: "/deals",
+      buttonColor: "bg-white text-purple-600 hover:bg-white/90",
+      imageUrl: "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?q=80&w=2025&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      bgColor: "from-amber-500 to-orange-600",
+      title: "ماركات عالمية",
+      description: "تسوق من مجموعة واسعة من الماركات العالمية المميزة",
+      buttonText: "تصفح الماركات",
+      buttonLink: "/brands",
+      buttonColor: "bg-white text-orange-600 hover:bg-white/90",
+      imageUrl: "https://images.unsplash.com/photo-1484704849700-f032a568e944?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      bgColor: "from-green-600 to-teal-500",
+      title: "الأجهزة الذكية",
+      description: "تسوق أحدث الأجهزة الذكية والساعات بأسعار تنافسية",
+      buttonText: "استكشف الآن",
+      buttonLink: "/shop",
+      buttonColor: "bg-white text-green-600 hover:bg-white/90",
+      imageUrl: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=1964&auto=format&fit=crop"
+    },
+    {
+      id: 5,
+      bgColor: "from-red-600 to-rose-500",
+      title: "عروض نهاية الموسم",
+      description: "خصومات حصرية تصل إلى ٥٠٪ على منتجات مختارة",
+      buttonText: "احصل عليها الآن",
+      buttonLink: "/deals",
+      buttonColor: "bg-white text-red-600 hover:bg-white/90",
+      imageUrl: "https://images.unsplash.com/photo-1525904097878-94fb15835963?q=80&w=2070&auto=format&fit=crop"
+    }
+  ];
+
   return (
     <section className="py-8 md:py-12 overflow-hidden">
       <div className="container mx-auto">
@@ -42,131 +96,59 @@ const BannerSection: React.FC = () => {
           className="w-full"
         >
           <CarouselContent>
-            {/* First Banner */}
-            <CarouselItem className="md:basis-full lg:basis-full">
-              <motion.div 
-                className="h-[300px] md:h-[400px] w-full rounded-xl overflow-hidden relative"
-                initial={{ opacity: 0, scale: 0.98 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 opacity-90"></div>
-                <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16">
-                  <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={containerVariants}
-                    className="max-w-lg"
-                  >
-                    <motion.h2 
-                      variants={itemVariants}
-                      className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
+            {banners.map((banner) => (
+              <CarouselItem key={banner.id} className="md:basis-full lg:basis-full">
+                <motion.div 
+                  className="h-[300px] md:h-[400px] w-full rounded-xl overflow-hidden relative"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  {/* Background image with overlay gradient */}
+                  <div className="absolute inset-0 z-0">
+                    <img 
+                      src={banner.imageUrl} 
+                      alt={banner.title} 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-r ${banner.bgColor} opacity-80`}></div>
+                  </div>
+                  
+                  <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 z-10">
+                    <motion.div
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true }}
+                      variants={containerVariants}
+                      className="max-w-lg"
                     >
-                      أحدث الإكسسوارات التقنية
-                    </motion.h2>
-                    <motion.p 
-                      variants={itemVariants}
-                      className="text-white/90 text-lg mb-6"
-                    >
-                      استكشف مجموعتنا من الإكسسوارات الحديثة لأجهزتك الذكية بأفضل الأسعار
-                    </motion.p>
-                    <motion.div variants={itemVariants}>
-                      <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-white/90">
-                        <Link to="/shop">تسوق الآن</Link>
-                      </Button>
+                      <motion.h2 
+                        variants={itemVariants}
+                        className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
+                      >
+                        {banner.title}
+                      </motion.h2>
+                      <motion.p 
+                        variants={itemVariants}
+                        className="text-white/90 text-lg mb-6"
+                      >
+                        {banner.description}
+                      </motion.p>
+                      <motion.div variants={itemVariants}>
+                        <Button asChild size="lg" className={banner.buttonColor}>
+                          <Link to={banner.buttonLink}>{banner.buttonText}</Link>
+                        </Button>
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-                </div>
-                <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-blue-400 rounded-full opacity-20"></div>
-                <div className="absolute top-16 -left-8 w-32 h-32 bg-cyan-300 rounded-full opacity-20"></div>
-              </motion.div>
-            </CarouselItem>
-
-            {/* Second Banner */}
-            <CarouselItem className="md:basis-full lg:basis-full">
-              <motion.div 
-                className="h-[300px] md:h-[400px] w-full rounded-xl overflow-hidden relative"
-                initial={{ opacity: 0, scale: 0.98 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-l from-purple-600 to-pink-500 opacity-90"></div>
-                <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16">
-                  <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={containerVariants}
-                    className="max-w-lg"
-                  >
-                    <motion.h2 
-                      variants={itemVariants}
-                      className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
-                    >
-                      عروض حصرية
-                    </motion.h2>
-                    <motion.p 
-                      variants={itemVariants}
-                      className="text-white/90 text-lg mb-6"
-                    >
-                      خصومات رائعة على منتجات مختارة لفترة محدودة فقط
-                    </motion.p>
-                    <motion.div variants={itemVariants}>
-                      <Button asChild size="lg" className="bg-white text-purple-600 hover:bg-white/90">
-                        <Link to="/deals">اكتشف العروض</Link>
-                      </Button>
-                    </motion.div>
-                  </motion.div>
-                </div>
-                <div className="absolute -bottom-12 -left-16 w-48 h-48 bg-pink-400 rounded-full opacity-20 animate-pulse"></div>
-                <div className="absolute top-12 -right-8 w-32 h-32 bg-purple-300 rounded-full opacity-20 animate-pulse"></div>
-              </motion.div>
-            </CarouselItem>
-
-            {/* Third Banner */}
-            <CarouselItem className="md:basis-full lg:basis-full">
-              <motion.div 
-                className="h-[300px] md:h-[400px] w-full rounded-xl overflow-hidden relative"
-                initial={{ opacity: 0, scale: 0.98 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-600 opacity-90"></div>
-                <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16">
-                  <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={containerVariants}
-                    className="max-w-lg"
-                  >
-                    <motion.h2 
-                      variants={itemVariants}
-                      className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
-                    >
-                      ماركات عالمية
-                    </motion.h2>
-                    <motion.p 
-                      variants={itemVariants}
-                      className="text-white/90 text-lg mb-6"
-                    >
-                      تسوق من مجموعة واسعة من الماركات العالمية المميزة
-                    </motion.p>
-                    <motion.div variants={itemVariants}>
-                      <Button asChild size="lg" className="bg-white text-orange-600 hover:bg-white/90">
-                        <Link to="/brands">تصفح الماركات</Link>
-                      </Button>
-                    </motion.div>
-                  </motion.div>
-                </div>
-                <div className="absolute -bottom-10 -right-10 w-56 h-56 bg-yellow-400 rounded-full opacity-20"></div>
-                <div className="absolute top-10 -left-10 w-40 h-40 bg-orange-300 rounded-full opacity-20"></div>
-              </motion.div>
-            </CarouselItem>
+                  </div>
+                  
+                  {/* Decorative elements */}
+                  <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-white rounded-full opacity-20"></div>
+                  <div className="absolute top-16 -left-8 w-32 h-32 bg-white rounded-full opacity-20"></div>
+                </motion.div>
+              </CarouselItem>
+            ))}
           </CarouselContent>
           
           <div className="flex justify-center mt-4">

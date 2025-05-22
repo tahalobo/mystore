@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Product } from "@/types";
 import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
-import { ShoppingBag, Heart, Star, ArrowRight, ExternalLink } from "lucide-react";
+import { ShoppingBag, Heart, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/contexts/CartContext";
@@ -189,7 +189,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             
             <div className="flex items-center justify-between mt-1 mb-auto">
               <div className="flex text-amber-400">
-                {/* Removed star rating that was displaying as (0) */}
+                {/* Rating stars would go here if needed */}
               </div>
               
               <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">

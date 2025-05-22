@@ -1,37 +1,89 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
 const FeaturedBrandSection: React.FC = () => {
-  const featuredBrand = {
-    id: 'apple',
-    name: 'Apple',
-    logo: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=200&h=100&fit=crop',
-    slogan: 'Think Different',
-    description: 'اكتشف أحدث منتجات أبل الحصرية وملحقاتها المميزة. تسوق الآن للحصول على أحدث الإصدارات من iPhone وملحقات Apple Watch وملحقات iPad وأكثر من ذلك.',
-    bgImage: 'https://images.unsplash.com/photo-1491933382434-500287f9b54b?q=80&w=1400&auto=format&fit=crop',
-    products: [{
-      id: 'apple-watch-band',
-      name: 'حزام Apple Watch جلد',
-      image: 'https://images.unsplash.com/photo-1574156814151-ed747bca9d4a?q=80&w=300&auto=format&fit=crop',
-      price: 149,
-      rating: 4.8
-    }, {
-      id: 'airpods-case',
-      name: 'غطاء سيليكون AirPods Pro',
-      image: 'https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?q=80&w=300&auto=format&fit=crop',
-      price: 59,
-      rating: 4.6
-    }, {
-      id: 'iphone-case',
-      name: 'غطاء iPhone 15 مغناطيسي',
-      image: 'https://images.unsplash.com/photo-1676561734574-9c5bd66293e0?q=80&w=300&auto=format&fit=crop',
-      price: 89,
-      rating: 4.7
-    }]
-  };
-  return;
+  return (
+    <section className="py-16 bg-gradient-to-b from-blue-50 to-white overflow-hidden">
+      <div className="container mx-auto relative">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold mb-4">FEATURED BRAND</span>
+            <h2 className="text-3xl font-bold mb-6">سماعات REMAX الأصلية</h2>
+            <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+              استمتع بجودة صوت استثنائية مع سماعات REMAX المتميزة. تصميم مريح ومتين مع تقنية عزل الضوضاء المتقدمة لتجربة استماع لا مثيل لها.
+            </p>
+            
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-1 mr-3">
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-blue-600">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-700">جودة صوت عالية الدقة مع باس قوي</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-1 mr-3">
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-blue-600">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-700">تقنية إلغاء الضوضاء المتقدمة</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-1 mr-3">
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-blue-600">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-700">بطارية تدوم طويلاً حتى 40 ساعة من التشغيل</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap gap-4">
+              <Button size="lg">تسوق منتجات REMAX</Button>
+              <Button size="lg" variant="outline">عرض التفاصيل</Button>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="absolute -inset-5 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-20 blur-3xl rounded-3xl -z-10"></div>
+            <img 
+              src="https://images.unsplash.com/photo-1505236273555-aeec0cc81513?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+              alt="REMAX Headphones" 
+              className="rounded-2xl shadow-2xl w-full" 
+            />
+            
+            <div className="absolute -bottom-10 -right-10 w-44 h-44 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full opacity-20 blur-3xl"></div>
+          </motion.div>
+        </div>
+        
+        <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-100 rounded-full opacity-20 blur-3xl"></div>
+        <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-indigo-100 rounded-full opacity-20 blur-3xl"></div>
+      </div>
+    </section>
+  );
 };
+
 export default FeaturedBrandSection;

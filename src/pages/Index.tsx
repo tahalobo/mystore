@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -17,6 +18,10 @@ import SpecialOffersSection from "@/components/home/SpecialOffersSection";
 import BrandsShowcase from "@/components/home/BrandsShowcase";
 import BannerSection from "@/components/home/BannerSection";
 import { useNavigate } from "react-router-dom";
+import PopularProducts from "@/components/home/PopularProducts";
+import DiscountedProducts from "@/components/home/DiscountedProducts";
+import CategoryFeature from "@/components/home/CategoryFeature";
+
 const Index: React.FC = () => {
   const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -72,6 +77,26 @@ const Index: React.FC = () => {
           <FeaturedProducts onProductClick={openProductModal} />
         </motion.div>
         
+        {/* Category Feature - Headphones */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{
+        once: true,
+        amount: 0.2
+      }} variants={sectionVariants}>
+          <CategoryFeature categoryId="headphones" />
+        </motion.div>
+        
+        {/* Popular Products - Chargers */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{
+        once: true,
+        amount: 0.2
+      }} variants={sectionVariants}>
+          <PopularProducts 
+            categoryId="chargers" 
+            title="شواحن حديثة وسريعة" 
+            description="شحن سريع وآمن لجميع أجهزتك الذكية"
+          />
+        </motion.div>
+        
         {/* Mid-Page Banner */}
         <motion.div initial="hidden" whileInView="visible" viewport={{
         once: true,
@@ -117,6 +142,14 @@ const Index: React.FC = () => {
             </div>
           </div>
         </motion.div>
+        
+        {/* Discounted Products Section */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{
+        once: true,
+        amount: 0.2
+      }} variants={sectionVariants}>
+          <DiscountedProducts />
+        </motion.div>
 
         {/* BrandsShowcase Section */}
         <motion.div initial="hidden" whileInView="visible" viewport={{
@@ -126,9 +159,26 @@ const Index: React.FC = () => {
           <BrandsShowcase />
         </motion.div>
         
-        {/* Tech Blog Section */}
+        {/* Category Feature - Phone Cases */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{
+        once: true,
+        amount: 0.2
+      }} variants={sectionVariants}>
+          <CategoryFeature categoryId="phone-cases" reversed={true} />
+        </motion.div>
         
-        
+        {/* Popular Products - Accessories */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{
+        once: true,
+        amount: 0.2
+      }} variants={sectionVariants}>
+          <PopularProducts 
+            categoryId="accessories" 
+            title="اكسسوارات متنوعة" 
+            description="مجموعة من الاكسسوارات المتنوعة لجميع الأجهزة"
+          />
+        </motion.div>
+                
         {/* Featured Brand Section */}
         <motion.div initial="hidden" whileInView="visible" viewport={{
         once: true,
@@ -144,9 +194,6 @@ const Index: React.FC = () => {
       }} variants={sectionVariants}>
           <SpecialOffersSection />
         </motion.div>
-        
-        {/* Statistics Banner */}
-        
         
         {/* Promotion Section */}
         <motion.div initial="hidden" whileInView="visible" viewport={{

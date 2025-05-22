@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ProductCard from "@/components/ProductCard";
+import ProductGrid from "@/components/ProductGrid";
+import ProductGridToggle, { GridViewType } from "@/components/ProductGridToggle";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,8 +13,10 @@ import { searchProducts, getProductsByCategory, categories } from "@/data/produc
 import ProductDetailModal from "@/components/ProductDetailModal";
 import { Search as SearchIcon, X, Filter, ChevronDown } from "lucide-react";
 import { Product } from "@/types";
+import { useNavigate } from "react-router-dom";
 
 const Search: React.FC = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
   
@@ -24,6 +28,7 @@ const Search: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [gridView, setGridView] = useState<GridViewType>("grid");
   
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,8 +79,7 @@ const Search: React.FC = () => {
   };
   
   const handleProductClick = (product: Product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
+    navigate(`/product/${product.id}`);
   };
   
   const closeProductModal = () => {
@@ -161,16 +165,23 @@ const Search: React.FC = () => {
                 )}
               </div>
               
-              <div className={`w-full md:w-auto ${showFilters ? 'block' : 'hidden md:block'}`}>
-                <Tabs defaultValue="relevance" value={selectedFilter} onValueChange={setSelectedFilter} className="w-full">
-                  <TabsList className="grid w-full grid-cols-5">
-                    <TabsTrigger value="relevance">الصلة</TabsTrigger>
-                    <TabsTrigger value="price-low">السعر: الأقل</TabsTrigger>
-                    <TabsTrigger value="price-high">السعر: الأعلى</TabsTrigger>
-                    <TabsTrigger value="rating">التقييم</TabsTrigger>
-                    <TabsTrigger value="newest">الأحدث</TabsTrigger>
-                  </TabsList>
-                </Tabs>
+              <div className="flex items-center gap-4">
+                <ProductGridToggle
+                  view={gridView}
+                  onChange={setGridView}
+                />
+                
+                <div className={`w-full md:w-auto ${showFilters ? 'block' : 'hidden md:block'}`}>
+                  <Tabs defaultValue="relevance" value={selectedFilter} onValueChange={setSelectedFilter} className="w-full">
+                    <TabsList className="grid w-full grid-cols-5">
+                      <TabsTrigger value="relevance">الصلة</TabsTrigger>
+                      <TabsTrigger value="price-low">السعر: الأقل</TabsTrigger>
+                      <TabsTrigger value="price-high">السعر: الأعلى</TabsTrigger>
+                      <TabsTrigger value="rating">التقييم</TabsTrigger>
+                      <TabsTrigger value="newest">الأحدث</TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                </div>
               </div>
             </div>
             
@@ -196,20 +207,12 @@ const Search: React.FC = () => {
               </div>
             </div>
           ) : searchResults.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {searchResults.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <ProductCard 
-                    product={product} 
-                    onProductClick={handleProductClick} 
-                  />
-                </motion.div>
-              ))}
+            <div className="mb-10">
+              <ProductGrid 
+                products={searchResults} 
+                view={gridView}
+                onProductClick={handleProductClick}
+              />
             </div>
           ) : initialQuery ? (
             <div className="flex min-h-[300px] flex-col items-center justify-center rounded-lg bg-gray-50 p-8 text-center">

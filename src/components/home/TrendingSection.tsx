@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Product } from "@/types";
 import { getNewArrivals, getBestSellers, loadProductsFromAPI } from "@/data/products";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,6 +14,7 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({ onProductClick }) => 
   const [newArrivals, setNewArrivals] = useState<Product[]>([]);
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   
   useEffect(() => {
     const loadProducts = async () => {
@@ -30,6 +32,10 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({ onProductClick }) => 
 
     loadProducts();
   }, []);
+  
+  const handleProductClick = (product: Product) => {
+    navigate(`/product/${product.id}`);
+  };
   
   if (isLoading) {
     return (
@@ -73,13 +79,13 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({ onProductClick }) => 
                   <div key={product.id} className={`animate-fade-up [animation-delay:${index * 50}ms]`}>
                     <ProductCard 
                       product={product}
-                      onProductClick={onProductClick}
+                      onProductClick={handleProductClick}
                     />
                   </div>
                 ))
               ) : (
                 <div className="col-span-4 text-center py-8">
-                  <p className="text-gray-500">لا توجد منتجات جديدة حاليًا</p>
+                  <p className="text-gray-500">لا توجد منتجات جديدة حالياً</p>
                 </div>
               )}
             </div>
@@ -92,13 +98,13 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({ onProductClick }) => 
                   <div key={product.id} className={`animate-fade-up [animation-delay:${index * 50}ms]`}>
                     <ProductCard 
                       product={product}
-                      onProductClick={onProductClick}
+                      onProductClick={handleProductClick}
                     />
                   </div>
                 ))
               ) : (
                 <div className="col-span-4 text-center py-8">
-                  <p className="text-gray-500">لا توجد منتجات مميزة حاليًا</p>
+                  <p className="text-gray-500">لا توجد منتجات مميزة حالياً</p>
                 </div>
               )}
             </div>

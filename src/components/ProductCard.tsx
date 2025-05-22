@@ -24,9 +24,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
   const navigate = useNavigate();
   
   const handleCardClick = (e: React.MouseEvent) => {
+    // If onProductClick is provided, use it (for backward compatibility)
     if (onProductClick) {
       e.preventDefault();
       onProductClick(product);
+    } else {
+      // Otherwise navigate to product detail page
+      navigate(`/product/${product.id}`);
     }
   };
 
@@ -124,7 +128,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
 
             <motion.button 
               className="flex items-center justify-center rounded-full bg-white w-10 h-10 text-gray-700 shadow-md transition-colors hover:bg-gray-50"
-              onClick={handleCardClick}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (onProductClick) {
+                  onProductClick(product);
+                } else {
+                  navigate(`/product/${product.id}`);
+                }
+              }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >

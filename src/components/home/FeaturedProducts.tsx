@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import { getFeaturedProducts, loadProductsFromAPI } from "@/data/products";
 import { ChevronRight } from "lucide-react";
 import { Product } from "@/types";
+import { useNavigate } from "react-router-dom";
 
 interface FeaturedProductsProps {
   onProductClick?: (product: Product) => void;
@@ -14,6 +15,7 @@ interface FeaturedProductsProps {
 const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -30,6 +32,10 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
 
     loadProducts();
   }, []);
+
+  const handleProductClick = (product: Product) => {
+    navigate(`/product/${product.id}`);
+  };
 
   if (isLoading) {
     return (
@@ -68,7 +74,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
               <div key={product.id} className={`animate-fade-up [animation-delay:${index * 100}ms]`}>
                 <ProductCard 
                   product={product} 
-                  onProductClick={onProductClick}
+                  onProductClick={handleProductClick}
                 />
               </div>
             ))

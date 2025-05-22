@@ -23,6 +23,7 @@ import OrderSuccess from "./pages/OrderSuccess";
 import Search from "./pages/Search";
 import BrandsIndex from "./pages/BrandsIndex";
 import BrandPage from "./pages/BrandPage";
+import ProductDetail from "./pages/ProductDetail";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ const App = () => (
                 <Route path="/:collectionId" element={<Collection />} />
                 <Route path="/brands" element={<BrandsIndex />} />
                 <Route path="/brand/:brandId" element={<BrandPage />} />
+                <Route path="/product/:productId" element={<ProductDetail />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

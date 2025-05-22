@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Product } from "@/types";
 import { useCart } from "@/contexts/CartContext";
@@ -9,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { formatPrice } from "@/utils/currency";
 
 interface ProductCardProps {
   product: Product;
@@ -24,14 +26,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
   const navigate = useNavigate();
   
   const handleCardClick = (e: React.MouseEvent) => {
-    // If onProductClick is provided, use it (for backward compatibility)
-    if (onProductClick) {
-      e.preventDefault();
-      onProductClick(product);
-    } else {
-      // Otherwise navigate to product detail page
-      navigate(`/product/${product.id}`);
-    }
+    // Always navigate to product detail page
+    navigate(`/product/${product.id}`);
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -61,8 +57,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
   };
 
   const discountedPrice = product.discount 
-    ? (product.price * (1 - product.discount / 100)).toFixed(2) 
-    : product.price.toFixed(2);
+    ? (product.price * (1 - product.discount / 100))
+    : product.price;
 
   return (
     <motion.div 
@@ -131,11 +127,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (onProductClick) {
-                  onProductClick(product);
-                } else {
-                  navigate(`/product/${product.id}`);
-                }
+                navigate(`/product/${product.id}`);
               }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -204,15 +196,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, onProduct
             {product.discount ? (
               <>
                 <span className="text-sm font-medium text-gray-400 line-through">
-                  ${product.price.toFixed(2)}
+                  {formatPrice(product.price)}
                 </span>
                 <span className="text-xl font-bold text-primary">
-                  ${discountedPrice}
+                  {formatPrice(discountedPrice)}
                 </span>
               </>
             ) : (
               <span className="text-xl font-bold text-primary">
-                ${product.price.toFixed(2)}
+                {formatPrice(product.price)}
               </span>
             )}
           </div>

@@ -18,6 +18,9 @@ import {
   X 
 } from "lucide-react";
 import { toast } from "sonner";
+import ProductGrid from "@/components/ProductGrid";
+import ProductGridToggle, { GridViewType } from "@/components/ProductGridToggle";
+import { formatPrice, USD_TO_IQD_RATE } from "@/utils/currency";
 
 const categories = [
   "جميع الفئات",
@@ -37,7 +40,7 @@ const Shop: React.FC = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 150]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 150 * USD_TO_IQD_RATE]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("جميع الفئات");
   const [selectedFilters, setSelectedFilters] = useState<{
@@ -49,6 +52,7 @@ const Shop: React.FC = () => {
     inStock: false,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [gridView, setGridView] = useState<GridViewType>("grid");
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -107,9 +111,11 @@ const Shop: React.FC = () => {
   const applyFilters = () => {
     let filtered = [...allProducts];
     
-    // Filter by price range
+    // Filter by price range (converted to USD)
     filtered = filtered.filter(
-      product => product.price >= priceRange[0] && product.price <= priceRange[1]
+      product => 
+        product.price * USD_TO_IQD_RATE >= priceRange[0] && 
+        product.price * USD_TO_IQD_RATE <= priceRange[1]
     );
     
     // Filter by category
@@ -143,7 +149,7 @@ const Shop: React.FC = () => {
   };
   
   const clearFilters = () => {
-    setPriceRange([0, 150]);
+    setPriceRange([0, 150 * USD_TO_IQD_RATE]);
     setSelectedCategory("جميع الفئات");
     setSelectedFilters({
       bestSeller: false,
@@ -249,19 +255,19 @@ const Shop: React.FC = () => {
                   
                   {/* Price Range */}
                   <div>
-                    <h3 className="font-semibold mb-3">نطاق السعر</h3>
+                    <h3 className="font-semibold mb-3">نطاق السعر (د.ع)</h3>
                     <div className="px-2">
                       <Slider
-                        defaultValue={[0, 150]}
+                        defaultValue={[0, 150 * USD_TO_IQD_RATE]}
                         value={[priceRange[0], priceRange[1]]}
-                        max={150}
-                        step={1}
+                        max={200 * USD_TO_IQD_RATE}
+                        step={5000}
                         onValueChange={handlePriceChange}
                         className="mb-6"
                       />
                       <div className="flex justify-between text-sm">
-                        <span>{priceRange[0]} د.ع</span>
-                        <span>{priceRange[1]} د.ع</span>
+                        <span>{new Intl.NumberFormat('ar-IQ').format(priceRange[0])} د.ع</span>
+                        <span>{new Intl.NumberFormat('ar-IQ').format(priceRange[1])} د.ع</span>
                       </div>
                     </div>
                   </div>
@@ -333,19 +339,22 @@ const Shop: React.FC = () => {
               <div className="md:w-3/4 lg:w-4/5">
                 {filteredProducts.length > 0 ? (
                   <>
-                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
-                      {paginatedProducts.map((product, index) => (
-                        <div 
-                          key={product.id} 
-                          className={`animate-fade-up [animation-delay:${index * 50}ms]`}
-                        >
-                          <ProductCard 
-                            product={product}
-                            onProductClick={openProductModal}
-                          />
-                        </div>
-                      ))}
+                    {/* Grid view toggle */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="text-sm text-gray-500">
+                        عرض {paginatedProducts.length} من {filteredProducts.length} منتج
+                      </div>
+                      <ProductGridToggle 
+                        view={gridView}
+                        onChange={setGridView}
+                      />
                     </div>
+                    
+                    <ProductGrid 
+                      products={paginatedProducts}
+                      view={gridView}
+                      emptyMessage="لم يتم العثور على منتجات تطابق معايير البحث"
+                    />
                     
                     {/* Pagination */}
                     {totalPages > 1 && (

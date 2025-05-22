@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 import { Product } from "@/types";
 import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
-import { ShoppingBag, Heart, Star, ArrowRight } from "lucide-react";
+import { ShoppingBag, Heart, Star, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { toast } from "sonner";
 import { GridViewType } from "./ProductGridToggle";
+import { formatPrice } from "@/utils/currency";
 
 interface ProductGridProps {
   products: Product[];
@@ -86,7 +87,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05, duration: 0.4 }}
-            onClick={() => onProductClick ? onProductClick(product) : null}
           >
             <div className="flex flex-col md:flex-row">
               <div className="md:w-1/3 lg:w-1/4 aspect-[4/3] md:aspect-square relative">
@@ -158,15 +158,15 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                     {product.discount ? (
                       <div className="flex items-center">
                         <span className="text-xl font-bold text-primary mr-2">
-                          ${(product.price * (1 - product.discount / 100)).toFixed(2)}
+                          {formatPrice(product.price * (1 - product.discount / 100))}
                         </span>
                         <span className="text-sm text-gray-400 line-through">
-                          ${product.price.toFixed(2)}
+                          {formatPrice(product.price)}
                         </span>
                       </div>
                     ) : (
                       <span className="text-xl font-bold text-primary">
-                        ${product.price.toFixed(2)}
+                        {formatPrice(product.price)}
                       </span>
                     )}
                   </div>
@@ -207,18 +207,17 @@ const ProductGrid: React.FC<ProductGridProps> = ({
       {products.map((product, index) => (
         <motion.div
           key={product.id}
-          className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow flex flex-col"
+          className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow flex flex-col h-full"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: index * 0.03, duration: 0.3 }}
-          onClick={() => onProductClick ? onProductClick(product) : null}
         >
           <Link to={`/product/${product.id}`} className="block relative">
-            <div className="aspect-square">
+            <div className="aspect-square bg-gray-50">
               <img 
                 src="/lovable-uploads/e9f3b555-0da2-47b3-a199-b5ee1fced447.png" 
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain p-2"
               />
             </div>
             {product.discount && (
@@ -248,10 +247,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             
             <div className="flex items-center justify-between mt-2 pt-1 border-t">
               <div className="text-sm font-semibold text-primary">
-                ${(product.discount 
+                {formatPrice(product.discount 
                   ? product.price * (1 - product.discount / 100) 
                   : product.price
-                ).toFixed(2)}
+                )}
               </div>
               
               <div className="flex gap-1">
@@ -271,6 +270,13 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                 >
                   <ShoppingBag className="h-3.5 w-3.5" />
                 </button>
+                
+                <Link 
+                  to={`/product/${product.id}`}
+                  className="text-gray-400 hover:text-blue-500 transition-colors p-1"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </Link>
               </div>
             </div>
           </div>

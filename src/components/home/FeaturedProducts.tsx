@@ -7,6 +7,8 @@ import { getFeaturedProducts, loadProductsFromAPI } from "@/data/products";
 import { ChevronRight } from "lucide-react";
 import { Product } from "@/types";
 import { useNavigate } from "react-router-dom";
+import ProductGridToggle, { GridViewType } from "@/components/ProductGridToggle";
+import ProductGrid from "@/components/ProductGrid";
 
 interface FeaturedProductsProps {
   onProductClick?: (product: Product) => void;
@@ -15,6 +17,7 @@ interface FeaturedProductsProps {
 const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [gridView, setGridView] = useState<GridViewType>("grid");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,37 +56,39 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
   }
 
   return (
-    <section className="section-padding">
+    <section className="section-padding py-16 bg-gray-50">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
             <h2 className="text-3xl font-bold">المنتجات المميزة</h2>
-            <p className="text-gray-600 mt-2">منتجات مُنتقاة بعناية فائقة منتقاة بعناية فائقة</p>
+            <p className="text-gray-600 mt-2">منتجات مُنتقاة بعناية فائقة</p>
           </div>
-          <Button variant="link" asChild className="mt-2 md:mt-0 text-primary">
-            <Link to="/shop" className="flex items-center">
-              عرض جميع المنتجات
-              <ChevronRight className="ml-1 h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="flex items-center mt-4 md:mt-0">
+            <ProductGridToggle
+              view={gridView}
+              onChange={setGridView}
+              className="mr-4"
+            />
+            <Button variant="outline" asChild className="text-primary">
+              <Link to="/shop" className="flex items-center">
+                عرض جميع المنتجات
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {featuredProducts.length > 0 ? (
-            featuredProducts.map((product, index) => (
-              <div key={product.id} className={`animate-fade-up [animation-delay:${index * 100}ms]`}>
-                <ProductCard 
-                  product={product} 
-                  onProductClick={handleProductClick}
-                />
-              </div>
-            ))
-          ) : (
-            <div className="col-span-4 text-center py-12">
-              <p className="text-gray-500">لا توجد منتجات مميزة حاليًا</p>
-            </div>
-          )}
-        </div>
+        {featuredProducts.length > 0 ? (
+          <ProductGrid 
+            products={featuredProducts}
+            view={gridView}
+            emptyMessage="لا توجد منتجات مميزة حاليًا"
+          />
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-500">لا توجد منتجات مميزة حاليًا</p>
+          </div>
+        )}
       </div>
     </section>
   );

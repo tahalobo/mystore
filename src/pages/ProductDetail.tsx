@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
-import { getProductById } from "@/data/products";
+import { getProductById, getRelatedProducts } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { toast } from "sonner";
@@ -23,7 +23,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
-  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([]); // Ensure this is initialized as an array
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
@@ -39,8 +39,8 @@ const ProductDetail = () => {
       if (fetchedProduct) {
         setProduct(fetchedProduct);
         // Get related products (same category)
-        const related = getProductById(productId, 'related') || [];
-        setRelatedProducts(related);
+        const related = getRelatedProducts(fetchedProduct); // Changed to use the correct function
+        setRelatedProducts(related || []); // Ensure we always set an array
       }
     }
     
@@ -577,8 +577,9 @@ const ProductDetail = () => {
             </Button>
           </div>
           
+          {/* Ensure relatedProducts is an array before using slice */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {relatedProducts.slice(0, 4).map((product) => (
+            {Array.isArray(relatedProducts) && relatedProducts.slice(0, 4).map((product) => (
               <Link key={product.id} to={`/product/${product.id}`}>
                 <ProductCard product={product} />
               </Link>

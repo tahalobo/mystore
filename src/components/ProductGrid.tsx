@@ -150,11 +150,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                     <Badge variant="outline" className="bg-gray-50">
                       {product.category.replace('-', ' ')}
                     </Badge>
-                    {product.features?.map((feature, i) => (
-                      <Badge key={i} variant="outline" className="bg-gray-50">
-                        {feature}
-                      </Badge>
-                    ))}
                   </div>
                 </div>
                 

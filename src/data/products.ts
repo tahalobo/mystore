@@ -102,7 +102,7 @@ const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
       featured: index % 5 === 0, // Every 5th item is featured
       bestSeller: index % 7 === 0, // Every 7th item is bestseller
       newArrival: index % 9 === 0, // Every 9th item is new arrival
-      discount: index % 3 === 0 ? Math.floor(Math.random() * 40) + 5 : undefined, // Every 3rd item has discount
+      discount: index % 3 === 0 ? Math.floor(Math.random() * 40) + 5 : 0, // Every 3rd item has discount
       colors: ["#000000", "#FFFFFF", "#3B82F6"] // Default colors
     };
   });
@@ -156,7 +156,12 @@ export const getProductById = (id: string): Product | undefined => {
   return allProducts.find(product => product.id === id);
 };
 
+// Fixed to return an array of related products and handle null/undefined properly
 export const getRelatedProducts = (product: Product): Product[] => {
+  if (!product || !product.category) {
+    return [];
+  }
+  
   return allProducts
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
@@ -176,3 +181,6 @@ export const searchProducts = (query: string): Product[] => {
 export const getProductsByDiscount = (): Product[] => {
   return allProducts.filter(product => product.discount && product.discount > 0);
 };
+
+// Initialize products with fallback data immediately to avoid undefined arrays
+initializeProducts(fallbackProducts);

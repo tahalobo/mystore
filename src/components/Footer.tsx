@@ -196,20 +196,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Newsletter */}
-          <div className="space-y-4">
-            <h3 className="text-white font-semibold border-b border-gray-800 pb-2">النشرة الاخبارية</h3>
-            <p className="text-gray-400">
-اشترك في نشرتنا الإخبارية للحصول على أحدث المنتجات والعروض الحصرية.            </p>
-            <form onSubmit={handleSubscribe} className="space-y-2">
-              <div className="relative">
-                <Input type="email" name="email" placeholder="Your email address" className="bg-gray-800 border-gray-700 text-gray-300 pr-12" required />
-                <Button type="submit" className="absolute right-0 top-0 bottom-0 bg-primary hover:bg-primary/90 text-white rounded-l-none">
-                  اشتراك
-                </Button>
-              </div>
-              
-            </form>
-          </div>
+          
         </div>
 
         <hr className="border-gray-800 my-8" />

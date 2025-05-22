@@ -135,9 +135,7 @@ const BrandsIndex: React.FC = () => {
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="text-white border-white hover:bg-white/10">
-                  <a href="#featured-brands">
-                    شاهد جميع العلامات التجارية
-                  </a>
+                  
                 </Button>
               </div>
             </motion.div>

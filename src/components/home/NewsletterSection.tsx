@@ -1,91 +1,71 @@
-
 import React, { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { Mail, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { 
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Brand data from BrandsSection
-const brands = [
-  {
-    id: "apple",
-    name: "Apple",
-    logo: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=200&h=100&fit=crop",
-    slogan: "Think Different",
-    category: "Consumer Electronics",
-    productCount: 42
-  },
-  {
-    id: "samsung",
-    name: "Samsung",
-    logo: "https://images.unsplash.com/photo-1587817229766-65fa3f8fda08?q=80&w=200&h=100&fit=crop",
-    slogan: "Do What You Can't",
-    category: "Electronics & Technology",
-    productCount: 56
-  },
-  {
-    id: "sony",
-    name: "Sony",
-    logo: "https://images.unsplash.com/photo-1511268011861-691ed210aae8?q=80&w=200&h=100&fit=crop",
-    slogan: "Be Moved",
-    category: "Entertainment & Electronics",
-    productCount: 38
-  },
-  {
-    id: "bose",
-    name: "Bose",
-    logo: "https://images.unsplash.com/photo-1558741181-501bbbb2dda3?q=80&w=200&h=100&fit=crop",
-    slogan: "Better Sound Through Research",
-    category: "Audio Equipment",
-    productCount: 24
-  },
-  {
-    id: "jbl",
-    name: "JBL",
-    logo: "https://images.unsplash.com/photo-1548921441-89c8bd86ffb7?q=80&w=200&h=100&fit=crop",
-    slogan: "Sound that Moves You",
-    category: "Audio Systems",
-    productCount: 31
-  },
-  {
-    id: "anker",
-    name: "Anker",
-    logo: "https://images.unsplash.com/photo-1601999009162-2459b78386c9?q=80&w=200&h=100&fit=crop",
-    slogan: "Power for All",
-    category: "Mobile Accessories",
-    productCount: 47
-  }
-];
-
+const brands = [{
+  id: "apple",
+  name: "Apple",
+  logo: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=200&h=100&fit=crop",
+  slogan: "Think Different",
+  category: "Consumer Electronics",
+  productCount: 42
+}, {
+  id: "samsung",
+  name: "Samsung",
+  logo: "https://images.unsplash.com/photo-1587817229766-65fa3f8fda08?q=80&w=200&h=100&fit=crop",
+  slogan: "Do What You Can't",
+  category: "Electronics & Technology",
+  productCount: 56
+}, {
+  id: "sony",
+  name: "Sony",
+  logo: "https://images.unsplash.com/photo-1511268011861-691ed210aae8?q=80&w=200&h=100&fit=crop",
+  slogan: "Be Moved",
+  category: "Entertainment & Electronics",
+  productCount: 38
+}, {
+  id: "bose",
+  name: "Bose",
+  logo: "https://images.unsplash.com/photo-1558741181-501bbbb2dda3?q=80&w=200&h=100&fit=crop",
+  slogan: "Better Sound Through Research",
+  category: "Audio Equipment",
+  productCount: 24
+}, {
+  id: "jbl",
+  name: "JBL",
+  logo: "https://images.unsplash.com/photo-1548921441-89c8bd86ffb7?q=80&w=200&h=100&fit=crop",
+  slogan: "Sound that Moves You",
+  category: "Audio Systems",
+  productCount: 31
+}, {
+  id: "anker",
+  name: "Anker",
+  logo: "https://images.unsplash.com/photo-1601999009162-2459b78386c9?q=80&w=200&h=100&fit=crop",
+  slogan: "Power for All",
+  category: "Mobile Accessories",
+  productCount: 47
+}];
 const NewsletterSection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<any>(null);
-
   useEffect(() => {
     if (!api) return;
-
     const onSelect = () => {
       setActiveIndex(api.selectedScrollSnap());
     };
-
     api.on("select", onSelect);
     return () => {
       api.off("select", onSelect);
     };
   }, [api]);
-
-  return (
-    <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
+  return <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 z-0 opacity-10">
         <div className="absolute top-0 left-0 w-64 h-64 bg-blue-400 rounded-full filter blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
@@ -94,13 +74,17 @@ const NewsletterSection: React.FC = () => {
 
       <div className="container mx-auto px-4 z-10 relative">
         <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center md:text-left"
-          >
+          <motion.div initial={{
+          opacity: 0,
+          y: 20
+        }} whileInView={{
+          opacity: 1,
+          y: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.5
+        }} className="text-center md:text-left">
             <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               العلامات التجارية المميزة
             </h2>
@@ -109,12 +93,18 @@ const NewsletterSection: React.FC = () => {
             </p>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
+          <motion.div initial={{
+          opacity: 0,
+          x: 20
+        }} whileInView={{
+          opacity: 1,
+          x: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.5,
+          delay: 0.2
+        }}>
             <Button asChild variant="default" className="group">
               <Link to="/brands" className="flex items-center gap-2">
                 عرض جميع العلامات التجارية
@@ -125,46 +115,40 @@ const NewsletterSection: React.FC = () => {
         </div>
 
         <div className="relative">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            setApi={setApi}
-            className="w-full"
-          >
+          <Carousel opts={{
+          align: "start",
+          loop: true
+        }} setApi={setApi} className="w-full">
             <CarouselContent className="-ml-2 md:-ml-4">
-              {brands.map((brand, index) => (
-                <CarouselItem key={brand.id} className="pl-2 md:pl-4 md:basis-1/3 lg:basis-1/4">
+              {brands.map((brand, index) => <CarouselItem key={brand.id} className="pl-2 md:pl-4 md:basis-1/3 lg:basis-1/4">
                   <Link to={`/brand/${brand.id}`}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
-                      whileHover={{ y: -5 }}
-                      className="h-full"
-                    >
+                    <motion.div initial={{
+                  opacity: 0,
+                  y: 10
+                }} whileInView={{
+                  opacity: 1,
+                  y: 0
+                }} viewport={{
+                  once: true
+                }} transition={{
+                  duration: 0.3,
+                  delay: index * 0.1
+                }} whileHover={{
+                  y: -5
+                }} className="h-full">
                       <Card className="overflow-hidden border-blue-100 bg-white/70 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
                         <CardContent className="p-6 flex flex-col items-center">
                           <div className="mb-4 h-20 flex items-center justify-center w-full">
-                            <img 
-                              src={brand.logo} 
-                              alt={brand.name} 
-                              className="max-h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                            />
+                            <img src={brand.logo} alt={brand.name} className="max-h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
                           </div>
                           <h3 className="font-semibold text-lg mb-1">{brand.name}</h3>
-                          <p className="text-sm text-gray-500 text-center mb-2">{brand.slogan}</p>
-                          <div className="text-xs text-blue-600 font-medium mt-2">
-                            {brand.productCount} منتج
-                          </div>
+                          
+                          
                         </CardContent>
                       </Card>
                     </motion.div>
                   </Link>
-                </CarouselItem>
-              ))}
+                </CarouselItem>)}
             </CarouselContent>
             
             <div className="hidden md:block">
@@ -175,52 +159,25 @@ const NewsletterSection: React.FC = () => {
           
           {/* Carousel indicators */}
           <div className="flex justify-center gap-2 mt-6">
-            {brands.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => api?.scrollTo(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  activeIndex === index 
-                    ? "bg-blue-600 w-6" 
-                    : "bg-gray-300 hover:bg-gray-400"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+            {brands.map((_, index) => <button key={index} onClick={() => api?.scrollTo(index)} className={`w-2 h-2 rounded-full transition-all duration-300 ${activeIndex === index ? "bg-blue-600 w-6" : "bg-gray-300 hover:bg-gray-400"}`} aria-label={`Go to slide ${index + 1}`} />)}
           </div>
         </div>
         
         {/* Newsletter signup below brand carousel */}
-        <motion.div 
-          className="mt-20 max-w-2xl mx-auto text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="bg-white p-8 rounded-xl shadow-lg border border-blue-100 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 z-0"></div>
-            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-blue-100 rounded-full relative z-10">
-              <Mail className="h-8 w-8 text-blue-600" />
-            </div>
-            <h3 className="text-2xl font-bold mb-2 relative z-10">اشترك في نشرتنا البريدية</h3>
-            <p className="text-gray-600 mb-6 relative z-10">احصل على آخر العروض والتحديثات مباشرة إلى بريدك الإلكتروني</p>
-            
-            <div className="flex flex-col sm:flex-row gap-3 relative z-10">
-              <Input 
-                placeholder="أدخل بريدك الإلكتروني" 
-                className="flex-grow" 
-              />
-              <Button>
-                اشترك الآن
-              </Button>
-            </div>
-            <p className="text-xs text-gray-500 mt-4 relative z-10">لن نرسل لك أي رسائل غير مرغوب فيها ويمكنك إلغاء الاشتراك في أي وقت</p>
-          </div>
+        <motion.div className="mt-20 max-w-2xl mx-auto text-center" initial={{
+        opacity: 0,
+        y: 20
+      }} whileInView={{
+        opacity: 1,
+        y: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6
+      }}>
+          
         </motion.div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default NewsletterSection;

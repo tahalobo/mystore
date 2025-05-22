@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Product } from "@/types";
@@ -11,12 +12,14 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import { toast } from "sonner";
 import { GridViewType } from "./ProductGridToggle";
 import { formatPrice } from "@/utils/currency";
+
 interface ProductGridProps {
   products: Product[];
   view: GridViewType;
   onProductClick?: (product: Product) => void;
   emptyMessage?: string;
 }
+
 const ProductGrid: React.FC<ProductGridProps> = ({
   products,
   view,
@@ -31,12 +34,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({
     removeFromWishlist,
     isInWishlist
   } = useWishlist();
+
   const handleQuickAdd = (e: React.MouseEvent, product: Product) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
     toast.success(`تمت إضافة ${product.name} إلى سلة التسوق`);
   };
+
   const handleToggleWishlist = (e: React.MouseEvent, product: Product) => {
     e.preventDefault();
     e.stopPropagation();
@@ -48,11 +53,13 @@ const ProductGrid: React.FC<ProductGridProps> = ({
       toast.success(`${product.name} أضيفت إلى قائمة الأمنيات!`);
     }
   };
+
   if (products.length === 0) {
     return <div className="w-full py-16 text-center">
         <p className="text-gray-500">{emptyMessage}</p>
       </div>;
   }
+
   if (view === "grid") {
     return <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product, index) => <motion.div key={product.id} initial={{
@@ -69,6 +76,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           </motion.div>)}
       </div>;
   }
+
   if (view === "list") {
     return <div className="space-y-6">
         {products.map((product, index) => <motion.div key={product.id} className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow" initial={{
@@ -109,10 +117,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                       <Heart className={`h-5 w-5 ${isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""}`} />
                     </button>
                   </div>
-                  
-                  
-                  
-                  
                   
                   <div className="flex flex-wrap gap-2 mb-4">
                     <Badge variant="outline" className="bg-gray-50">
@@ -185,8 +189,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             
             <div className="flex items-center justify-between mt-1 mb-auto">
               <div className="flex text-amber-400">
-                
-                
+                {/* Removed star rating that was displaying as (0) */}
               </div>
               
               <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
@@ -217,4 +220,5 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         </motion.div>)}
     </div>;
 };
+
 export default ProductGrid;

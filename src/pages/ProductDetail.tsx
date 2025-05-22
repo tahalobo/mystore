@@ -461,53 +461,14 @@ const ProductDetail = () => {
                     </div>
 
                     {isSpecsOpen && <>
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                          <h4 className="font-medium mb-3 text-primary">المواصفات التقنية</h4>
-                          <ul className="space-y-3 text-gray-700">
-                            <li className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                              <span className="text-gray-600">المعالج:</span>
-                              <span className="font-medium">Dual Core 1.8GHz</span>
-                            </li>
-                            <li className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                              <span className="text-gray-600">الذاكرة:</span>
-                              <span className="font-medium">4GB RAM</span>
-                            </li>
-                            <li className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                              <span className="text-gray-600">التخزين:</span>
-                              <span className="font-medium">64GB</span>
-                            </li>
-                            <li className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                              <span className="text-gray-600">البطارية:</span>
-                              <span className="font-medium">3500mAh</span>
-                            </li>
-                          </ul>
-                        </div>
                         
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                          <h4 className="font-medium mb-3 text-primary">الاتصالات</h4>
-                          <ul className="space-y-3 text-gray-700">
-                            <li className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                              <span className="text-gray-600">Wi-Fi:</span>
-                              <span className="font-medium">802.11a/b/g/n/ac</span>
-                            </li>
-                            <li className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                              <span className="text-gray-600">Bluetooth:</span>
-                              <span className="font-medium">5.0</span>
-                            </li>
-                            <li className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                              <span className="text-gray-600">USB:</span>
-                              <span className="font-medium">Type-C</span>
-                            </li>
-                          </ul>
-                        </div>
+                        
+                        
                       </>}
                   </div>
                   
                   <div className="mt-6 flex justify-center">
-                    <Button variant="ghost" onClick={() => setIsSpecsOpen(!isSpecsOpen)} className="flex items-center text-primary font-medium">
-                      {isSpecsOpen ? 'عرض مواصفات أقل' : 'عرض المزيد من المواصفات'}
-                      <ChevronDown className={`ml-1 h-5 w-5 transform transition-transform ${isSpecsOpen ? 'rotate-180' : ''}`} />
-                    </Button>
+                    
                   </div>
                 </div>
                 

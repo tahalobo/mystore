@@ -110,16 +110,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                     </button>
                   </div>
                   
-                  <div className="flex items-center mt-1 mb-2">
-                    <div className="flex text-amber-400 mr-1">
-                      {[...Array(5)].map((_, i) => <Star key={i} className={`h-4 w-4 ${i < product.rating ? "fill-amber-400" : ""}`} />)}
-                    </div>
-                    <span className="text-xs text-gray-500">({Math.floor(Math.random() * 100) + 5})</span>
-                  </div>
                   
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                    {product.description || `${product.name} هو منتج عالي الجودة يتميز بتصميم عصري وأداء ممتاز.`}
-                  </p>
+                  
+                  
                   
                   <div className="flex flex-wrap gap-2 mb-4">
                     <Badge variant="outline" className="bg-gray-50">

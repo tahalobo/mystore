@@ -221,7 +221,7 @@ const BrandsIndex: React.FC = () => {
               <div className="flex justify-center">
                 <TabsList>
                   <TabsTrigger value="grid">عرض شبكي</TabsTrigger>
-                  <TabsTrigger value="list">عرض قائمة</TabsTrigger>
+                  
                 </TabsList>
               </div>
               

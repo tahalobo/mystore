@@ -1,6 +1,5 @@
-
 import { Product, Category } from "@/types";
-import { getProducts } from "@/utils/api";
+import { fetchProductsFromAPI } from "@/utils/api";
 
 export const categories: Category[] = [
   {
@@ -57,9 +56,6 @@ export const categories: Category[] = [
 // This will be populated with data from the API
 export let products: Product[] = [];
 export let allProducts: Product[] = [];
-
-// Global loading state for the app
-export let isProductsLoading = true;
 
 // Fallback data in case API is not accessible
 const fallbackProducts = [
@@ -119,25 +115,13 @@ const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
   allProducts = newProducts;
   
   console.log(`Initialized ${newProducts.length} products from API or fallback`);
-  
-  // Update loading state
-  isProductsLoading = false;
 };
 
 // This function will be called when the app starts to load products from API
 export const loadProductsFromAPI = async () => {
   console.log('Attempting to load products from API...');
-  isProductsLoading = true;
-  
   try {
-    // First check if we've already loaded products in this session
-    if (allProducts.length > 0) {
-      console.log('Products already loaded in this session, using existing data');
-      isProductsLoading = false;
-      return true;
-    }
-    
-    const apiProducts = await getProducts();
+    const apiProducts = await fetchProductsFromAPI();
     
     if (apiProducts && apiProducts.length > 0) {
       console.log('Successfully loaded products from API:', apiProducts.length);
@@ -203,6 +187,3 @@ export const getProductsByDiscount = (): Product[] => {
 
 // Initialize products with fallback data immediately to avoid undefined arrays
 initializeProducts(fallbackProducts);
-
-// Immediately try to load products from API or cache
-loadProductsFromAPI();

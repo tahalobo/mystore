@@ -64,33 +64,7 @@ const HeroSection: React.FC = () => {
             </Button>
           </motion.div>
           
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          delay: 0.8,
-          duration: 0.5
-        }} className="flex items-center gap-4 mt-6 backdrop-blur-sm py-3 px-4 rounded-xl border border-blue-100 shadow-sm bg-transparent">
-            <div className="flex -space-x-3 rtl:space-x-reverse">
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
-              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=64&h=64&fit=crop" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center">
-                <span className="font-semibold text-primary mr-1">+500</span>
-                <span className="text-gray-700">عملاء سعداء</span>
-              </div>
-              <div className="text-xs text-gray-500 flex items-center">
-                <ShieldCheck className="w-3 h-3 ml-1 text-green-500" />
-                <span>جودة موثوقة ومضمونة</span>
-              </div>
-            </div>
-            
-          </motion.div>
+          
         </motion.div>
         
         <motion.div className="relative flex justify-center" initial={{

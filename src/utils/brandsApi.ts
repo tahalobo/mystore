@@ -67,7 +67,7 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
         
         if (data && Array.isArray(data.items)) {
           const pageBrands = data.items
-            .filter((item: any) => item.mak_namear && item.mak_code)
+            .filter((item: any) => item.mak_namear && item.mak_sequ)
             .map((item: any) => ({
               id: item.mak_code?.toString() || "",
               name: item.mak_namear || "",

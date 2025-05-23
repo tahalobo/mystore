@@ -105,22 +105,19 @@ const BrandsIndex: React.FC = () => {
       behavior: 'smooth'
     });
   };
-  return <div className="flex flex-col min-h-screen">
+  return (
+    <div className="flex flex-col min-h-screen">
       <Header />
       
       <main className="flex-grow pt-24">
         {/* Hero section */}
         <section className="bg-gradient-to-r from-blue-600 to-indigo-700 py-16 md:py-24">
           <div className="container mx-auto px-4 text-center">
-            <motion.div initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.6
-          }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
                 أفضل العلامات التجارية التقنية
               </h1>
@@ -130,12 +127,10 @@ const BrandsIndex: React.FC = () => {
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50">
-                  <Link to="/shop">
-تسوق جميع المنتجات
-                  </Link>
+                  <Link to="/shop">تسوق جميع المنتجات</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="text-white border-white hover:bg-white/10">
-                  
+                  <Link to="/brands">عرض العلامات التجارية</Link>
                 </Button>
               </div>
             </motion.div>
@@ -146,17 +141,13 @@ const BrandsIndex: React.FC = () => {
         <section className="py-12 bg-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <motion.div className="text-center bg-gray-50 p-6 rounded-xl shadow-sm" initial={{
-              opacity: 0,
-              y: 20
-            }} whileInView={{
-              opacity: 1,
-              y: 0
-            }} viewport={{
-              once: true
-            }} transition={{
-              duration: 0.4
-            }}>
+              <motion.div
+                className="text-center bg-gray-50 p-6 rounded-xl shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+              >
                 <div className="mx-auto bg-blue-100 w-16 h-16 flex items-center justify-center rounded-full mb-4">
                   <ShieldCheck className="h-8 w-8 text-blue-600" />
                 </div>
@@ -164,18 +155,13 @@ const BrandsIndex: React.FC = () => {
                 <p className="text-gray-600">جميع المنتجات أصلية 100% مع ضمان كامل من الشركة المصنعة.</p>
               </motion.div>
               
-              <motion.div className="text-center bg-gray-50 p-6 rounded-xl shadow-sm" initial={{
-              opacity: 0,
-              y: 20
-            }} whileInView={{
-              opacity: 1,
-              y: 0
-            }} viewport={{
-              once: true
-            }} transition={{
-              duration: 0.4,
-              delay: 0.1
-            }}>
+              <motion.div
+                className="text-center bg-gray-50 p-6 rounded-xl shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+              >
                 <div className="mx-auto bg-amber-100 w-16 h-16 flex items-center justify-center rounded-full mb-4">
                   <Star className="h-8 w-8 text-amber-500" />
                 </div>
@@ -183,18 +169,13 @@ const BrandsIndex: React.FC = () => {
                 <p className="text-gray-600">منتجات مُنتقاة بعناية من أفضل العلامات التجارية التكنولوجية في العالم.</p>
               </motion.div>
               
-              <motion.div className="text-center bg-gray-50 p-6 rounded-xl shadow-sm" initial={{
-              opacity: 0,
-              y: 20
-            }} whileInView={{
-              opacity: 1,
-              y: 0
-            }} viewport={{
-              once: true
-            }} transition={{
-              duration: 0.4,
-              delay: 0.2
-            }}>
+              <motion.div
+                className="text-center bg-gray-50 p-6 rounded-xl shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
                 <div className="mx-auto bg-green-100 w-16 h-16 flex items-center justify-center rounded-full mb-4">
                   <Zap className="h-8 w-8 text-green-600" />
                 </div>
@@ -220,20 +201,21 @@ const BrandsIndex: React.FC = () => {
               
               <TabsContent value="grid" className="mt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {paginatedBrands.map((brand, index) => <motion.div key={brand.id} initial={{
-                  opacity: 0,
-                  y: 20
-                }} whileInView={{
-                  opacity: 1,
-                  y: 0
-                }} viewport={{
-                  once: true
-                }} transition={{
-                  duration: 0.4,
-                  delay: index * 0.1
-                }} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 group">
+                  {paginatedBrands.map((brand, index) => (
+                    <motion.div
+                      key={brand.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 group"
+                    >
                       <div className={`h-32 flex items-center justify-center p-4 ${gradients[index % gradients.length]}`}>
-                        <img src={brand.logo} alt={`${brand.name} logo`} className="max-h-20 max-w-[180px] object-contain filter brightness-0 invert" />
+                        <img
+                          src={brand.logo}
+                          alt={`${brand.name} logo`}
+                          className="max-h-20 max-w-[180px] object-contain filter brightness-0 invert"
+                        />
                       </div>
                       
                       <div className="p-6">
@@ -241,39 +223,59 @@ const BrandsIndex: React.FC = () => {
                         
                         
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {brand.popularCategories.map((category, i) => {})}
+                          {brand.popularCategories.map((category, i) => (
+                            <span
+                              key={i}
+                              className="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-medium text-gray-600"
+                            >
+                              {category}
+                            </span>
+                          ))}
                         </div>
                         
                         <div className="flex items-center justify-between">
                           
                           <Button asChild variant="ghost" size="sm" className="text-gray-600 hover:text-primary transition-colors">
-                            <Link to={`/brand/${brand.id}`} className={rtlAwareClasses(isRTL, "flex items-center gap-1", "flex items-center gap-1 flex-row-reverse")}>
+                            <Link
+                              to={`/brand/${brand.id}`}
+                              className={rtlAwareClasses(
+                                isRTL,
+                                "flex items-center gap-1",
+                                "flex items-center gap-1 flex-row-reverse"
+                              )}
+                            >
                               عرض العلامة التجارية
                               <ChevronRight className="h-4 w-4" />
                             </Link>
                           </Button>
                         </div>
                       </div>
-                    </motion.div>)}
+                    </motion.div>
+                  ))}
                 </div>
               </TabsContent>
               
               <TabsContent value="list" className="mt-6">
                 <div className="space-y-4">
-                  {paginatedBrands.map((brand, index) => <motion.div key={brand.id} initial={{
-                  opacity: 0,
-                  x: -20
-                }} whileInView={{
-                  opacity: 1,
-                  x: 0
-                }} viewport={{
-                  once: true
-                }} transition={{
-                  duration: 0.4,
-                  delay: index * 0.1
-                }} className={rtlAwareClasses(isRTL, "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col md:flex-row", "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col md:flex-row-reverse")}>
+                  {paginatedBrands.map((brand, index) => (
+                    <motion.div
+                      key={brand.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      className={rtlAwareClasses(
+                        isRTL,
+                        "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col md:flex-row",
+                        "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col md:flex-row-reverse"
+                      )}
+                    >
                       <div className={`md:w-1/4 ${gradients[index % gradients.length]} flex items-center justify-center p-6`}>
-                        <img src={brand.logo} alt={`${brand.name} logo`} className="max-h-16 md:max-h-24 max-w-[180px] object-contain filter brightness-0 invert" />
+                        <img
+                          src={brand.logo}
+                          alt={`${brand.name} logo`}
+                          className="max-h-16 md:max-h-24 max-w-[180px] object-contain filter brightness-0 invert"
+                        />
                       </div>
                       
                       <div className="p-6 md:w-3/4">
@@ -283,7 +285,16 @@ const BrandsIndex: React.FC = () => {
                             <span className="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
                               {brand.productCount} منتج
                             </span>
-                            <a href={brand.websiteUrl} target="_blank" rel="noopener noreferrer" className={rtlAwareClasses(isRTL, "ml-3 text-gray-500 hover:text-gray-700 text-sm flex items-center", "mr-3 text-gray-500 hover:text-gray-700 text-sm flex items-center")}>
+                            <a
+                              href={brand.websiteUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={rtlAwareClasses(
+                                isRTL,
+                                "ml-3 text-gray-500 hover:text-gray-700 text-sm flex items-center",
+                                "mr-3 text-gray-500 hover:text-gray-700 text-sm flex items-center"
+                              )}
+                            >
                               الموقع الرسمي
                               <ExternalLink className={rtlAwareClasses(isRTL, "ml-1 h-3 w-3", "mr-1 h-3 w-3")} />
                             </a>
@@ -293,9 +304,14 @@ const BrandsIndex: React.FC = () => {
                         <p className="text-gray-600 mb-4">{brand.description}</p>
                         
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {brand.popularCategories.map((category, i) => <span key={i} className="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-medium text-gray-600">
+                          {brand.popularCategories.map((category, i) => (
+                            <span
+                              key={i}
+                              className="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-medium text-gray-600"
+                            >
                               {category}
-                            </span>)}
+                            </span>
+                          ))}
                         </div>
                         
                         <div className="flex items-center justify-between border-t pt-4 mt-2">
@@ -316,13 +332,20 @@ const BrandsIndex: React.FC = () => {
                           </Button>
                         </div>
                       </div>
-                    </motion.div>)}
+                    </motion.div>
+                  ))}
                 </div>
               </TabsContent>
             </Tabs>
             
             {/* Pagination */}
-            {totalPages > 1 && <ProductPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />}
+            {totalPages > 1 && (
+              <ProductPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </div>
         </section>
         
@@ -334,15 +357,15 @@ const BrandsIndex: React.FC = () => {
               تصفح مجموعتنا الواسعة من المنتجات المتميزة من أكثر العلامات التجارية الموثوقة في العالم.
             </p>
             <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50">
-              <Link to="/shop">
-                تسوق جميع المنتجات
-              </Link>
+              <Link to="/shop">تسوق جميع المنتجات</Link>
             </Button>
           </div>
         </section>
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default BrandsIndex;

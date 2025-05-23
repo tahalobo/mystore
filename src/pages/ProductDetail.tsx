@@ -73,10 +73,7 @@ const ProductDetail = () => {
         toast.error("عذراً، المنتج غير متوفر حالياً");
         return;
       }
-      addToCart({
-        ...product,
-        quantity
-      });
+      addToCart(product, quantity);
       toast.success(`تمت إضافة ${product.name} إلى سلة التسوق`);
     }
   };

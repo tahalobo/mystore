@@ -71,7 +71,7 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
             .map((item: any) => ({
               id: item.mak_code?.toString() || "",
               name: item.mak_namear || "",
-              code: item.mak_code || ""
+              code: item.mak_sequ || ""
             }));
           
           allBrands = [...allBrands, ...pageBrands];

@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard";
-import { getFeaturedProducts, loadProductsFromAPI } from "@/data/products";
+import { getFeaturedProducts } from "@/data/products";
 import { ChevronRight } from "lucide-react";
 import { Product } from "@/types";
 import { useNavigate } from "react-router-dom";
 import ProductGridToggle, { GridViewType } from "@/components/ProductGridToggle";
 import ProductGrid from "@/components/ProductGrid";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface FeaturedProductsProps {
   onProductClick?: (product: Product) => void;
@@ -16,44 +17,17 @@ interface FeaturedProductsProps {
 
 const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [gridView, setGridView] = useState<GridViewType>("grid");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadProducts = async () => {
-      setIsLoading(true);
-      try {
-        await loadProductsFromAPI();
-        setFeaturedProducts(getFeaturedProducts());
-      } catch (error) {
-        console.error("Error loading featured products:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadProducts();
+    setFeaturedProducts(getFeaturedProducts());
   }, []);
 
   const handleProductClick = (product: Product) => {
     navigate(`/product/${product.id}`);
   };
-
-  if (isLoading) {
-    return (
-      <section className="section-padding">
-        <div className="container mx-auto">
-          <div className="flex justify-center items-center py-20">
-            <div className="text-center">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-              <p className="mt-4 text-gray-600">جاري تحميل المنتجات المميزة...</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="section-padding py-16 bg-gray-50">
@@ -85,8 +59,17 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
             emptyMessage="لا توجد منتجات مميزة حاليًا"
           />
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500">لا توجد منتجات مميزة حاليًا</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {Array(4).fill(0).map((_, i) => (
+              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                <Skeleton className="h-56 w-full" />
+                <div className="p-4">
+                  <Skeleton className="h-5 w-2/3 mb-2" />
+                  <Skeleton className="h-4 w-1/2 mb-4" />
+                  <Skeleton className="h-6 w-1/3" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

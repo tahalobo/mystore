@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -14,16 +13,8 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useRTL } from "@/contexts/RTLContext";
 import { rtlAwareClasses } from "@/lib/rtl-utils";
-
-const categories = [
-  { name: "أغطية الهاتف", href: "/category/phone-cases" },
-  { name: "سماعات الرأس", href: "/category/headphones" },
-  { name: "الشواحن", href: "/category/chargers" },
-  { name: "الكيبلات", href: "/category/cables" },
-  { name: "السماعات", href: "/category/speakers" },
-  { name: "شاشات الحماية", href: "/category/screen-protectors" },
-  { name: "ملحقات", href: "/category/accessories" },
-];
+import { getCategories, ApiCategory } from "@/utils/categoriesApi";
+import { getBrands, ApiBrand } from "@/utils/brandsApi";
 
 const collections = [
   { name: "الوافدون الجدد", href: "/new-arrivals", description: "شاهد أحدث منتجاتنا الطازجة في المتجر" },
@@ -32,19 +23,35 @@ const collections = [
   { name: "عروض", href: "/sale", description: "عروض وخصومات رائعة لا يجب أن تفوتك" },
 ];
 
-const brands = [
-  { name: "Apple", href: "/brand/apple", description: "منتجات تقنية مبتكرة بتصميم أنيق" },
-  { name: "Samsung", href: "/brand/samsung", description:"إلكترونيات متطورة تشمل الأجهزة المحمولة والمنزلية" },
-  { name: "Sony", href: "/brand/sony", description: "منتجات الصوت والفيديو والألعاب المتميزة"},
-  { name: "Bose", href: "/brand/bose", description: "أنظمة صوت وسماعات وسماعات رأس ممتازة"},
-  { name: "JBL", href: "/brand/jbl", description: "مكبرات صوت وملحقات صوت عالية الأداء" },
-  { name: "Anker", href: "/brand/anker", description: "حلول شحن موثوقة وملحقاتها" },
-];
-
 export function MainNav() {
   const location = useLocation();
   const isMobile = useIsMobile();
   const { isRTL } = useRTL();
+  const [categories, setCategories] = useState<ApiCategory[]>([]);
+  const [brands, setBrands] = useState<ApiBrand[]>([]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [categoriesData, brandsData] = await Promise.all([
+          getCategories(),
+          getBrands()
+        ]);
+        
+        // Show random 8 categories for navigation
+        const shuffledCategories = categoriesData.sort(() => 0.5 - Math.random()).slice(0, 8);
+        setCategories(shuffledCategories);
+        
+        // Show random 6 brands for navigation
+        const shuffledBrands = brandsData.sort(() => 0.5 - Math.random()).slice(0, 6);
+        setBrands(shuffledBrands);
+      } catch (error) {
+        console.error('Error loading navigation data:', error);
+      }
+    };
+    
+    loadData();
+  }, []);
 
   if (isMobile) {
     return null;
@@ -76,29 +83,41 @@ export function MainNav() {
         <NavigationMenuItem key="categories">
           <NavigationMenuTrigger className={cn(
             "bg-transparent hover:bg-transparent hover:text-primary",
-            categories.some(category => location.pathname === category.href) && "text-primary font-medium"
+            categories.some(category => location.pathname === `/category/${category.id}`) && "text-primary font-medium"
           )}>
             الفئات
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {categories.map((category) => (
-                <li key={category.name} className="row-span-1">
+                <li key={category.id} className="row-span-1">
                   <NavigationMenuLink asChild>
                     <Link
-                      to={category.href}
+                      to={`/category/${category.id}`}
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:bg-primary/10"
                     >
                       <div className="mb-2 mt-4 text-lg font-medium">
                         {category.name}
                       </div>
                       <p className="text-sm leading-tight text-muted-foreground">
-                      تصفح منتجات  {category.name.toLowerCase()} 
+                        تصفح منتجات {category.name.toLowerCase()} 
                       </p>
                     </Link>
                   </NavigationMenuLink>
                 </li>
               ))}
+              {categories.length > 0 && (
+                <li className="col-span-2">
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/categories"
+                      className="flex h-full w-full select-none flex-col justify-center rounded-md bg-primary/5 hover:bg-primary/10 p-6 no-underline outline-none focus:shadow-md text-center"
+                    >
+                      <div className="text-lg font-medium">عرض جميع الفئات</div>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              )}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -151,17 +170,17 @@ export function MainNav() {
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
               {brands.map((brand) => (
-                <li key={brand.name}>
+                <li key={brand.id}>
                   <NavigationMenuLink asChild>
                     <Link
-                      to={brand.href}
+                      to={`/brand/${brand.id}`}
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                     >
                       <div className="text-sm font-medium leading-none">
                         {brand.name}
                       </div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        {brand.description}
+                        منتجات عالية الجودة من {brand.name}
                       </p>
                     </Link>
                   </NavigationMenuLink>

@@ -1,63 +1,51 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-
-const brands = [
-  {
-    id: "apple",
-    name: "Apple",
-    logo: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=200&h=100&fit=crop",
-    slogan: "Think Different",
-    category: "Consumer Electronics",
-    productCount: 42
-  },
-  {
-    id: "samsung",
-    name: "Samsung",
-    logo: "https://images.unsplash.com/photo-1587817229766-65fa3f8fda08?q=80&w=200&h=100&fit=crop",
-    slogan: "Do What You Can't",
-    category: "Electronics & Technology",
-    productCount: 56
-  },
-  {
-    id: "sony",
-    name: "Sony",
-    logo: "https://images.unsplash.com/photo-1511268011861-691ed210aae8?q=80&w=200&h=100&fit=crop",
-    slogan: "Be Moved",
-    category: "Entertainment & Electronics",
-    productCount: 38
-  },
-  {
-    id: "bose",
-    name: "Bose",
-    logo: "https://images.unsplash.com/photo-1558741181-501bbbb2dda3?q=80&w=200&h=100&fit=crop",
-    slogan: "Better Sound Through Research",
-    category: "Audio Equipment",
-    productCount: 24
-  },
-  {
-    id: "jbl",
-    name: "JBL",
-    logo: "https://images.unsplash.com/photo-1548921441-89c8bd86ffb7?q=80&w=200&h=100&fit=crop",
-    slogan: "Sound that Moves You",
-    category: "Audio Systems",
-    productCount: 31
-  },
-  {
-    id: "anker",
-    name: "Anker",
-    logo: "https://images.unsplash.com/photo-1601999009162-2459b78386c9?q=80&w=200&h=100&fit=crop",
-    slogan: "Power for All",
-    category: "Mobile Accessories",
-    productCount: 47
-  }
-];
+import { getBrands, ApiBrand } from "@/utils/brandsApi";
 
 const BrandsSection: React.FC = () => {
+  const [brands, setBrands] = useState<ApiBrand[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadBrands = async () => {
+      try {
+        const brandsData = await getBrands();
+        // Show random 6 brands for the section
+        const shuffledBrands = brandsData.sort(() => 0.5 - Math.random()).slice(0, 6);
+        setBrands(shuffledBrands);
+      } catch (error) {
+        console.error('Error loading brands:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadBrands();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-600/20">
+          <div className="absolute inset-0 bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_70%)]" />
+        </div>
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              اشهر العلامات التجارية
+            </h2>
+            <p className="text-gray-600 mt-2">جاري تحميل العلامات التجارية...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="relative py-20 overflow-hidden">
       {/* Animated Background */}
@@ -74,7 +62,7 @@ const BrandsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
- اشهر العلامات التجارية
+            اشهر العلامات التجارية
           </motion.h2>
           <motion.p 
             className="text-gray-600 mt-2"
@@ -83,7 +71,7 @@ const BrandsSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-نحن نتشارك مع العلامات التجارية الرائدة في مجال التكنولوجيا في العالم
+            نحن نتشارك مع العلامات التجارية الرائدة في مجال التكنولوجيا في العالم
           </motion.p>
         </div>
         
@@ -100,20 +88,18 @@ const BrandsSection: React.FC = () => {
                 <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden bg-white/80 backdrop-blur-sm border-blue-100">
                   <CardContent className="p-6">
                     <div className="h-20 flex items-center justify-center mb-6 grayscale group-hover:grayscale-0 transition-all duration-300">
-                      <img 
-                        src={brand.logo} 
-                        alt={`${brand.name} logo`}
-                        className="max-h-full object-contain transform group-hover:scale-110 transition-transform duration-300" 
-                      />
+                      <div className="text-2xl font-bold text-gray-700 group-hover:text-blue-600 transition-colors">
+                        {brand.name}
+                      </div>
                     </div>
                     
                     <div className="text-center">
                       <h3 className="text-xl font-semibold text-gray-800 mb-1">{brand.name}</h3>
-                      <p className="text-sm text-gray-500 mb-3">{brand.slogan}</p>
-                      <div className="text-xs text-gray-400 mb-4">{brand.category}</div>
+                      <p className="text-sm text-gray-500 mb-3">منتجات عالية الجودة</p>
+                      <div className="text-xs text-gray-400 mb-4">كود: {brand.code}</div>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-blue-600">{brand.productCount} منتج</span>
+                        <span className="text-sm font-medium text-blue-600">منتجات متنوعة</span>
                         <Button 
                           variant="ghost" 
                           size="sm" 
@@ -129,6 +115,14 @@ const BrandsSection: React.FC = () => {
             </motion.div>
           ))}
         </div>
+        
+        {brands.length > 0 && (
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="bg-white/80 backdrop-blur-sm">
+              <Link to="/brands">عرض جميع العلامات التجارية</Link>
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

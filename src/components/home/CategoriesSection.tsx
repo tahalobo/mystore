@@ -1,13 +1,46 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { categories } from "@/data/products";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import CategoryCard from "../CategoryCard";
+import { getCategories, ApiCategory } from "@/utils/categoriesApi";
+import { Button } from "@/components/ui/button";
 
 const CategoriesSection: React.FC = () => {
+  const [categories, setCategories] = useState<ApiCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoriesData = await getCategories();
+        // Show random 6 categories for the section
+        const shuffledCategories = categoriesData.sort(() => 0.5 - Math.random()).slice(0, 6);
+        setCategories(shuffledCategories);
+      } catch (error) {
+        console.error('Error loading categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="section-padding bg-gradient-to-b from-gray-50 to-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold">تسوق حسب الفئة</h2>
+            <p className="text-gray-600 mt-2">جاري تحميل الفئات...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="section-padding bg-gradient-to-b from-gray-50 to-white py-16">
       <div className="container mx-auto px-4">
@@ -19,7 +52,7 @@ const CategoriesSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-        تسوق حسب الفئة
+            تسوق حسب الفئة
           </motion.h2>
           <motion.p 
             className="text-gray-600 mt-2"
@@ -28,7 +61,7 @@ const CategoriesSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-           تصفح مجموعتنا الواسعة من المنتجات حسب الفئة
+            تصفح مجموعتنا الواسعة من المنتجات حسب الفئة
           </motion.p>
         </div>
         
@@ -41,15 +74,28 @@ const CategoriesSection: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <CategoryCard 
-                id={category.id}
-                name={category.name}
-                image={category.image}
-                count={category.count || 0}
-              />
+              <Link to={`/category/${category.id}`}>
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 text-center group">
+                  <div className="h-16 flex items-center justify-center mb-4">
+                    <div className="text-lg font-bold text-gray-600 group-hover:text-primary transition-colors">
+                      {category.name}
+                    </div>
+                  </div>
+                  <h3 className="font-medium text-gray-800 mb-1">{category.name}</h3>
+                  <p className="text-sm text-gray-500">كود: {category.code}</p>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
+        
+        {categories.length > 0 && (
+          <div className="text-center mt-8">
+            <Button asChild variant="outline">
+              <Link to="/categories">عرض جميع الفئات</Link>
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

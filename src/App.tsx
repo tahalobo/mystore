@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -27,24 +26,33 @@ import Search from "./pages/Search";
 import BrandsIndex from "./pages/BrandsIndex";
 import BrandPage from "./pages/BrandPage";
 import ProductDetail from "./pages/ProductDetail";
+import { getBrands } from "@/utils/brandsApi";
+import { getCategories } from "@/utils/categoriesApi";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [loading, setLoading] = useState(true);
   
-  // Load products on app initialization
+  // Load all data on app initialization
   useEffect(() => {
     const initialize = async () => {
       try {
-        await loadProductsFromAPI();
+        // Load all data in parallel for better performance
+        await Promise.all([
+          loadProductsFromAPI(),
+          getBrands(),
+          getCategories()
+        ]);
+        
+        console.log('All data loaded successfully');
       } catch (error) {
         console.error("Error initializing app:", error);
       } finally {
-        // Add a small delay to ensure smooth loading experience
+        // Add a delay to ensure smooth loading experience
         setTimeout(() => {
           setLoading(false);
-        }, 800);
+        }, 1000);
       }
     };
     

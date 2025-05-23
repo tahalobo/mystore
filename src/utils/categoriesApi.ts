@@ -67,11 +67,11 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
         
         if (data && Array.isArray(data.items)) {
           const pageCategories = data.items
-            .filter((item: any) => item.fcl_name && item.fcl_code)
+            .filter((item: any) => item.fc_namear && item.fc_code)
             .map((item: any) => ({
-              id: item.fcl_code?.toString() || "",
-              name: item.fcl_name || "",
-              code: item.fcl_code || ""
+              id: item.fc_code?.toString() || "",
+              name: item.fc_namear || "",
+              code: item.fc_code || ""
             }));
           
           allCategories = [...allCategories, ...pageCategories];

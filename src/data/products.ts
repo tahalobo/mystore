@@ -1,4 +1,3 @@
-
 import { Product, Category } from "@/types";
 import { fetchProductsFromAPI } from "@/utils/api";
 
@@ -88,27 +87,31 @@ const initializeProducts = (apiProducts: { id: string; name: string }[]) => {
     const categoryIndex = index % categories.length;
     const category = categories[categoryIndex].id;
     
+    // Generate price based on product ID for consistency
+    const basePrice = parseInt(item.id) % 100 + 15; // Price between 15-114 USD
+    
     // Create a product using the API id and name, with placeholder data for other fields
     return {
       id: item.id,
       name: item.name,
-      price: 19.99 + (index * 5), // Generate placeholder price
-      image: `/lovable-uploads/e9f3b555-0da2-47b3-a199-b5ee1fced447.png`, // Use fixed placeholder image
+      price: basePrice,
+      image: `/lovable-uploads/e9f3b555-0da2-47b3-a199-b5ee1fced447.png`,
       category,
-      description: "Product description placeholder",
-      stock: Math.floor(Math.random() * 100) + 10, // Random stock between 10-110
-      rating: Number((Math.random() * 2 + 3).toFixed(1)), // Convert to number explicitly
-      reviews: Math.floor(Math.random() * 200) + 10, // Random reviews count
-      featured: index % 5 === 0, // Every 5th item is featured
-      bestSeller: index % 7 === 0, // Every 7th item is bestseller
-      newArrival: index % 9 === 0, // Every 9th item is new arrival
-      discount: index % 3 === 0 ? Math.floor(Math.random() * 40) + 5 : 0, // Every 3rd item has discount
-      colors: ["#000000", "#FFFFFF", "#3B82F6"] // Default colors
+      description: `منتج عالي الجودة من ${item.name}. يوفر أداءً موثوقًا وتصميمًا عصريًا.`,
+      stock: Math.floor(Math.random() * 100) + 10,
+      rating: Number((Math.random() * 2 + 3).toFixed(1)),
+      reviews: Math.floor(Math.random() * 200) + 10,
+      featured: index % 5 === 0,
+      bestSeller: index % 7 === 0,
+      newArrival: index % 9 === 0,
+      discount: index % 3 === 0 ? Math.floor(Math.random() * 40) + 5 : 0,
+      colors: ["#000000", "#FFFFFF", "#3B82F6"],
+      brand: item.name.split(' ')[0] || "Generic"
     };
   });
 
   // Update the products and allProducts arrays
-  products = newProducts.slice(0, Math.min(newProducts.length, 16));
+  products = newProducts.slice(0, Math.min(newProducts.length, 20));
   allProducts = newProducts;
   
   console.log(`Initialized ${newProducts.length} products from API or fallback`);

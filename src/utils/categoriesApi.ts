@@ -7,7 +7,8 @@ export interface ApiCategory {
 }
 
 /**
- * Fetches category data from the remote API with pagination support using next links
+ * Fetches category data from the remote API with pagination support
+ * Handles both link-based and offset-based pagination
  * @returns Array of category items with id and name
  */
 export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
@@ -15,16 +16,15 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
     console.log('Fetching categories from API endpoint...');
     
     let allCategories: ApiCategory[] = [];
-    // Initialize with the first page URL
     let currentUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/fclass';
     let pageCounter = 1;
+    let hasMore = true;
     
-    // Loop until there's no next page URL
-    while (currentUrl) {
+    while (currentUrl && hasMore) {
       try {
         console.log(`Fetching categories page ${pageCounter} from URL:`, currentUrl);
         
-        // Attempt to fetch through multiple proxies with fallbacks
+        // Three-stage fetch attempt with different proxies
         const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(currentUrl)}`, {
           cache: 'no-store'
         }).catch(async (error) => {
@@ -54,7 +54,7 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
 
         let data;
         
-        // Parse response based on the proxy used
+        // Parse response based on proxy used
         if (response.url.includes('allorigins.win')) {
           const proxyResponse = await response.json();
           data = JSON.parse(proxyResponse.contents);
@@ -79,30 +79,42 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
               code: item.fc_code || ""
             }));
           
+          // Stop if we get an empty page
+          if (pageCategories.length === 0) {
+            console.log('Empty page received - stopping pagination');
+            break;
+          }
+          
           allCategories = [...allCategories, ...pageCategories];
           console.log(`Added ${pageCategories.length} categories from page ${pageCounter}. Total: ${allCategories.length}`);
           
-          // Calculate next page URL
+          // 1. Check for explicit next link
           let nextUrl = null;
           if (data.links && Array.isArray(data.links)) {
             const nextLink = data.links.find((link: any) => link.rel === 'next');
-            if (nextLink && nextLink.href) {
-              // Resolve relative URLs against the current URL
+            if (nextLink?.href) {
               nextUrl = new URL(nextLink.href, currentUrl).href;
-              console.log('Resolved next page URL:', nextUrl);
+              console.log('Using explicit next link:', nextUrl);
             }
           }
-          
-          // Prepare for next iteration or exit loop
-          if (nextUrl) {
-            currentUrl = nextUrl;
-            pageCounter++;
-            // Add delay to be API-friendly
-            await new Promise(resolve => setTimeout(resolve, 500));
-          } else {
-            console.log('No more pages available - pagination complete');
-            currentUrl = ''; // Exit loop
+
+          // 2. If no link but API says hasMore, calculate next offset
+          if (!nextUrl && data.hasMore) {
+            const currentOffset = data.offset || 0;
+            const limit = data.limit || 25;
+            const urlObj = new URL(currentUrl);
+            urlObj.searchParams.set('offset', (currentOffset + limit).toString());
+            nextUrl = urlObj.href;
+            console.log('Calculated next offset URL:', nextUrl);
           }
+
+          // 3. Update pagination state
+          hasMore = Boolean(data.hasMore);
+          currentUrl = nextUrl || '';
+          pageCounter++;
+
+          // Add rate limiting delay
+          await new Promise(resolve => setTimeout(resolve, 500));
         } else {
           console.log('Invalid data format - stopping pagination');
           break;
@@ -129,7 +141,7 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
   }
 }
 
-// Cache handling remains the same
+// Cache handling function remains unchanged
 export async function getCategories(): Promise<ApiCategory[]> {
   const cachedCategories = localStorage.getItem('cached_categories');
   const fetchTime = localStorage.getItem('categories_fetch_time');

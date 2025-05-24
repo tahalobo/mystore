@@ -1,5 +1,3 @@
-
-
 // Utility functions to fetch categories from the API with pagination
 
 export interface ApiCategory {
@@ -19,11 +17,14 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
     let allCategories: ApiCategory[] = [];
     let currentUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/fclass';
     let pageCounter = 1;
+    let hasMorePages = true;
     
-    while (currentUrl) {
+    // Continue fetching until there are no more pages
+    while (hasMorePages) {
       try {
         console.log(`Fetching categories page ${pageCounter} from URL:`, currentUrl);
         
+        // Try multiple proxy endpoints with fallbacks
         const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(currentUrl)}`, {
           cache: 'no-store'
         }).catch(async (error) => {
@@ -45,13 +46,14 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
           });
         });
 
+        // Handle response status
         if (!response.ok && response.status !== 0) {
           console.warn(`Categories API request failed with status: ${response.status}`);
           break;
         }
 
-        let data;
-        
+        // Parse response data
+        let data: any;
         if (response.url.includes('allorigins.win')) {
           const proxyResponse = await response.json();
           data = JSON.parse(proxyResponse.contents);
@@ -65,8 +67,8 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
         }
         
         console.log(`Categories page ${pageCounter} response received with ${data?.items?.length || 0} items`);
-        console.log('Full response data:', data);
         
+        // Process items if available
         if (data && Array.isArray(data.items) && data.items.length > 0) {
           const pageCategories = data.items
             .filter((item: any) => item.fc_namear && item.fc_sequ)
@@ -79,39 +81,42 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
           allCategories = [...allCategories, ...pageCategories];
           console.log(`Added ${pageCategories.length} categories from page ${pageCounter}. Total: ${allCategories.length}`);
           
-          // Look for the next link in the response
+          // Find next page link using proper URL resolution
           let nextUrl = null;
           if (data.links && Array.isArray(data.links)) {
             const nextLink = data.links.find((link: any) => link.rel === 'next');
-            if (nextLink && nextLink.href) {
-              nextUrl = nextLink.href;
-              console.log('Found next page URL:', nextUrl);
+            if (nextLink?.href) {
+              // Resolve relative URLs using current URL as base
+              nextUrl = new URL(nextLink.href, currentUrl).href;
+              console.log('Resolved next page URL:', nextUrl);
             }
           }
-          
+
+          // Update for next iteration
           if (nextUrl) {
             currentUrl = nextUrl;
             pageCounter++;
-            // Add a small delay between requests to be respectful to the API
+            
+            // Add delay to be API-friendly (500ms between requests)
             await new Promise(resolve => setTimeout(resolve, 500));
           } else {
             console.log('No next link found - reached the end of categories');
-            break;
+            hasMorePages = false;
           }
-          
         } else {
-          console.log('No more categories found or invalid data format - stopping pagination');
-          break;
+          console.log('No items found in response - stopping pagination');
+          hasMorePages = false;
         }
         
       } catch (pageError) {
         console.error('Error fetching categories page:', pageError);
-        break;
+        hasMorePages = false;
       }
     }
     
     console.log(`Total categories fetched: ${allCategories.length}`);
     
+    // Update cache if we got results
     if (allCategories.length > 0) {
       localStorage.setItem('cached_categories', JSON.stringify(allCategories));
       localStorage.setItem('categories_fetch_time', Date.now().toString());
@@ -139,4 +144,3 @@ export async function getCategories(): Promise<ApiCategory[]> {
   console.log('Cache expired or not found, fetching fresh categories data from API');
   return fetchCategoriesFromAPI();
 }
-

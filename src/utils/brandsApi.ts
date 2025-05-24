@@ -7,150 +7,201 @@ export interface ApiBrand {
 }
 
 /**
- * Fetches brand data from the remote API with pagination support
- * Handles both link-based and offset-based pagination
+ * Fetches brand data from the remote API with guaranteed pagination
  * @returns Array of brand items with id and name
  */
 export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
   try {
-    console.log('Fetching brands from API endpoint...');
+    console.log('Initiating brand data fetch with robust pagination...');
     
     let allBrands: ApiBrand[] = [];
-    let currentUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/matkcode';
-    let pageCounter = 1;
+    let baseUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/matkcode';
+    let limit = 25;
+    let offset = 0;
     let hasMore = true;
-    
-    while (currentUrl && hasMore) {
-      try {
-        console.log(`Fetching brands page ${pageCounter} from URL:`, currentUrl);
-        
-        // Three-stage fetch attempt with different proxies
-        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(currentUrl)}`, {
-          cache: 'no-store'
-        }).catch(async (error) => {
-          console.error("AllOrigins proxy failed, trying CORS Anywhere:", error);
-          return fetch(`https://cors-anywhere.herokuapp.com/${currentUrl}`, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            cache: 'no-store'
-          });
-        }).catch(async (error) => {
-          console.error("All proxies failed, attempting direct request:", error);
-          return fetch(currentUrl, { 
-            method: 'GET',
-            mode: 'no-cors',
-            cache: 'no-store'
-          });
-        });
+    let pageCounter = 1;
+    const maxEmptyPages = 3;
+    let emptyPagesCount = 0;
+    const visitedUrls = new Set<string>();
 
-        // Handle response status
-        if (!response.ok && response.status !== 0) {
-          console.warn(`Brands API request failed with status: ${response.status}`);
+    while (hasMore && emptyPagesCount < maxEmptyPages) {
+      try {
+        const url = new URL(baseUrl);
+        url.searchParams.set('offset', offset.toString());
+        url.searchParams.set('limit', limit.toString());
+        const currentUrl = url.href;
+
+        if (visitedUrls.has(currentUrl)) {
+          console.warn(`Duplicate URL detected: ${currentUrl} - stopping pagination`);
+          break;
+        }
+        visitedUrls.add(currentUrl);
+
+        console.log(`Fetching brands page ${pageCounter} [offset: ${offset}, limit: ${limit}]`);
+
+        // Rotating proxy endpoints with fallback
+        const proxies = [
+          `https://api.allorigins.win/get?url=${encodeURIComponent(currentUrl)}`,
+          `https://corsproxy.io/?${encodeURIComponent(currentUrl)}`,
+          currentUrl // Direct attempt
+        ];
+
+        let response: Response | null = null;
+        for (const proxy of proxies) {
+          try {
+            response = await fetch(proxy, {
+              cache: 'no-store',
+              headers: proxy.includes('corsproxy.io') ? {
+                'X-Requested-With': 'XMLHttpRequest'
+              } : {}
+            });
+            if (response.ok) break;
+          } catch (error) {
+            console.warn(`Proxy ${proxy} failed, trying next...`);
+          }
+        }
+
+        if (!response?.ok) {
+          console.error('All brand fetch attempts failed');
           break;
         }
 
-        let data;
-        
-        // Parse response based on proxy used
+        // Parse response data
+        let data: any;
         if (response.url.includes('allorigins.win')) {
           const proxyResponse = await response.json();
           data = JSON.parse(proxyResponse.contents);
         } else {
-          try {
-            data = await response.json();
-          } catch (e) {
-            console.error("Could not parse brands JSON response:", e);
-            break;
-          }
+          data = await response.json();
         }
-        
-        console.log(`Brands page ${pageCounter} response received with ${data?.items?.length || 0} items`);
-        
-        // Process items if available
-        if (data && Array.isArray(data.items)) {
-          const pageBrands = data.items
-            .filter((item: any) => item.mak_namear && item.mak_sequ)
+
+        console.log(`Brands page ${pageCounter} response:`, {
+          items: data?.items?.length,
+          hasMore: data?.hasMore,
+          offset: data?.offset,
+          limit: data?.limit
+        });
+
+        // Update pagination parameters from response
+        limit = data?.limit || limit;
+        const receivedOffset = data?.offset || offset;
+
+        // Process items regardless of count
+        if (data?.items?.length > 0) {
+          const validBrands = data.items
+            .filter((item: any) => item.mak_namear?.trim() && item.mak_sequ)
             .map((item: any) => ({
-              id: item.mak_sequ?.toString() || "",  // Swapped code/sequ based on typical patterns
-              name: item.mak_namear || "",
-              code: item.mak_code || ""
+              id: item.mak_sequ.toString(),
+              name: item.mak_namear.trim(),
+              code: item.mak_code?.toString()
             }));
 
-          // Stop if we get an empty page
-          if (pageBrands.length === 0) {
-            console.log('Empty brands page received - stopping pagination');
-            break;
+          if (validBrands.length > 0) {
+            allBrands = [...allBrands, ...validBrands];
+            console.log(`Added ${validBrands.length} brands from page ${pageCounter}`);
+            emptyPagesCount = 0;
           }
-          
-          allBrands = [...allBrands, ...pageBrands];
-          console.log(`Added ${pageBrands.length} brands from page ${pageCounter}. Total: ${allBrands.length}`);
-          
-          // 1. Check for explicit next link
-          let nextUrl = null;
-          if (data.links && Array.isArray(data.links)) {
-            const nextLink = data.links.find((link: any) => link.rel === 'next');
-            if (nextLink?.href) {
-              nextUrl = new URL(nextLink.href, currentUrl).href;
-              console.log('Using explicit next link:', nextUrl);
-            }
-          }
-
-          // 2. If no link but API says hasMore, calculate next offset
-          if (!nextUrl && data.hasMore) {
-            const currentOffset = data.offset || 0;
-            const limit = data.limit || 25;
-            const urlObj = new URL(currentUrl);
-            urlObj.searchParams.set('offset', (currentOffset + limit).toString());
-            nextUrl = urlObj.href;
-            console.log('Calculated next offset URL:', nextUrl);
-          }
-
-          // 3. Update pagination state
-          hasMore = Boolean(data.hasMore);
-          currentUrl = nextUrl || '';
-          pageCounter++;
-
-          // Add rate limiting delay
-          await new Promise(resolve => setTimeout(resolve, 500));
         } else {
-          console.log('Invalid brands data format - stopping pagination');
-          break;
+          emptyPagesCount++;
+          console.warn(`Empty brands page ${pageCounter} detected`);
         }
+
+        // Multi-strategy pagination detection
+        let nextUrl: string | null = null;
+        
+        // 1. Check explicit next link
+        if (data?.links) {
+          const nextLink = data.links.find((link: any) => 
+            link.rel?.toLowerCase() === 'next' && link.href
+          );
+          if (nextLink) {
+            nextUrl = new URL(nextLink.href, currentUrl).href;
+          }
+        }
+
+        // 2. Use hasMore flag with offset calculation
+        if (!nextUrl && data?.hasMore) {
+          const nextOffset = receivedOffset + (data.items?.length || limit);
+          const nextUrlObj = new URL(currentUrl);
+          nextUrlObj.searchParams.set('offset', nextOffset.toString());
+          nextUrl = nextUrlObj.href;
+        }
+
+        // 3. Item count-based progression
+        if (!nextUrl && data?.items) {
+          const expectedItems = data.limit || limit;
+          if (data.items.length >= expectedItems) {
+            const nextOffset = receivedOffset + expectedItems;
+            const nextUrlObj = new URL(currentUrl);
+            nextUrlObj.searchParams.set('offset', nextOffset.toString());
+            nextUrl = nextUrlObj.href;
+          }
+        }
+
+        // Update offset for next iteration
+        if (nextUrl) {
+          const newOffset = parseInt(new URL(nextUrl).searchParams.get('offset') || offset + limit;
+          offset = Math.max(newOffset, receivedOffset + (data.items?.length || 0));
+          hasMore = true;
+        } else {
+          hasMore = false;
+        }
+
+        pageCounter++;
+
+        // Rate limiting delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
       } catch (pageError) {
-        console.error('Error fetching brands page:', pageError);
-        break;
+        console.error(`Brands page ${pageCounter} error:`, pageError);
+        emptyPagesCount++;
+        if (emptyPagesCount >= maxEmptyPages) break;
       }
     }
-    
+
     console.log(`Total brands fetched: ${allBrands.length}`);
     
+    // Update local cache
     if (allBrands.length > 0) {
       localStorage.setItem('cached_brands', JSON.stringify(allBrands));
       localStorage.setItem('brands_fetch_time', Date.now().toString());
     }
-    
+
     return allBrands;
-    
+
   } catch (error) {
-    console.error('Error fetching brands from API:', error);
+    console.error('Global brands fetch error:', error);
     return [];
   }
 }
 
+/**
+ * Retrieves brands using cache-first strategy
+ * @returns Promise containing array of brands
+ */
 export async function getBrands(): Promise<ApiBrand[]> {
-  const cachedBrands = localStorage.getItem('cached_brands');
-  const fetchTime = localStorage.getItem('brands_fetch_time');
-  
-  const cacheValidity = 3600000; // 1 hour
-  
-  if (cachedBrands && fetchTime && (Date.now() - parseInt(fetchTime)) < cacheValidity) {
-    console.log('Using cached brands data');
-    return JSON.parse(cachedBrands);
+  const CACHE_TTL = 3600000; // 1 hour cache
+
+  try {
+    const cachedData = localStorage.getItem('cached_brands');
+    const lastFetch = localStorage.getItem('brands_fetch_time');
+
+    // Validate cache existence and freshness
+    if (cachedData && lastFetch) {
+      const cacheValid = (Date.now() - parseInt(lastFetch)) < CACHE_TTL;
+      const parsedData = JSON.parse(cachedData);
+      
+      if (cacheValid && Array.isArray(parsedData) {
+        console.log('Returning valid cached brands');
+        return parsedData;
+      }
+    }
+
+    console.log('Cache invalid/missing - fetching fresh brands');
+    return await fetchBrandsFromAPI();
+
+  } catch (error) {
+    console.error('Brands cache read error:', error);
+    return fetchBrandsFromAPI();
   }
-  
-  console.log('Cache expired or not found, fetching fresh brands data from API');
-  return fetchBrandsFromAPI();
 }

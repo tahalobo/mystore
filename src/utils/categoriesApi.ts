@@ -69,9 +69,9 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
           const pageCategories = data.items
             .filter((item: any) => item.fc_namear && item.fc_sequ)
             .map((item: any) => ({
-              id: item.fc_code?.toString() || "",
+              id: item.fc_sequ?.toString() || "",
               name: item.fc_namear || "",
-              code: item.fc_sequ || ""
+              code: item.fc_code || ""
             }));
           
           allCategories = [...allCategories, ...pageCategories];

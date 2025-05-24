@@ -19,6 +19,7 @@ import Wishlist from "./pages/Wishlist";
 import Deals from "./pages/Deals";
 import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/CategoryPage";
+import CategoriesPage from "./pages/CategoriesPage";
 import Collection from "./pages/Collection";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
@@ -83,6 +84,7 @@ const App = () => {
                   <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="/deals" element={<Deals />} />
                   <Route path="/search" element={<Search />} />
+                  <Route path="/categories" element={<CategoriesPage />} />
                   <Route path="/category/:categoryId" element={<CategoryPage />} />
                   <Route path="/:collectionId" element={<Collection />} />
                   <Route path="/brands" element={<BrandsIndex />} />

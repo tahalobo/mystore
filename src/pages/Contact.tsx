@@ -17,13 +17,13 @@ const contactInfo = {
     mapUrl: "https://maps.google.com/?q=14+Ramadan+Street+Baghdad+Iraq"
   },
   phone: {
-    sales: "+964 771 234 5678",
-    support: "+964 780 987 6543"
+    sales: "0780 722 2333",
+    support: "0780 722 2333"
   },
   email: {
-    general: "info@mystore-iraq.com",
-    support: "support@mystore-iraq.com",
-    sales: "sales@mystore-iraq.com"
+    general: "Suhah08@gmail.com",
+    support: "Suhah08@gmail.com",
+    sales: "Suhah08@gmail.com",
   },
   social: {
     facebook: "https://facebook.com/mystore.iraq",
@@ -171,14 +171,7 @@ const Contact: React.FC = () => {
                 info: contactInfo.email.support,
                 color: "bg-blue-50 text-blue-600",
                 action: "إرسال بريد إلكتروني"
-              }, {
-                icon: <MapPin className="h-6 w-6" />,
-                title: "قم بزيارتنا",
-                description: "تعال إلى موقع متجرنا",
-                info: contactInfo.address.street,
-                color: "bg-amber-50 text-amber-600",
-                action: "احصل على الاتجاهات"
-              }].map((item, index) => <motion.div key={index} variants={itemAnimation} className="bg-white rounded-xl shadow-md transition-all hover:shadow-lg border border-gray-100">
+              }, ].map((item, index) => <motion.div key={index} variants={itemAnimation} className="bg-white rounded-xl shadow-md transition-all hover:shadow-lg border border-gray-100">
                     <div className="p-6">
                       <div className={`w-12 h-12 rounded-full ${item.color} flex items-center justify-center mb-4`}>
                         {item.icon}

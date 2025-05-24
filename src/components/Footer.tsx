@@ -163,23 +163,20 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-white font-semibold border-b border-gray-800 pb-2">تواصل</h3>
             <ul className="space-y-3">
-              <li className="flex items-start">
-                <MapPin className="h-5 w-5 mr-2 text-primary mt-0.5" />
-                <span className="text-gray-400">
-                بغداد مول، حي المنصور، بغداد، العراق
-                </span>
-              </li>
+              
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-gray-400">+964 750 123 4567</span>
+                <span className="text-gray-400">0780 722 2333
+              </span>
               </li>
               <li className="flex items-center">
-                <WhatsApp className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-gray-400">+964 770 987 6543</span>
+                
+                
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-gray-400">support@samaur-iraq.com</span>
+                <span className="text-gray-400">Suhah08@gmail.com
+              </span>
               </li>
             </ul>
             

@@ -7,55 +7,44 @@ export interface ApiCategory {
 }
 
 /**
- * Fetches category data from the remote API with guaranteed pagination
+ * Fetches category data from the remote API with pagination support
  * @returns Array of category items with id and name
  */
 export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
   try {
-    console.log('Starting guaranteed pagination fetch...');
+    console.log('Starting category data fetch operation...');
     
     let allCategories: ApiCategory[] = [];
-    let baseUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/fclass';
-    let limit = 25;
-    let offset = 0;
-    let hasMore = true;
+    let currentUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/fclass';
     let pageCounter = 1;
-    const maxEmptyPages = 3;
-    let emptyPagesCount = 0;
+    let retryCount = 0;
+    const maxRetries = 3;
 
-    while (hasMore && emptyPagesCount < maxEmptyPages) {
+    while (currentUrl) {
       try {
-        const url = new URL(baseUrl);
-        url.searchParams.set('offset', offset.toString());
-        url.searchParams.set('limit', limit.toString());
+        console.log(`Processing page ${pageCounter} [${currentUrl}]`);
         
-        console.log(`Fetching page ${pageCounter} [offset: ${offset}, limit: ${limit}]`);
+        // Enhanced proxy handling with retry logic
+        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(currentUrl)}`, {
+          cache: 'no-store'
+        }).catch(async (error) => {
+          console.error("Primary proxy failed, trying secondary:", error);
+          return fetch(`https://corsproxy.io/?${encodeURIComponent(currentUrl)}`, {
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            cache: 'no-store'
+          });
+        });
 
-        // Rotating proxy endpoints
-        const proxies = [
-          `https://api.allorigins.win/get?url=${encodeURIComponent(url.href)}`,
-          `https://corsproxy.io/?${encodeURIComponent(url.href)}`,
-          url.href // Direct attempt
-        ];
-
-        let response: Response | null = null;
-        for (const proxy of proxies) {
-          try {
-            response = await fetch(proxy, {
-              cache: 'no-store',
-              headers: proxy.includes('corsproxy.io') ? {
-                'X-Requested-With': 'XMLHttpRequest'
-              } : {}
-            });
-            if (response.ok) break;
-          } catch (error) {
-            console.warn(`Proxy ${proxy} failed, trying next...`);
+        if (!response.ok) {
+          console.warn(`Page ${pageCounter} fetch failed: ${response.status}`);
+          if (retryCount++ < maxRetries) {
+            console.log(`Retrying page ${pageCounter} (attempt ${retryCount})`);
+            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+            continue;
           }
-        }
-
-        if (!response?.ok) {
-          console.error('All fetch attempts failed');
-          break;
+          throw new Error(`Failed after ${maxRetries} retries`);
         }
 
         // Parse response data
@@ -67,20 +56,11 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
           data = await response.json();
         }
 
-        console.log(`Page ${pageCounter} response:`, {
-          items: data?.items?.length,
-          hasMore: data?.hasMore,
-          offset: data?.offset,
-          limit: data?.limit
-        });
+        console.log(`Page ${pageCounter} received ${data?.items?.length || 0} items`);
 
-        // Update pagination parameters from response
-        limit = data?.limit || limit;
-        const receivedOffset = data?.offset || offset;
-        
         // Process items regardless of count
-        if (data?.items?.length > 0) {
-          const validItems = data.items
+        if (data?.items) {
+          const pageItems = data.items
             .filter((item: any) => item.fc_namear?.trim() && item.fc_sequ)
             .map((item: any) => ({
               id: item.fc_sequ.toString(),
@@ -88,48 +68,69 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
               code: item.fc_code?.toString()
             }));
 
-          if (validItems.length > 0) {
-            allCategories = [...allCategories, ...validItems];
-            console.log(`Added ${validItems.length} items from page ${pageCounter}`);
-            emptyPagesCount = 0; // Reset empty counter
+          if (pageItems.length > 0) {
+            allCategories = [...allCategories, ...pageItems];
+            console.log(`Added ${pageItems.length} items from page ${pageCounter}`);
           }
-        } else {
-          emptyPagesCount++;
-          console.warn(`Empty page ${pageCounter} detected`);
         }
 
-        // Calculate next offset
-        const expectedNextOffset = offset + limit;
-        const actualOffset = data?.offset || offset;
+        // Determine next page URL using multiple indicators
+        let nextUrl = null;
         
-        // Determine if we should continue
-        hasMore = data?.hasMore ?? (data?.items?.length === limit);
-        
-        // Always progress offset (critical fix)
-        if (actualOffset >= offset) { // Ensure forward movement
-          offset = actualOffset + (data?.items?.length || 0);
+        // 1. Check explicit next link
+        if (data?.links) {
+          const nextLink = data.links.find((link: any) => 
+            link.rel?.toLowerCase() === 'next' && link.href
+          );
+          if (nextLink) {
+            nextUrl = new URL(nextLink.href, currentUrl).href;
+          }
+        }
+
+        // 2. Check hasMore flag with offset calculation
+        if (!nextUrl && data?.hasMore) {
+          const currentOffset = parseInt(new URL(currentUrl).searchParams.get('offset') || '0');
+          const limit = data.limit || 25;
+          nextUrl = new URL(currentUrl);
+          nextUrl.searchParams.set('offset', (currentOffset + limit).toString());
+        }
+
+        // 3. Final fallback check item count
+        if (!nextUrl && data?.items?.length >= (data.limit || 25)) {
+          const urlObj = new URL(currentUrl);
+          const currentOffset = parseInt(urlObj.searchParams.get('offset') || '0');
+          const limit = data.limit || 25;
+          urlObj.searchParams.set('offset', (currentOffset + limit).toString());
+          nextUrl = urlObj.href;
+        }
+
+        // Update tracking variables
+        if (nextUrl) {
+          currentUrl = nextUrl;
+          pageCounter++;
+          retryCount = 0;
+          console.log(`Next page detected: ${currentUrl}`);
+          
+          // Rate limiting protection
+          await new Promise(resolve => setTimeout(resolve, 750));
         } else {
-          offset = expectedNextOffset;
+          console.log('No more pages detected - ending pagination');
+          currentUrl = '';
         }
-
-        // Final hasMore check for APIs that don't report it
-        if (!hasMore && data?.items?.length > 0) {
-          hasMore = true;
-        }
-
-        pageCounter++;
-
-        // Rate limiting protection
-        await new Promise(resolve => setTimeout(resolve, 1000));
 
       } catch (pageError) {
-        console.error(`Page ${pageCounter} error:`, pageError);
-        emptyPagesCount++;
-        if (emptyPagesCount >= maxEmptyPages) break;
+        console.error(`Page ${pageCounter} processing failed:`, pageError);
+        if (retryCount++ < maxRetries) {
+          console.log(`Retrying page ${pageCounter} (attempt ${retryCount})`);
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        } else {
+          console.error(`Aborting after ${maxRetries} retries`);
+          currentUrl = '';
+        }
       }
     }
 
-    console.log(`Total categories fetched: ${allCategories.length}`);
+    console.log(`Total categories collected: ${allCategories.length}`);
     
     // Update local cache
     if (allCategories.length > 0) {
@@ -140,7 +141,7 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
     return allCategories;
 
   } catch (error) {
-    console.error('Global fetch error:', error);
+    console.error('Critical error in fetch operation:', error);
     return [];
   }
 }
@@ -150,28 +151,28 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
  * @returns Promise containing array of categories
  */
 export async function getCategories(): Promise<ApiCategory[]> {
-  const CACHE_TTL = 3600000; // 1 hour cache
+  const CACHE_TTL = 3600000; // 1 hour cache validity
 
   try {
-    const cachedData = localStorage.getItem('cached_categories');
-    const lastFetch = localStorage.getItem('categories_fetch_time');
+    const [cachedData, lastFetch] = [
+      localStorage.getItem('cached_categories'),
+      localStorage.getItem('categories_fetch_time')
+    ];
 
-    // Validate cache
     if (cachedData && lastFetch) {
-      const cacheAge = Date.now() - parseInt(lastFetch);
-      const parsedData = JSON.parse(cachedData);
-      
-      if (cacheAge < CACHE_TTL && parsedData.length > 0) {
-        console.log('Returning valid cached categories');
-        return parsedData;
+      const age = Date.now() - parseInt(lastFetch);
+      if (age < CACHE_TTL) {
+        console.log('Returning valid cached data');
+        return JSON.parse(cachedData);
       }
+      console.log('Cache expired - age:', age);
     }
 
-    console.log('Cache invalid/expired - fetching fresh data');
+    console.log('Initiating fresh API fetch');
     return await fetchCategoriesFromAPI();
 
-  } catch (error) {
-    console.error('Cache read error:', error);
+  } catch (cacheError) {
+    console.warn('Cache read error:', cacheError);
     return fetchCategoriesFromAPI();
   }
 }

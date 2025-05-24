@@ -92,7 +92,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white">متجري</h2>
+            <h2 className="text-xl font-bold text-white">متجر zmc</h2>
             <p className="text-gray-400 max-w-xs">
             وجهتك الموثوقة للمنتجات التقنية المتميزة في العراق. نحن نقدم مجموعة واسعة من الأدوات والإكسسوارات الأصلية التي يتم توصيلها إلى باب منزلك.
             </p>

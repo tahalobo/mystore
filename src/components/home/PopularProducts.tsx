@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,14 +6,12 @@ import { ChevronRight } from "lucide-react";
 import { Product } from "@/types";
 import { useNavigate } from "react-router-dom";
 import ProductGrid from "@/components/ProductGrid";
-
 interface PopularProductsProps {
   categoryId?: string;
   title?: string;
   description?: string;
   limit?: number;
 }
-
 const PopularProducts: React.FC<PopularProductsProps> = ({
   categoryId = "headphones",
   title = "المنتجات المميزة في الفئة",
@@ -24,7 +21,6 @@ const PopularProducts: React.FC<PopularProductsProps> = ({
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
   useEffect(() => {
     const loadProducts = async () => {
       setIsLoading(true);
@@ -38,13 +34,10 @@ const PopularProducts: React.FC<PopularProductsProps> = ({
         setIsLoading(false);
       }
     };
-
     loadProducts();
   }, [categoryId, limit]);
-
   if (isLoading) {
-    return (
-      <section className="py-12 bg-white">
+    return <section className="py-12 bg-white">
         <div className="container mx-auto">
           <div className="flex justify-center items-center py-16">
             <div className="text-center">
@@ -53,42 +46,8 @@ const PopularProducts: React.FC<PopularProductsProps> = ({
             </div>
           </div>
         </div>
-      </section>
-    );
+      </section>;
   }
-
-  return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-          <div>
-            <h2 className="text-3xl font-bold">{title}</h2>
-            <p className="text-gray-600 mt-2">{description}</p>
-          </div>
-          <div className="mt-4 md:mt-0">
-            <Button variant="outline" asChild className="text-primary">
-              <Link to={`/category/${categoryId}`} className="flex items-center">
-                عرض المزيد
-                <ChevronRight className="ml-1 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-        
-        {products.length > 0 ? (
-          <ProductGrid 
-            products={products}
-            view="grid"
-            emptyMessage={`لا توجد منتجات في فئة ${categoryId} حاليًا`}
-          />
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500">لا توجد منتجات متوفرة حاليًا</p>
-          </div>
-        )}
-      </div>
-    </section>
-  );
+  return;
 };
-
 export default PopularProducts;

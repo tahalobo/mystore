@@ -7,35 +7,40 @@ export interface ApiBrand {
 }
 
 /**
- * Fetches brand data from the remote API using pagination via next links
+ * Fetches brand data from the remote API using explicit offset pagination
  * @returns Array of brand items with id and name
  */
 export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
   try {
-    console.log('Initiating brand data fetch with next-link pagination...');
+    console.log('Initiating brand data fetch with explicit offset pagination...');
     
     let allBrands: ApiBrand[] = [];
-    let currentUrl: string | null = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/matkcode';
-    const visitedUrls = new Set<string>();
-    const maxEmptyPages = 3;
-    let emptyPagesCount = 0;
+    const baseUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/matkcode';
+    let offset = 0;
+    let hasMore = true;
     let pageCounter = 1;
+    const visitedUrls = new Set<string>();
 
-    while (currentUrl && emptyPagesCount < maxEmptyPages) {
+    while (hasMore) {
       try {
-        if (visitedUrls.has(currentUrl)) {
-          console.warn(`Duplicate URL detected: ${currentUrl} - stopping pagination`);
+        // Construct URL with offset (only add parameter if offset > 0)
+        const url = offset === 0 
+          ? baseUrl 
+          : `${baseUrl}?offset=${offset}`;
+
+        if (visitedUrls.has(url)) {
+          console.warn(`Duplicate URL detected: ${url} - stopping pagination`);
           break;
         }
-        visitedUrls.add(currentUrl);
+        visitedUrls.add(url);
 
-        console.log(`Fetching brands page ${pageCounter}: ${currentUrl}`);
+        console.log(`Fetching brands page ${pageCounter} [offset: ${offset}]`);
 
         // Rotating proxy endpoints with fallback
         const proxies = [
-          `https://api.allorigins.win/get?url=${encodeURIComponent(currentUrl)}`,
-          `https://corsproxy.io/?${encodeURIComponent(currentUrl)}`,
-          currentUrl // Direct attempt
+          `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+          `https://corsproxy.io/?${encodeURIComponent(url)}`,
+          url // Direct attempt
         ];
 
         let response: Response | null = null;
@@ -70,12 +75,11 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
         console.log(`Brands page ${pageCounter} response:`, {
           items: data?.items?.length,
           hasMore: data?.hasMore,
-          offset: data?.offset,
-          limit: data?.limit
+          offset: data?.offset
         });
 
-        // Process items
-        if (data?.items?.length > 0) {
+        // Process items regardless of count
+        if (data?.items) {
           const validBrands = data.items
             .filter((item: any) => item.mak_namear?.trim() && item.mak_sequ)
             .map((item: any) => ({
@@ -87,43 +91,25 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
           if (validBrands.length > 0) {
             allBrands = [...allBrands, ...validBrands];
             console.log(`Added ${validBrands.length} brands from page ${pageCounter}`);
-            emptyPagesCount = 0; // Reset empty pages counter
-          }
-        } else {
-          emptyPagesCount++;
-          console.warn(`Empty brands page ${pageCounter} detected`);
-        }
-
-        // Find next page URL from links
-        let nextUrl: string | null = null;
-        if (data?.links) {
-          const nextLink = data.links.find((link: any) => 
-            link.rel?.toLowerCase() === 'next' && link.href
-          );
-          if (nextLink) {
-            nextUrl = new URL(nextLink.href, currentUrl).href;
           }
         }
 
-        // Fallback to offset-based pagination if next link not found
-        if (!nextUrl && data?.hasMore) {
-          const currentOffset = new URL(currentUrl).searchParams.get('offset') || '0';
-          const nextOffset = parseInt(currentOffset) + (data.items?.length || 0);
-          const urlObj = new URL(currentUrl);
-          urlObj.searchParams.set('offset', nextOffset.toString());
-          nextUrl = urlObj.href;
+        // Update pagination control
+        hasMore = data?.hasMore === true;
+        
+        // Explicitly set next offset (ignore any offset value from response)
+        if (hasMore) {
+          offset += 25; // Always increment by 25 for next page
+          pageCounter++;
         }
-
-        currentUrl = nextUrl;
-        pageCounter++;
 
         // Rate limiting delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 500));
 
       } catch (pageError) {
         console.error(`Brands page ${pageCounter} error:`, pageError);
-        emptyPagesCount++;
-        if (emptyPagesCount >= maxEmptyPages) break;
+        // Retry current page after delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
       }
     }
 
@@ -154,6 +140,7 @@ export async function getBrands(): Promise<ApiBrand[]> {
     const cachedData = localStorage.getItem('cached_brands');
     const lastFetch = localStorage.getItem('brands_fetch_time');
 
+    // Validate cache existence and freshness
     if (cachedData && lastFetch) {
       const cacheValid = (Date.now() - parseInt(lastFetch)) < CACHE_TTL;
       const parsedData = JSON.parse(cachedData);

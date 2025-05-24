@@ -140,7 +140,7 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
 
         // Update offset for next iteration
         if (nextUrl) {
-          const newOffset = parseInt(new URL(nextUrl).searchParams.get('offset') || offset + limit;
+const newOffset = parseInt(new URL(nextUrl).searchParams.get('offset') || offset + limit);
           offset = Math.max(newOffset, receivedOffset + (data.items?.length || 0));
           hasMore = true;
         } else {

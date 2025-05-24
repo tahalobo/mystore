@@ -318,17 +318,11 @@ const Contact: React.FC = () => {
                         <MapPin className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
                         <div>
                           <h4 className="font-medium">العنوان</h4>
-                          <p className="text-gray-600">الصناعة شارع 18</p>
+                          <p className="text-gray-600">العنوان هنا </p>
                         </div>
                       </div>
                       
-                      <div className="flex items-start">
-                        <Clock className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
-                        <div>
-                          <h4 className="font-medium">ساعات العمل</h4>
-                          <p className="text-gray-600">الإثنين - الاحد: 9 صباحاً - 6 مساءً<br />يوم السبت 10 صباحاً - 4 عصراً<br />الجمعة مغلق</p>
-                        </div>
-                      </div>
+                      
                     </div>
                   </div>
                   

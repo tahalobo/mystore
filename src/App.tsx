@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,7 +10,7 @@ import { RTLProvider } from "@/contexts/RTLContext";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useEffect, useState } from "react";
-import { isProductsLoading, loadProductsFromAPI } from "@/data/products";
+import { loadProductsFromAPI } from "@/data/products";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";

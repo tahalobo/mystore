@@ -8,7 +8,7 @@ export interface ApiCategory {
 }
 
 /**
- * Fetches category data from the remote API with pagination support
+ * Fetches category data from the remote API with pagination support using offset
  * @returns Array of category items with id and name
  */
 export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
@@ -16,18 +16,23 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
     console.log('Fetching categories from API endpoint...');
     
     let allCategories: ApiCategory[] = [];
-    let nextUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/fclass';
+    let offset = 0;
     let pageCounter = 1;
+    const limit = 25; // Each page has 25 items
     
-    while (nextUrl) {
+    while (true) {
       try {
-        console.log(`Fetching categories page ${pageCounter} from URL:`, nextUrl);
+        const currentUrl = offset === 0 
+          ? 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/fclass'
+          : `http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/fclass?offset=${offset}`;
+          
+        console.log(`Fetching categories page ${pageCounter} from URL:`, currentUrl);
         
-        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(nextUrl)}`, {
+        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(currentUrl)}`, {
           cache: 'no-store'
         }).catch(async (error) => {
           console.error("AllOrigins proxy failed, trying CORS Anywhere:", error);
-          return fetch(`https://cors-anywhere.herokuapp.com/${nextUrl}`, {
+          return fetch(`https://cors-anywhere.herokuapp.com/${currentUrl}`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -37,7 +42,7 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
           });
         }).catch(async (error) => {
           console.error("All proxies failed, attempting direct request:", error);
-          return fetch(nextUrl, { 
+          return fetch(currentUrl, { 
             method: 'GET',
             mode: 'no-cors',
             cache: 'no-store'
@@ -65,7 +70,7 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
         
         console.log(`Categories page ${pageCounter} response received with ${data?.items?.length || 0} items`);
         
-        if (data && Array.isArray(data.items)) {
+        if (data && Array.isArray(data.items) && data.items.length > 0) {
           const pageCategories = data.items
             .filter((item: any) => item.fc_namear && item.fc_sequ)
             .map((item: any) => ({
@@ -76,26 +81,23 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
           
           allCategories = [...allCategories, ...pageCategories];
           console.log(`Added ${pageCategories.length} categories from page ${pageCounter}. Total: ${allCategories.length}`);
-        } else {
-          console.warn("Invalid categories data format received:", data);
-          break;
-        }
-        
-        // Check for next page
-        nextUrl = null;
-        if (data && Array.isArray(data.links)) {
-          const nextLink = data.links.find((link: any) => link.rel === 'next');
-          if (nextLink && nextLink.href) {
-            nextUrl = nextLink.href;
-            pageCounter++;
-            console.log('Found next categories page URL:', nextUrl);
-          } else {
-            console.log('No more categories pages found, completed fetching all categories');
+          
+          // If we got less than the expected limit, we've reached the end
+          if (data.items.length < limit) {
+            console.log('Reached the end of categories - got less items than expected limit');
+            break;
           }
-        }
-        
-        if (nextUrl) {
+          
+          // Move to next page
+          offset += limit;
+          pageCounter++;
+          
+          // Add a small delay between requests to be respectful to the API
           await new Promise(resolve => setTimeout(resolve, 500));
+          
+        } else {
+          console.log('No more categories found or invalid data format - stopping pagination');
+          break;
         }
         
       } catch (pageError) {

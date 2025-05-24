@@ -16,100 +16,111 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
     
     let allBrands: ApiBrand[] = [];
     const baseUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/matkcode';
-    let offset = 0;
-    let hasMore = true;
+    let nextUrl: string | null = baseUrl;
     let pageCounter = 1;
+    const maxRetries = 3;
     const visitedUrls = new Set<string>();
 
-    while (hasMore) {
-      try {
-        // Construct URL with offset (only add parameter if offset > 0)
-        const url = offset === 0 
-          ? baseUrl 
-          : `${baseUrl}?offset=${offset}`;
-
-        if (visitedUrls.has(url)) {
-          console.warn(`Duplicate URL detected: ${url} - stopping pagination`);
-          break;
-        }
-        visitedUrls.add(url);
-
-        console.log(`Fetching brands page ${pageCounter} [offset: ${offset}]`);
-
-        // Rotating proxy endpoints with fallback
-        const proxies = [
-          `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-          `https://corsproxy.io/?${encodeURIComponent(url)}`,
-          url // Direct attempt
-        ];
-
-        let response: Response | null = null;
-        for (const proxy of proxies) {
-          try {
-            response = await fetch(proxy, {
-              cache: 'no-store',
-              headers: proxy.includes('corsproxy.io') ? {
-                'X-Requested-With': 'XMLHttpRequest'
-              } : {}
-            });
-            if (response.ok) break;
-          } catch (error) {
-            console.warn(`Proxy ${proxy} failed, trying next...`);
+    while (nextUrl) {
+      let retries = 0;
+      let success = false;
+      
+      while (retries < maxRetries && !success) {
+        try {
+          if (visitedUrls.has(nextUrl)) {
+            console.warn(`Duplicate URL detected: ${nextUrl} - stopping pagination`);
+            nextUrl = null;
+            break;
           }
-        }
+          visitedUrls.add(nextUrl);
 
-        if (!response?.ok) {
-          console.error('All brand fetch attempts failed');
-          break;
-        }
+          console.log(`Fetching brands page ${pageCounter}: ${nextUrl}`);
 
-        // Parse response data
-        let data: any;
-        if (response.url.includes('allorigins.win')) {
-          const proxyResponse = await response.json();
-          data = JSON.parse(proxyResponse.contents);
-        } else {
-          data = await response.json();
-        }
+          // Rotating proxy endpoints with fallback
+          const proxies = [
+            `https://api.allorigins.win/get?url=${encodeURIComponent(nextUrl)}`,
+            `https://corsproxy.io/?${encodeURIComponent(nextUrl)}`,
+            nextUrl // Direct attempt
+          ];
 
-        console.log(`Brands page ${pageCounter} response:`, {
-          items: data?.items?.length,
-          hasMore: data?.hasMore,
-          offset: data?.offset
-        });
+          let response: Response | null = null;
+          for (const proxy of proxies) {
+            try {
+              response = await fetch(proxy, {
+                cache: 'no-store',
+                headers: proxy.includes('corsproxy.io') ? {
+                  'X-Requested-With': 'XMLHttpRequest'
+                } : {}
+              });
+              if (response.ok) break;
+            } catch (error) {
+              console.warn(`Proxy ${proxy} failed, trying next...`);
+            }
+          }
 
-        // Process items regardless of count
-        if (data?.items) {
-          const validBrands = data.items
-            .filter((item: any) => item.mak_namear?.trim() && item.mak_sequ)
-            .map((item: any) => ({
-              id: item.mak_sequ.toString(),
-              name: item.mak_namear.trim(),
-              code: item.mak_code?.toString()
-            }));
+          if (!response?.ok) {
+            console.error(`Page ${pageCounter} fetch failed after ${retries + 1} attempts`);
+            retries++;
+            await new Promise(resolve => setTimeout(resolve, 2000 * retries));
+            continue;
+          }
 
-          if (validBrands.length > 0) {
+          // Parse response data
+          let data: any;
+          if (response.url.includes('allorigins.win')) {
+            const proxyResponse = await response.json();
+            data = JSON.parse(proxyResponse.contents);
+          } else {
+            data = await response.json();
+          }
+
+          console.log(`Brands page ${pageCounter} response:`, {
+            items: data?.items?.length,
+            hasMore: data?.hasMore,
+            offset: data?.offset,
+            nextLink: data?.links?.find((l: any) => l.rel === 'next')?.href
+          });
+
+          // Process items
+          if (data?.items?.length > 0) {
+            const validBrands = data.items
+              .filter((item: any) => item.mak_namear?.trim() && item.mak_sequ)
+              .map((item: any) => ({
+                id: item.mak_sequ.toString(),
+                name: item.mak_namear.trim(),
+                code: item.mak_code?.toString()
+              }));
+
             allBrands = [...allBrands, ...validBrands];
             console.log(`Added ${validBrands.length} brands from page ${pageCounter}`);
           }
-        }
 
-        // Update pagination control
-        hasMore = data?.hasMore === true;
-        
-        // Explicitly set next offset (ignore any offset value from response)
-        if (hasMore) {
-          offset += 25; // Always increment by 25 for next page
+          // Determine next URL
+          const nextLink = data?.links?.find((link: any) => 
+            link.rel?.toLowerCase() === 'next' && link.href
+          );
+          
+          // Update next URL using either the link or offset calculation
+          nextUrl = nextLink?.href 
+            ? new URL(nextLink.href, baseUrl).href
+            : data?.hasMore
+              ? `${baseUrl}?offset=${(data.offset || 0) + (data.items?.length || 25)}`
+              : null;
+
           pageCounter++;
+          success = true;
+          await new Promise(resolve => setTimeout(resolve, 500));
+
+        } catch (pageError) {
+          console.error(`Brands page ${pageCounter} error (attempt ${retries + 1}):`, pageError);
+          retries++;
+          await new Promise(resolve => setTimeout(resolve, 2000 * retries));
         }
+      }
 
-        // Rate limiting delay
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-      } catch (pageError) {
-        console.error(`Brands page ${pageCounter} error:`, pageError);
-        // Retry current page after delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
+      if (!success) {
+        console.error(`Failed to fetch page ${pageCounter} after ${maxRetries} attempts`);
+        break;
       }
     }
 

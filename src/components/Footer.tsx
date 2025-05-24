@@ -183,16 +183,7 @@ const Footer: React.FC = () => {
               </li>
             </ul>
             
-            <div className="pt-4">
-              <h4 className="text-white font-medium mb-2 flex items-center">
-                <Clock className="h-4 w-4 mr-2 text-primary" />
-            ساعات العمل:
-              </h4>
-              <p className="text-gray-400 text-sm">
-              السبت - الخميس: 10 صباحًا - 9 مساءً<br />
-الجمعة: 2 مساءً - 9 مساءً
-              </p>
-            </div>
+            
           </div>
 
           {/* Newsletter */}

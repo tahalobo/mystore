@@ -1,35 +1,33 @@
-// Utility functions to fetch categories from the API with pagination
 
-export interface ApiCategory {
+// Utility functions to fetch brands from the API with pagination
+
+export interface ApiBrand {
   id: string;
   name: string;
   code?: string;
 }
 
 /**
- * Fetches category data from the remote API with pagination support using next links
- * @returns Array of category items with id and name
+ * Fetches brand data from the remote API with pagination support
+ * @returns Array of brand items with id and name
  */
-export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
+export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
   try {
-    console.log('Fetching categories from API endpoint...');
+    console.log('Fetching brands from API endpoint...');
     
-    let allCategories: ApiCategory[] = [];
-    // Initialize with the first page URL
-    let currentUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/fclass';
+    let allBrands: ApiBrand[] = [];
+    let nextUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/matkcode';
     let pageCounter = 1;
     
-    // Loop until there's no next page URL
-    while (currentUrl) {
+    while (nextUrl) {
       try {
-        console.log(`Fetching categories page ${pageCounter} from URL:`, currentUrl);
+        console.log(`Fetching brands page ${pageCounter} from URL:`, nextUrl);
         
-        // Attempt to fetch through multiple proxies with fallbacks
-        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(currentUrl)}`, {
+        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(nextUrl)}`, {
           cache: 'no-store'
         }).catch(async (error) => {
           console.error("AllOrigins proxy failed, trying CORS Anywhere:", error);
-          return fetch(`https://cors-anywhere.herokuapp.com/${currentUrl}`, {
+          return fetch(`https://cors-anywhere.herokuapp.com/${nextUrl}`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -39,22 +37,20 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
           });
         }).catch(async (error) => {
           console.error("All proxies failed, attempting direct request:", error);
-          return fetch(currentUrl, { 
+          return fetch(nextUrl, { 
             method: 'GET',
             mode: 'no-cors',
             cache: 'no-store'
           });
         });
 
-        // Handle response status
         if (!response.ok && response.status !== 0) {
-          console.warn(`Categories API request failed with status: ${response.status}`);
+          console.warn(`Brands API request failed with status: ${response.status}`);
           break;
         }
 
         let data;
         
-        // Parse response based on the proxy used
         if (response.url.includes('allorigins.win')) {
           const proxyResponse = await response.json();
           data = JSON.parse(proxyResponse.contents);
@@ -62,85 +58,78 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
           try {
             data = await response.json();
           } catch (e) {
-            console.error("Could not parse categories JSON response:", e);
+            console.error("Could not parse brands JSON response:", e);
             break;
           }
         }
         
-        console.log(`Categories page ${pageCounter} response received with ${data?.items?.length || 0} items`);
+        console.log(`Brands page ${pageCounter} response received with ${data?.items?.length || 0} items`);
         
-        // Process items if available
         if (data && Array.isArray(data.items)) {
-          const pageCategories = data.items
-            .filter((item: any) => item.fc_namear && item.fc_sequ)
+          const pageBrands = data.items
+            .filter((item: any) => item.mak_namear && item.mak_sequ)
             .map((item: any) => ({
-              id: item.fc_sequ?.toString() || "",
-              name: item.fc_namear || "",
-              code: item.fc_code || ""
+              id: item.mak_code?.toString() || "",
+              name: item.mak_namear || "",
+              code: item.mak_sequ || ""
             }));
           
-          allCategories = [...allCategories, ...pageCategories];
-          console.log(`Added ${pageCategories.length} categories from page ${pageCounter}. Total: ${allCategories.length}`);
-          
-          // Calculate next page URL
-          let nextUrl = null;
-          if (data.links && Array.isArray(data.links)) {
-            const nextLink = data.links.find((link: any) => link.rel === 'next');
-            if (nextLink && nextLink.href) {
-              // Resolve relative URLs against the current URL
-              nextUrl = new URL(nextLink.href, currentUrl).href;
-              console.log('Resolved next page URL:', nextUrl);
-            }
-          }
-          
-          // Prepare for next iteration or exit loop
-          if (nextUrl) {
-            currentUrl = nextUrl;
-            pageCounter++;
-            // Add delay to be API-friendly
-            await new Promise(resolve => setTimeout(resolve, 500));
-          } else {
-            console.log('No more pages available - pagination complete');
-            currentUrl = ''; // Exit loop
-          }
+          allBrands = [...allBrands, ...pageBrands];
+          console.log(`Added ${pageBrands.length} brands from page ${pageCounter}. Total: ${allBrands.length}`);
         } else {
-          console.log('Invalid data format - stopping pagination');
+          console.warn("Invalid brands data format received:", data);
           break;
         }
+        
+        // Check for next page
+        nextUrl = null;
+        if (data && Array.isArray(data.links)) {
+          const nextLink = data.links.find((link: any) => link.rel === 'next');
+          if (nextLink && nextLink.href) {
+            nextUrl = nextLink.href;
+            pageCounter++;
+            console.log('Found next brands page URL:', nextUrl);
+          } else {
+            console.log('No more brands pages found, completed fetching all brands');
+          }
+        }
+        
+        if (nextUrl) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        
       } catch (pageError) {
-        console.error('Error fetching categories page:', pageError);
+        console.error('Error fetching brands page:', pageError);
         break;
       }
     }
     
-    console.log(`Total categories fetched: ${allCategories.length}`);
+    console.log(`Total brands fetched: ${allBrands.length}`);
     
-    // Update cache
-    if (allCategories.length > 0) {
-      localStorage.setItem('cached_categories', JSON.stringify(allCategories));
-      localStorage.setItem('categories_fetch_time', Date.now().toString());
+    if (allBrands.length > 0) {
+      localStorage.setItem('cached_brands', JSON.stringify(allBrands));
+      localStorage.setItem('brands_fetch_time', Date.now().toString());
     }
     
-    return allCategories;
+    return allBrands;
     
   } catch (error) {
-    console.error('Error fetching categories from API:', error);
+    console.error('Error fetching brands from API:', error);
     return [];
   }
 }
 
-// Cache handling remains the same
-export async function getCategories(): Promise<ApiCategory[]> {
-  const cachedCategories = localStorage.getItem('cached_categories');
-  const fetchTime = localStorage.getItem('categories_fetch_time');
+export async function getBrands(): Promise<ApiBrand[]> {
+  const cachedBrands = localStorage.getItem('cached_brands');
+  const fetchTime = localStorage.getItem('brands_fetch_time');
   
   const cacheValidity = 3600000; // 1 hour
   
-  if (cachedCategories && fetchTime && (Date.now() - parseInt(fetchTime)) < cacheValidity) {
-    console.log('Using cached categories data');
-    return JSON.parse(cachedCategories);
+  if (cachedBrands && fetchTime && (Date.now() - parseInt(fetchTime)) < cacheValidity) {
+    console.log('Using cached brands data');
+    return JSON.parse(cachedBrands);
   }
   
-  console.log('Cache expired or not found, fetching fresh categories data from API');
-  return fetchCategoriesFromAPI();
+  console.log('Cache expired or not found, fetching fresh brands data from API');
+  return fetchBrandsFromAPI();
 }

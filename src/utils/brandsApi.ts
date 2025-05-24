@@ -7,37 +7,29 @@ export interface ApiBrand {
 }
 
 /**
- * Fetches brand data from the remote API with guaranteed pagination
+ * Fetches brand data from the remote API using pagination via next links
  * @returns Array of brand items with id and name
  */
 export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
   try {
-    console.log('Initiating brand data fetch with robust pagination...');
+    console.log('Initiating brand data fetch with next-link pagination...');
     
     let allBrands: ApiBrand[] = [];
-    let baseUrl = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/matkcode';
-    let limit = 25;
-    let offset = 0;
-    let hasMore = true;
-    let pageCounter = 1;
+    let currentUrl: string | null = 'http://rah.samaursoft.net:1987/ords/zmcphone/zmcmat/matkcode';
+    const visitedUrls = new Set<string>();
     const maxEmptyPages = 3;
     let emptyPagesCount = 0;
-    const visitedUrls = new Set<string>();
+    let pageCounter = 1;
 
-    while (hasMore && emptyPagesCount < maxEmptyPages) {
+    while (currentUrl && emptyPagesCount < maxEmptyPages) {
       try {
-        const url = new URL(baseUrl);
-        url.searchParams.set('offset', offset.toString());
-        url.searchParams.set('limit', limit.toString());
-        const currentUrl = url.href;
-
         if (visitedUrls.has(currentUrl)) {
           console.warn(`Duplicate URL detected: ${currentUrl} - stopping pagination`);
           break;
         }
         visitedUrls.add(currentUrl);
 
-        console.log(`Fetching brands page ${pageCounter} [offset: ${offset}, limit: ${limit}]`);
+        console.log(`Fetching brands page ${pageCounter}: ${currentUrl}`);
 
         // Rotating proxy endpoints with fallback
         const proxies = [
@@ -82,11 +74,7 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
           limit: data?.limit
         });
 
-        // Update pagination parameters from response
-        limit = data?.limit || limit;
-        const receivedOffset = data?.offset || offset;
-
-        // Process items regardless of count
+        // Process items
         if (data?.items?.length > 0) {
           const validBrands = data.items
             .filter((item: any) => item.mak_namear?.trim() && item.mak_sequ)
@@ -99,17 +87,15 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
           if (validBrands.length > 0) {
             allBrands = [...allBrands, ...validBrands];
             console.log(`Added ${validBrands.length} brands from page ${pageCounter}`);
-            emptyPagesCount = 0;
+            emptyPagesCount = 0; // Reset empty pages counter
           }
         } else {
           emptyPagesCount++;
           console.warn(`Empty brands page ${pageCounter} detected`);
         }
 
-        // Multi-strategy pagination detection
+        // Find next page URL from links
         let nextUrl: string | null = null;
-        
-        // 1. Check explicit next link
         if (data?.links) {
           const nextLink = data.links.find((link: any) => 
             link.rel?.toLowerCase() === 'next' && link.href
@@ -119,34 +105,16 @@ export async function fetchBrandsFromAPI(): Promise<ApiBrand[]> {
           }
         }
 
-        // 2. Use hasMore flag with offset calculation
+        // Fallback to offset-based pagination if next link not found
         if (!nextUrl && data?.hasMore) {
-          const nextOffset = receivedOffset + (data.items?.length || limit);
-          const nextUrlObj = new URL(currentUrl);
-          nextUrlObj.searchParams.set('offset', nextOffset.toString());
-          nextUrl = nextUrlObj.href;
+          const currentOffset = new URL(currentUrl).searchParams.get('offset') || '0';
+          const nextOffset = parseInt(currentOffset) + (data.items?.length || 0);
+          const urlObj = new URL(currentUrl);
+          urlObj.searchParams.set('offset', nextOffset.toString());
+          nextUrl = urlObj.href;
         }
 
-        // 3. Item count-based progression
-        if (!nextUrl && data?.items) {
-          const expectedItems = data.limit || limit;
-          if (data.items.length >= expectedItems) {
-            const nextOffset = receivedOffset + expectedItems;
-            const nextUrlObj = new URL(currentUrl);
-            nextUrlObj.searchParams.set('offset', nextOffset.toString());
-            nextUrl = nextUrlObj.href;
-          }
-        }
-
-        // Update offset for next iteration
-        if (nextUrl) {
-const newOffset = parseInt(new URL(nextUrl).searchParams.get('offset') || offset + limit);
-          offset = Math.max(newOffset, receivedOffset + (data.items?.length || 0));
-          hasMore = true;
-        } else {
-          hasMore = false;
-        }
-
+        currentUrl = nextUrl;
         pageCounter++;
 
         // Rate limiting delay
@@ -186,7 +154,6 @@ export async function getBrands(): Promise<ApiBrand[]> {
     const cachedData = localStorage.getItem('cached_brands');
     const lastFetch = localStorage.getItem('brands_fetch_time');
 
-    // Validate cache existence and freshness
     if (cachedData && lastFetch) {
       const cacheValid = (Date.now() - parseInt(lastFetch)) < CACHE_TTL;
       const parsedData = JSON.parse(cachedData);

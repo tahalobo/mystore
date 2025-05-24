@@ -70,7 +70,7 @@ export async function fetchCategoriesFromAPI(): Promise<ApiCategory[]> {
         console.log(`Categories page ${pageCounter} response received with ${data?.items?.length || 0} items`);
         
         // Process items if available
-        if (data && Array.isArray(data.items) {
+        if (data && Array.isArray(data.items)) {
           const pageCategories = data.items
             .filter((item: any) => item.fc_namear && item.fc_sequ)
             .map((item: any) => ({

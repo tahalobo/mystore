@@ -15,8 +15,8 @@ const BrandsSection: React.FC = () => {
     const loadBrands = async () => {
       try {
         const brandsData = await getBrands();
-        // Show random 6 brands for the section
-        const shuffledBrands = brandsData.sort(() => 0.5 - Math.random()).slice(0, 6);
+        // Show random 8 brands for the section
+        const shuffledBrands = brandsData.sort(() => 0.5 - Math.random()).slice(0, 8);
         setBrands(shuffledBrands);
       } catch (error) {
         console.error('Error loading brands:', error);
@@ -75,7 +75,7 @@ const BrandsSection: React.FC = () => {
           </motion.p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {brands.map((brand, index) => (
             <motion.div
               key={brand.id}

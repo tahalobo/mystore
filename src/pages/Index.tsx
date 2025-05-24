@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,6 +7,7 @@ import FeaturedProducts from "@/components/home/FeaturedProducts";
 import PromotionSection from "@/components/home/PromotionSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import NewsletterSection from "@/components/home/NewsletterSection";
+import BrandsSection from "@/components/home/BrandsSection";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Product } from "@/types";
 import ProductDetailModal from "@/components/ProductDetailModal";
@@ -49,7 +49,9 @@ const Index: React.FC = () => {
       }
     }
   };
-  return <div className="flex flex-col min-h-screen">
+
+  return (
+    <div className="flex flex-col min-h-screen">
       <Header />
       
       <main className="flex-grow">
@@ -77,6 +79,14 @@ const Index: React.FC = () => {
           <FeaturedProducts onProductClick={openProductModal} />
         </motion.div>
         
+        {/* New Brands Section */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{
+        once: true,
+        amount: 0.2
+      }} variants={sectionVariants}>
+          <BrandsSection />
+        </motion.div>
+        
         {/* Category Feature - Headphones */}
         <motion.div initial="hidden" whileInView="visible" viewport={{
         once: true,
@@ -97,12 +107,23 @@ const Index: React.FC = () => {
           />
         </motion.div>
         
-        {/* Mid-Page Banner */}
+        {/* Mid-Page Banner with redesigned background */}
         <motion.div initial="hidden" whileInView="visible" viewport={{
         once: true,
         amount: 0.2
-      }} variants={sectionVariants} className="py-12 md:py-16 bg-gradient-to-r from-purple-900 to-indigo-800">
-          <div className="container mx-auto px-4">
+      }} variants={sectionVariants} className="relative py-12 md:py-16 overflow-hidden">
+          {/* Enhanced gradient background */}
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-indigo-800 to-blue-900" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+            {/* Animated background elements */}
+            <div className="absolute top-0 left-0 w-full h-full">
+              <div className="absolute top-10 right-10 w-64 h-64 bg-purple-500/30 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute bottom-10 left-10 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1.5s'}} />
+            </div>
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-10">
             <div className="flex flex-col md:flex-row items-center">
               <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">تقنية متطورة بين يديك</h2>
@@ -233,6 +254,8 @@ const Index: React.FC = () => {
       <ProductDetailModal product={selectedProduct} isOpen={isModalOpen} onClose={closeProductModal} />
       
       <ScrollToTop />
-    </div>;
+    </div>
+  );
 };
+
 export default Index;

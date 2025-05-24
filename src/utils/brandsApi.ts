@@ -191,7 +191,7 @@ export async function getBrands(): Promise<ApiBrand[]> {
       const cacheValid = (Date.now() - parseInt(lastFetch)) < CACHE_TTL;
       const parsedData = JSON.parse(cachedData);
       
-      if (cacheValid && Array.isArray(parsedData) {
+      if (cacheValid && Array.isArray(parsedData)) {
         console.log('Returning valid cached brands');
         return parsedData;
       }

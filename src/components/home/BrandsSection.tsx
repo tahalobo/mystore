@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ChevronRight, ExternalLink } from "lucide-react";
+import { ChevronRight, ExternalLink, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getBrands, ApiBrand } from "@/utils/brandsApi";
@@ -30,16 +30,21 @@ const BrandsSection: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-600/20">
-          <div className="absolute inset-0 bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_70%)]" />
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-indigo-50/60 to-purple-50/80">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_50%)]" />
+          <div className="absolute inset-0 bg-grid-white/20 bg-grid-16 [mask-image:radial-gradient(white,transparent_70%)]" />
         </div>
         <div className="container mx-auto px-4 relative">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <Sparkles className="h-6 w-6 text-blue-600" />
+              <span className="text-sm font-medium text-blue-600 uppercase tracking-wider">العلامات التجارية</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
               اشهر العلامات التجارية
             </h2>
-            <p className="text-gray-600 mt-2">جاري تحميل العلامات التجارية...</p>
+            <p className="text-gray-600 text-lg">جاري تحميل العلامات التجارية...</p>
           </div>
         </div>
       </section>
@@ -47,66 +52,99 @@ const BrandsSection: React.FC = () => {
   }
 
   return (
-    <section className="relative py-20 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-600/20">
-        <div className="absolute inset-0 bg-grid-white/10 bg-grid-16 [mask-image:radial-gradient(white,transparent_70%)]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent animate-pulse" />
+    <section className="relative py-24 overflow-hidden">
+      {/* Enhanced Animated Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-indigo-50/60 to-purple-50/80">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.15)_0%,transparent_50%),radial-gradient(circle_at_bottom_left,rgba(147,51,234,0.1)_0%,transparent_50%)]" />
+        <div className="absolute inset-0 bg-grid-white/20 bg-grid-16 [mask-image:radial-gradient(white,transparent_70%)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-transparent animate-pulse-slow" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-400/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '-2s' }} />
       </div>
 
       <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-12">
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+        <div className="text-center mb-16">
+          <motion.div
+            className="inline-flex items-center gap-2 mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            اشهر العلامات التجارية
-          </motion.h2>
-          <motion.p 
-            className="text-gray-600 mt-2"
+            <Sparkles className="h-6 w-6 text-blue-600" />
+            <span className="text-sm font-medium text-blue-600 uppercase tracking-wider">العلامات التجارية</span>
+          </motion.div>
+          <motion.h2 
+            className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            نحن نتشارك مع العلامات التجارية الرائدة في مجال التكنولوجيا في العالم
+            اشهر العلامات التجارية
+          </motion.h2>
+          <motion.p 
+            className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            نحن نتشارك مع العلامات التجارية الرائدة في مجال التكنولوجيا في العالم لنقدم لك أفضل المنتجات
           </motion.p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {brands.map((brand, index) => (
             <motion.div
               key={brand.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ 
+                delay: index * 0.1, 
+                duration: 0.6,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="group"
             >
               <Link to={`/brand/${brand.id}`}>
-                <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden bg-white/80 backdrop-blur-sm border-blue-100">
-                  <CardContent className="p-6">
-                    <div className="h-20 flex items-center justify-center mb-6 grayscale group-hover:grayscale-0 transition-all duration-300">
-                      <div className="text-2xl font-bold text-gray-700 group-hover:text-blue-600 transition-colors">
-                        {brand.name}
+                <Card className="relative overflow-hidden bg-white/70 backdrop-blur-xl border-0 shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:bg-white/80">
+                  {/* Gradient Border */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-purple-500/20 p-[1px] rounded-lg">
+                    <div className="h-full w-full bg-white/90 backdrop-blur-xl rounded-lg" />
+                  </div>
+                  
+                  {/* Shine Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                  
+                  <CardContent className="relative p-8">
+                    {/* Brand Icon Area */}
+                    <div className="h-24 flex items-center justify-center mb-6 relative">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-100/50 to-purple-100/50 rounded-xl group-hover:from-blue-200/60 group-hover:to-purple-200/60 transition-all duration-300" />
+                      <div className="relative text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-purple-700 transition-all duration-300">
+                        {brand.name.charAt(0)}
                       </div>
                     </div>
                     
-                    <div className="text-center">
-                      <h3 className="text-xl font-semibold text-gray-800 mb-1">{brand.name}</h3>
-                      <p className="text-sm text-gray-500 mb-3">منتجات عالية الجودة</p>
-                      <div className="text-xs text-gray-400 mb-4">كود: {brand.code}</div>
+                    <div className="text-center space-y-4">
+                      <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
+                        {brand.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 font-medium">منتجات عالية الجودة</p>
                       
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-blue-600">منتجات متنوعة</span>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="text-gray-400 hover:text-blue-600 transition-colors -mr-2"
-                        >
-                          <ChevronRight className="h-5 w-5" />
-                        </Button>
+                      {brand.code && (
+                        <div className="inline-flex items-center px-3 py-1 bg-gray-100/80 rounded-full">
+                          <span className="text-xs font-medium text-gray-600">كود: {brand.code}</span>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center justify-between pt-4">
+                        <span className="text-sm font-semibold text-blue-600">منتجات متنوعة</span>
+                        <div className="flex items-center justify-center w-8 h-8 bg-blue-50 group-hover:bg-blue-100 rounded-full transition-all duration-300 group-hover:scale-110">
+                          <ChevronRight className="h-4 w-4 text-blue-600 group-hover:translate-x-0.5 transition-transform duration-300" />
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -117,11 +155,24 @@ const BrandsSection: React.FC = () => {
         </div>
         
         {brands.length > 0 && (
-          <div className="text-center mt-8">
-            <Button asChild variant="outline" className="bg-white/80 backdrop-blur-sm">
-              <Link to="/brands">عرض جميع العلامات التجارية</Link>
+          <motion.div 
+            className="text-center mt-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <Button 
+              asChild 
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+            >
+              <Link to="/brands" className="flex items-center gap-2">
+                عرض جميع العلامات التجارية
+                <ExternalLink className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
             </Button>
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

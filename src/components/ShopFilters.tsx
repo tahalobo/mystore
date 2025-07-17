@@ -27,12 +27,21 @@ import { formatPrice } from "@/utils/currency";
 
 interface ShopFiltersProps {
   selectedFilters: {
-    [key: string]: boolean | string | number[];
+    bestSeller: boolean;
+    newArrival: boolean;
+    featured: boolean;
+    inStock: boolean;
+    hasDiscount: boolean;
+    priceRange: number[];
+    category: string;
+    sortBy: string;
+    rating: number;
   };
   onFiltersChange: (filters: any) => void;
   onApplyFilters: () => void;
   onClearFilters: () => void;
   products: Product[];
+  filteredCount?: number;
 }
 
 const ShopFilters: React.FC<ShopFiltersProps> = ({
@@ -40,7 +49,8 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
   onFiltersChange,
   onApplyFilters,
   onClearFilters,
-  products
+  products,
+  filteredCount = 0
 }) => {
   const [openSections, setOpenSections] = useState({
     price: true,
@@ -69,18 +79,15 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
 
   const getActiveFiltersCount = () => {
     let count = 0;
-    Object.entries(selectedFilters).forEach(([key, value]) => {
-      if (key === 'priceRange') {
-        const [min, max] = value as number[];
-        if (min > 0 || max < 200) count++;
-      } else if (typeof value === 'boolean' && value) {
-        count++;
-      } else if (typeof value === 'string' && value !== 'all' && value !== 'default') {
-        count++;
-      } else if (typeof value === 'number' && value > 0) {
-        count++;
-      }
-    });
+    if (selectedFilters.priceRange[0] > 0 || selectedFilters.priceRange[1] < maxPrice) count++;
+    if (selectedFilters.bestSeller) count++;
+    if (selectedFilters.newArrival) count++;
+    if (selectedFilters.featured) count++;
+    if (selectedFilters.inStock) count++;
+    if (selectedFilters.hasDiscount) count++;
+    if (selectedFilters.category !== "all") count++;
+    if (selectedFilters.sortBy !== "default") count++;
+    if (selectedFilters.rating > 0) count++;
     return count;
   };
 
@@ -158,16 +165,16 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
       <FilterSection title="نطاق السعر" icon={DollarSign} sectionKey="price">
         <div className="space-y-4">
           <Slider
-            value={selectedFilters.priceRange as number[]}
+            value={selectedFilters.priceRange}
             onValueChange={(value) => updateFilter('priceRange', value)}
             max={maxPrice}
             step={5}
             className="w-full"
           />
           <div className="flex justify-between items-center text-sm text-gray-600">
-            <span>{formatPrice((selectedFilters.priceRange as number[])[0])}</span>
+            <span>{formatPrice(selectedFilters.priceRange[0])}</span>
             <span>-</span>
-            <span>{formatPrice((selectedFilters.priceRange as number[])[1])}</span>
+            <span>{formatPrice(selectedFilters.priceRange[1])}</span>
           </div>
         </div>
       </FilterSection>
@@ -175,7 +182,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
       {/* Category Filter */}
       <FilterSection title="الفئات" icon={Grid} sectionKey="category">
         <RadioGroup
-          value={selectedFilters.category as string}
+          value={selectedFilters.category}
           onValueChange={(value) => updateFilter('category', value)}
           className="space-y-2"
         >
@@ -200,7 +207,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
           <div className="flex items-center space-x-2">
             <Checkbox
               id="bestseller"
-              checked={selectedFilters.bestSeller as boolean}
+              checked={selectedFilters.bestSeller}
               onCheckedChange={(checked) => updateFilter('bestSeller', checked)}
             />
             <Label htmlFor="bestseller" className="cursor-pointer">الأكثر مبيعاً</Label>
@@ -209,7 +216,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
           <div className="flex items-center space-x-2">
             <Checkbox
               id="newarrival"
-              checked={selectedFilters.newArrival as boolean}
+              checked={selectedFilters.newArrival}
               onCheckedChange={(checked) => updateFilter('newArrival', checked)}
             />
             <Label htmlFor="newarrival" className="cursor-pointer">وصل حديثاً</Label>
@@ -218,7 +225,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
           <div className="flex items-center space-x-2">
             <Checkbox
               id="featured"
-              checked={selectedFilters.featured as boolean}
+              checked={selectedFilters.featured}
               onCheckedChange={(checked) => updateFilter('featured', checked)}
             />
             <Label htmlFor="featured" className="cursor-pointer">منتجات مميزة</Label>
@@ -227,7 +234,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
           <div className="flex items-center space-x-2">
             <Checkbox
               id="instock"
-              checked={selectedFilters.inStock as boolean}
+              checked={selectedFilters.inStock}
               onCheckedChange={(checked) => updateFilter('inStock', checked)}
             />
             <Label htmlFor="instock" className="cursor-pointer">متوفر في المخزون</Label>
@@ -236,7 +243,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
           <div className="flex items-center space-x-2">
             <Checkbox
               id="hasdiscount"
-              checked={selectedFilters.hasDiscount as boolean}
+              checked={selectedFilters.hasDiscount}
               onCheckedChange={(checked) => updateFilter('hasDiscount', checked)}
             />
             <Label htmlFor="hasdiscount" className="cursor-pointer">منتجات مخفضة</Label>
@@ -247,7 +254,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
       {/* Rating Filter */}
       <FilterSection title="التقييم" icon={Star} sectionKey="rating">
         <RadioGroup
-          value={selectedFilters.rating?.toString()}
+          value={selectedFilters.rating.toString()}
           onValueChange={(value) => updateFilter('rating', parseInt(value))}
           className="space-y-2"
         >
@@ -279,7 +286,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
       {/* Sort Options */}
       <FilterSection title="ترتيب حسب" icon={TrendingUp} sectionKey="sort">
         <Select
-          value={selectedFilters.sortBy as string}
+          value={selectedFilters.sortBy}
           onValueChange={(value) => updateFilter('sortBy', value)}
         >
           <SelectTrigger>
@@ -307,7 +314,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
             size="lg"
           >
             <Filter className="h-4 w-4 mr-2" />
-            تطبيق الفلاتر ({filteredProducts?.length || 0} منتج)
+            تطبيق الفلاتر ({filteredCount} منتج)
           </Button>
         </CardContent>
       </Card>

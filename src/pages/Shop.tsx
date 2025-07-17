@@ -30,6 +30,18 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const ITEMS_PER_PAGE = 12;
 
+interface ShopFilters {
+  bestSeller: boolean;
+  newArrival: boolean;
+  featured: boolean;
+  inStock: boolean;
+  hasDiscount: boolean;
+  priceRange: number[];
+  category: string;
+  sortBy: string;
+  rating: number;
+}
+
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -37,9 +49,7 @@ const Shop: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState<{
-    [key: string]: boolean | string | number[];
-  }>({
+  const [selectedFilters, setSelectedFilters] = useState<ShopFilters>({
     bestSeller: false,
     newArrival: false,
     featured: false,
@@ -139,7 +149,7 @@ const Shop: React.FC = () => {
     }
 
     // Price range filter
-    const [minPrice, maxPrice] = selectedFilters.priceRange as number[];
+    const [minPrice, maxPrice] = selectedFilters.priceRange;
     filtered = filtered.filter(
       product => product.price >= minPrice && product.price <= maxPrice
     );
@@ -234,6 +244,20 @@ const Shop: React.FC = () => {
     { key: "deals", label: "عروض", icon: Star },
     { key: "featured", label: "مميز", icon: Star },
   ];
+
+  const hasActiveFilters = () => {
+    return searchQuery.trim() !== "" ||
+           selectedFilters.bestSeller ||
+           selectedFilters.newArrival ||
+           selectedFilters.featured ||
+           selectedFilters.inStock ||
+           selectedFilters.hasDiscount ||
+           selectedFilters.priceRange[0] !== 0 ||
+           selectedFilters.priceRange[1] !== 200 ||
+           selectedFilters.category !== "all" ||
+           selectedFilters.sortBy !== "default" ||
+           selectedFilters.rating !== 0;
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/20">
@@ -338,9 +362,7 @@ const Shop: React.FC = () => {
                     </Badge>
                   </div>
                   
-                  {(searchQuery || Object.values(selectedFilters).some(v => 
-                    typeof v === 'boolean' ? v : Array.isArray(v) ? v[0] !== 0 || v[1] !== 200 : v !== "all" && v !== "default" && v !== 0
-                  )) && (
+                  {hasActiveFilters() && (
                     <Button
                       variant="outline"
                       size="sm"
@@ -405,6 +427,7 @@ const Shop: React.FC = () => {
                         onApplyFilters={applyFilters}
                         onClearFilters={clearFilters}
                         products={allProducts}
+                        filteredCount={filteredProducts.length}
                       />
                     </motion.div>
                   )}

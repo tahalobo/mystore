@@ -118,7 +118,7 @@ export default {
 				"scale": "scale 0.3s ease-out",
 			},
 			fontFamily: {
-				sans: ['Tajawal', 'sans-serif'],
+				sans: ['Rubik', 'sans-serif'],
 			},
 		}
 	},

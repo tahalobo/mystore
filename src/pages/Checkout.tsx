@@ -12,32 +12,17 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { toast } from "sonner";
 import { motion } from 'framer-motion';
-import { Truck, User, MapPin, Box, Clock, ShoppingBag, ChevronRight, CheckCircle } from 'lucide-react';
+import { Truck, User, MapPin, Box, Clock, ShoppingBag, ChevronRight, CheckCircle, Shield, CreditCard, Phone, Mail, Home } from 'lucide-react';
 import { saveOrder, generateOrderId } from '@/utils/orderStorage';
+import { Progress } from '@/components/ui/progress';
 
 // Iraq governorates
 const iraqGovernorates = [
-  "بغداد",
-  "البصرة",
-  "أربيل",
-  "السليمانية",
-  "دهوك",
-  "كركوك",
-  "نينوى",
-  "ذي قار",
-  "بابل",
-  "واسط",
-  "القادسية",
-  "المثنى",
-  "ميسان",
-  "النجف",
-  "كربلاء",
-  "صلاح الدين",
-  "ديالى",
-  "الأنبار"
+  "بغداد", "البصرة", "أربيل", "السليمانية", "دهوك", "كركوك", "نينوى", "ذي قار",
+  "بابل", "واسط", "القادسية", "المثنى", "ميسان", "النجف", "كربلاء", "صلاح الدين", "ديالى", "الأنبار"
 ];
+
 const districts: Record<string, string[]> = {
-  
   "بغداد": ["الأعظمية", "الكرخ", "الكاظمية", "المنصور", "مدينة الصدر", "الرصافة", "الدورة", "بغداد الجديدة", "الأمين", "الشعب", "الجادرية", "الوزيرية"],
   "البصرة": ["مدينة البصرة", "أبو الخصيب", "الزبير", "الفاو", "شط العرب", "القرنة", "المعقل", "الجبيلة", "الدير", "القبلة", "أبو فلوس", "الشعيبة", "الهارثة"],
   "أربيل": ["مدينة أربيل", "كويسنجق", "سوران", "شقلاوة", "جومان", "هولير", "مخمور", "خبات", "رواندوز", "الشيخان"],
@@ -69,12 +54,9 @@ interface FormData {
   district: string;
   notes: string;
 }
+
 const Checkout: React.FC = () => {
-  const {
-    cartItems,
-    cartTotal,
-    clearCart
-  } = useCart();
+  const { cartItems, cartTotal, clearCart } = useCart();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,34 +76,23 @@ const Checkout: React.FC = () => {
   useEffect(() => {
     if (formData.governorate) {
       setAvailableDistricts(districts[formData.governorate] || []);
-      setFormData(prev => ({
-        ...prev,
-        district: ''
-      }));
+      setFormData(prev => ({ ...prev, district: '' }));
     } else {
       setAvailableDistricts([]);
     }
   }, [formData.governorate]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
+
   const handleSelectChange = (name: string, value: string) => {
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
   };
+
   const nextStep = () => {
-    // Validation for each step
     if (currentStep === 1) {
-      // Validate customer information
       if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
         toast.error("يرجى ملء جميع حقول معلومات العميل المطلوبة.");
         return;
@@ -131,7 +102,6 @@ const Checkout: React.FC = () => {
         return;
       }
     } else if (currentStep === 2) {
-      // Validate shipping information
       if (!formData.address || !formData.governorate || !formData.district) {
         toast.error("يرجى ملء جميع حقول معلومات الشحن المطلوبة.");
         return;
@@ -139,14 +109,14 @@ const Checkout: React.FC = () => {
     }
     setCurrentStep(prev => prev + 1);
   };
+
   const prevStep = () => {
     setCurrentStep(prev => prev - 1);
   };
+
   const placeOrder = () => {
-    // Process order
     setIsLoading(true);
 
-    // Create order object
     const newOrder = {
       id: generateOrderId(),
       items: cartItems,
@@ -161,10 +131,8 @@ const Checkout: React.FC = () => {
       }
     };
 
-    // Save order to local storage
     saveOrder(newOrder);
 
-    // Simulate order processing
     setTimeout(() => {
       clearCart();
       setIsLoading(false);
@@ -172,19 +140,23 @@ const Checkout: React.FC = () => {
     }, 2000);
   };
 
-  // Show empty cart message if cart is empty
   if (cartItems.length === 0) {
-    return <div className="flex flex-col min-h-screen">
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
         <Header />
         
         <main className="flex-grow flex items-center justify-center p-4">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle>عربة التسوق الخاصة بك فارغة</CardTitle>
+          <Card className="w-full max-w-md bg-white/80 backdrop-blur-sm shadow-2xl border-0">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <ShoppingBag className="h-8 w-8 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">عربة التسوق الخاصة بك فارغة</CardTitle>
               <CardDescription>أضف بعض المنتجات إلى سلة التسوق لمتابعة عملية الدفع</CardDescription>
             </CardHeader>
             <CardFooter>
               <Button className="w-full" onClick={() => navigate('/shop')}>
+                <ShoppingBag className="ml-2 h-4 w-4" />
                 مواصلة التسوق
               </Button>
             </CardFooter>
@@ -192,79 +164,111 @@ const Checkout: React.FC = () => {
         </main>
         
         <Footer />
-      </div>;
+      </div>
+    );
   }
-  const steps = [{
-    number: 1,
-    title: "معلومات العميل",
-    icon: <User className="w-5 h-5" />
-  }, {
-    number: 2,
-    title: "الشحن",
-    icon: <MapPin className="w-5 h-5" />
-  }, {
-    number: 3,
-    title: "المراجعة",
-    icon: <ShoppingBag className="w-5 h-5" />
-  }];
-  const calculateDeliveryFee = () => {
-    // Free shipping for orders over $50
-    if (cartTotal >= 50) return 0;
 
-    // Standard delivery fee
-    return 5;
-  };
-  const calculateTax = () => {
-    // 10% tax
-    return cartTotal * 0.1;
-  };
-  const calculateTotal = () => {
-    return cartTotal + calculateDeliveryFee() + calculateTax();
-  };
-  return <div className="flex flex-col min-h-screen">
+  const steps = [
+    { number: 1, title: "معلومات العميل", icon: <User className="w-5 h-5" /> },
+    { number: 2, title: "الشحن", icon: <MapPin className="w-5 h-5" /> },
+    { number: 3, title: "المراجعة", icon: <ShoppingBag className="w-5 h-5" /> }
+  ];
+
+  const calculateDeliveryFee = () => cartTotal >= 50 ? 0 : 5;
+  const calculateTax = () => cartTotal * 0.1;
+  const calculateTotal = () => cartTotal + calculateDeliveryFee() + calculateTax();
+  const stepProgress = (currentStep / steps.length) * 100;
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       <Header />
       
       <main className="flex-grow pt-24 pb-12">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-8 text-center">الطلب</h1>
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              إتمام الطلب
+            </h1>
+            <p className="text-gray-600">أكمل معلوماتك لإتمام عملية الشراء</p>
+          </motion.div>
           
+          {/* Progress Bar */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium text-gray-600">الخطوة {currentStep} من {steps.length}</span>
+              <span className="text-sm font-medium text-primary">{Math.round(stepProgress)}%</span>
+            </div>
+            <Progress value={stepProgress} className="h-2" />
+          </div>
+
           {/* Checkout Steps */}
-          <div className="flex justify-center mb-8 overflow-x-auto">
-            <div className="flex w-full max-w-3xl">
-              {steps.map((step, index) => <React.Fragment key={step.number}>
-                  <div className={`flex flex-col items-center ${index > 0 ? 'flex-1' : ''}`}>
-                    <div className={`relative flex items-center justify-center w-10 h-10 rounded-full ${step.number === currentStep ? 'bg-primary text-white' : step.number < currentStep ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                      {step.number < currentStep ? <CheckCircle className="h-6 w-6" /> : step.icon}
+          <div className="flex justify-center mb-8">
+            <div className="flex w-full max-w-2xl items-center">
+              {steps.map((step, index) => (
+                <React.Fragment key={step.number}>
+                  <motion.div 
+                    className="flex flex-col items-center"
+                    initial={{ scale: 0.8, opacity: 0.5 }}
+                    animate={{ 
+                      scale: step.number === currentStep ? 1.1 : step.number < currentStep ? 1 : 0.8,
+                      opacity: step.number <= currentStep ? 1 : 0.5
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className={`relative flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300 ${
+                      step.number === currentStep 
+                        ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25' 
+                        : step.number < currentStep 
+                          ? 'bg-green-500 text-white border-green-500' 
+                          : 'bg-white text-gray-400 border-gray-300'
+                    }`}>
+                      {step.number < currentStep ? (
+                        <CheckCircle className="h-6 w-6" />
+                      ) : (
+                        step.icon
+                      )}
+                      {step.number === currentStep && (
+                        <div className="absolute inset-0 rounded-full bg-primary animate-pulse opacity-25"></div>
+                      )}
                     </div>
-                    <span className={`text-sm mt-2 font-medium ${step.number === currentStep ? 'text-primary' : 'text-gray-600'}`}>
+                    <span className={`text-xs mt-2 font-medium transition-colors ${
+                      step.number === currentStep ? 'text-primary' : 'text-gray-600'
+                    }`}>
                       {step.title}
                     </span>
-                  </div>
+                  </motion.div>
                   
-                  {index < steps.length - 1 && <div className={`flex-1 flex items-center max-w-[80px]`}>
-                      <div className={`h-1 w-full ${step.number < currentStep ? 'bg-green-500' : 'bg-gray-200'}`}></div>
-                    </div>}
-                </React.Fragment>)}
+                  {index < steps.length - 1 && (
+                    <div className="flex-1 mx-4">
+                      <div className={`h-1 rounded-full transition-all duration-500 ${
+                        step.number < currentStep ? 'bg-green-500' : 'bg-gray-200'
+                      }`}></div>
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
             </div>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Checkout Form */}
-            <motion.div className="lg:col-span-2" initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.3
-          }} key={currentStep}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    {currentStep === 1 && "معلومات العميل"}
-                    {currentStep === 2 && "معلومات الشحن"}
-                    {currentStep === 3 && "مراجعة طلبك"}
+            <motion.div 
+              className="lg:col-span-2"
+              key={currentStep}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="bg-white/80 backdrop-blur-sm shadow-2xl border-0">
+                <CardHeader className="bg-gradient-to-r from-primary/5 to-blue-50 border-b">
+                  <CardTitle className="flex items-center text-xl">
+                    {currentStep === 1 && <><User className="ml-2 h-5 w-5 text-primary" />معلومات العميل</>}
+                    {currentStep === 2 && <><MapPin className="ml-2 h-5 w-5 text-primary" />معلومات الشحن</>}
+                    {currentStep === 3 && <><ShoppingBag className="ml-2 h-5 w-5 text-primary" />مراجعة طلبك</>}
                   </CardTitle>
                   <CardDescription>
                     {currentStep === 1 && "الرجاء إدخال بيانات الاتصال الخاصة بك"}
@@ -273,246 +277,381 @@ const Checkout: React.FC = () => {
                   </CardDescription>
                 </CardHeader>
                 
-                <CardContent>
+                <CardContent className="p-6">
                   {/* Step 1: Customer Information */}
-                  {currentStep === 1 && <div className="space-y-4">
+                  {currentStep === 1 && (
+                    <div className="space-y-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="firstName">اسم العميل *</Label>
-                          <Input id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="طه" required />
+                          <Label htmlFor="firstName" className="flex items-center">
+                            <User className="h-4 w-4 ml-1 text-gray-500" />
+                            اسم العميل *
+                          </Label>
+                          <Input 
+                            id="firstName" 
+                            name="firstName" 
+                            value={formData.firstName} 
+                            onChange={handleInputChange} 
+                            placeholder="طه" 
+                            required 
+                            className="h-12"
+                          />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="lastName">اسم والد العميل *</Label>
-                          <Input id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="عبدالرحمن" required />
+                          <Label htmlFor="lastName" className="flex items-center">
+                            <User className="h-4 w-4 ml-1 text-gray-500" />
+                            اسم والد العميل *
+                          </Label>
+                          <Input 
+                            id="lastName" 
+                            name="lastName" 
+                            value={formData.lastName} 
+                            onChange={handleInputChange} 
+                            placeholder="عبدالرحمن" 
+                            required 
+                            className="h-12"
+                          />
                         </div>
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="email">الايميل *</Label>
-                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="john.doe@example.com" required />
+                        <Label htmlFor="email" className="flex items-center">
+                          <Mail className="h-4 w-4 ml-1 text-gray-500" />
+                          الايميل *
+                        </Label>
+                        <Input 
+                          id="email" 
+                          name="email" 
+                          type="email" 
+                          value={formData.email} 
+                          onChange={handleInputChange} 
+                          placeholder="john.doe@example.com" 
+                          required 
+                          className="h-12"
+                        />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="phone">رقم الهاتف * (بالصيغة العراقية، على سبيل المثال، 07XXXXXXXXXXXXXXX)</Label>
-                        <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="07XXXXXXXXX" required />
-                        <p className="text-xs text-gray-500">يجب ان يبدأ الرقم ب 07 و متكون من 11 رقم</p>
+                        <Label htmlFor="phone" className="flex items-center">
+                          <Phone className="h-4 w-4 ml-1 text-gray-500" />
+                          رقم الهاتف *
+                        </Label>
+                        <Input 
+                          id="phone" 
+                          name="phone" 
+                          type="tel" 
+                          value={formData.phone} 
+                          onChange={handleInputChange} 
+                          placeholder="07XXXXXXXXX" 
+                          required 
+                          className="h-12"
+                        />
+                        <p className="text-xs text-gray-500 flex items-center">
+                          <Shield className="h-3 w-3 ml-1" />
+                          يجب ان يبدأ الرقم ب 07 و متكون من 11 رقم
+                        </p>
                       </div>
-                    </div>}
+                    </div>
+                  )}
                   
                   {/* Step 2: Shipping Information */}
-                  {currentStep === 2 && <div className="space-y-4">
+                  {currentStep === 2 && (
+                    <div className="space-y-6">
                       <div className="space-y-2">
-                        <Label htmlFor="address">عنوان الشارع والحي *</Label>
-                        <Input id="address" name="address" value={formData.address} onChange={handleInputChange} placeholder="اسم الشارع، رقم المبنى، إلخ." required />
+                        <Label htmlFor="address" className="flex items-center">
+                          <Home className="h-4 w-4 ml-1 text-gray-500" />
+                          عنوان الشارع والحي *
+                        </Label>
+                        <Input 
+                          id="address" 
+                          name="address" 
+                          value={formData.address} 
+                          onChange={handleInputChange} 
+                          placeholder="اسم الشارع، رقم المبنى، إلخ." 
+                          required 
+                          className="h-12"
+                        />
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="governorate">المحافطة *</Label>
-                          <Select value={formData.governorate} onValueChange={value => handleSelectChange('governorate', value)}>
-                            <SelectTrigger id="governorate">
+                          <Label htmlFor="governorate" className="flex items-center">
+                            <MapPin className="h-4 w-4 ml-1 text-gray-500" />
+                            المحافطة *
+                          </Label>
+                          <Select 
+                            value={formData.governorate} 
+                            onValueChange={value => handleSelectChange('governorate', value)}
+                          >
+                            <SelectTrigger id="governorate" className="h-12">
                               <SelectValue placeholder="اختر المحافظة" />
                             </SelectTrigger>
                             <SelectContent>
-                              {iraqGovernorates.map(governorate => <SelectItem key={governorate} value={governorate}>
+                              {iraqGovernorates.map(governorate => (
+                                <SelectItem key={governorate} value={governorate}>
                                   {governorate}
-                                </SelectItem>)}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                         </div>
                         
                         <div className="space-y-2">
                           <Label htmlFor="district">اقرب منطقة لك *</Label>
-                          <Select value={formData.district} onValueChange={value => handleSelectChange('district', value)} disabled={!formData.governorate}>
-                            <SelectTrigger id="district">
+                          <Select 
+                            value={formData.district} 
+                            onValueChange={value => handleSelectChange('district', value)} 
+                            disabled={!formData.governorate}
+                          >
+                            <SelectTrigger id="district" className="h-12">
                               <SelectValue placeholder={formData.governorate ? "حدد اقرب منطقة" : "حدد المحافظة اولا"} />
                             </SelectTrigger>
                             <SelectContent>
-                              {availableDistricts.map(district => <SelectItem key={district} value={district}>
+                              {availableDistricts.map(district => (
+                                <SelectItem key={district} value={district}>
                                   {district}
-                                </SelectItem>)}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                         </div>
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="notes">ملاحظات (يمكن ترك الحقل فارغ </Label>
-                        <Input id="notes" name="notes" value={formData.notes} onChange={handleInputChange} placeholder="تعليمات التسليم، والمعالم، وما إلى ذلك." />
+                        <Label htmlFor="notes">ملاحظات (اختياري)</Label>
+                        <Input 
+                          id="notes" 
+                          name="notes" 
+                          value={formData.notes} 
+                          onChange={handleInputChange} 
+                          placeholder="تعليمات التسليم، والمعالم، وما إلى ذلك." 
+                          className="h-12"
+                        />
                       </div>
                       
-                      <div className="bg-amber-50 p-4 rounded-md border border-amber-200 mt-6">
-                        <div className="flex items-start">
-                          <Truck className="h-5 w-5 text-amber-500 mt-0.5 mr-2 flex-shrink-0" />
-                          <div>
-                            <h4 className="font-medium text-amber-800">طريقة الدفع</h4>
-                            <p className="text-sm text-amber-700">
-                              الدفع نقداً عند الاستلام فقط. ستدفع عند وصول طلبك.
-                            </p>
+                      <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
+                        <CardContent className="p-4">
+                          <div className="flex items-start">
+                            <CreditCard className="h-5 w-5 text-amber-600 mt-0.5 ml-2 flex-shrink-0" />
+                            <div>
+                              <h4 className="font-medium text-amber-800">طريقة الدفع</h4>
+                              <p className="text-sm text-amber-700 mt-1">
+                                الدفع نقداً عند الاستلام فقط. ستدفع عند وصول طلبك.
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>}
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )}
                   
                   {/* Step 3: Review Order */}
-                  {currentStep === 3 && <div className="space-y-6">
-                      <div>
-                        <h3 className="font-medium text-lg">معلومات العميل</h3>
-                        <div className="mt-2 text-sm">
-                          <p>{formData.firstName} {formData.lastName}</p>
-                          <p>{formData.email}</p>
-                          <p>{formData.phone}</p>
-                        </div>
-                      </div>
+                  {currentStep === 3 && (
+                    <div className="space-y-6">
+                      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+                        <CardHeader>
+                          <CardTitle className="text-lg flex items-center">
+                            <User className="h-5 w-5 ml-2 text-blue-600" />
+                            معلومات العميل
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                              <span className="font-medium">الاسم:</span>
+                              <p>{formData.firstName} {formData.lastName}</p>
+                            </div>
+                            <div>
+                              <span className="font-medium">الإيميل:</span>
+                              <p>{formData.email}</p>
+                            </div>
+                            <div>
+                              <span className="font-medium">الهاتف:</span>
+                              <p>{formData.phone}</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
                       
-                      <Separator />
+                      <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
+                        <CardHeader>
+                          <CardTitle className="text-lg flex items-center">
+                            <MapPin className="h-5 w-5 ml-2 text-green-600" />
+                            عنوان الشحن
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-sm space-y-1">
+                            <p>{formData.address}</p>
+                            <p>{formData.district}, {formData.governorate}</p>
+                            <p>العراق</p>
+                            {formData.notes && (
+                              <div className="mt-2 pt-2 border-t border-green-200">
+                                <span className="font-medium">الملاحظات: </span> 
+                                <span>{formData.notes}</span>
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
                       
-                      <div>
-                        <h3 className="font-medium text-lg">عنوان الشحن</h3>
-                        <div className="mt-2 text-sm">
-                          <p>{formData.address}</p>
-                          <p>{formData.district}, {formData.governorate}</p>
-                          <p>Iraq</p>
-                          {formData.notes && <div className="mt-2">
-                              <span className="font-medium">الملاحظات: </span>
-                              <span>{formData.notes}</span>
-                            </div>}
-                        </div>
-                      </div>
-                      
-                      <Separator />
-                      
-                      <div>
-                        <h3 className="font-medium text-lg flex items-center">
-                          <Truck className="h-5 w-5 mr-2 text-primary" />
-                          طريقة الدفع
-                        </h3>
-                        <div className="mt-2 text-sm bg-gray-50 p-3 rounded-md">
-                          <p className="font-medium">الدفع عند الاستلام</p>
-                          <p className="text-gray-600 text-xs mt-1">
-ستدفع عند وصول طلبك. يرجى تجهيز المبلغ بالضبط.
-
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <Separator />
-                      
-                      <div>
-                        <h3 className="font-medium text-lg">المنتجات</h3>
-                        <ScrollArea className="h-[200px] mt-2">
-                          <div className="space-y-4">
-                            {cartItems.map(item => <div key={item.product.id} className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                  <div className="w-12 h-12 rounded overflow-hidden">
-                                    <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
-                                  </div>
-                                  <div className="ml-3">
-                                    <p className="font-medium">{item.product.name}</p>
-                                    <div className="text-xs text-gray-500">
-                                      <span>Qty: {item.quantity}</span>
-                                      {item.color && <span className="ml-2">اللون: {item.color}</span>}
+                      <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
+                        <CardHeader>
+                          <CardTitle className="text-lg flex items-center">
+                            <ShoppingBag className="h-5 w-5 ml-2 text-purple-600" />
+                            المنتجات ({cartItems.length})
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <ScrollArea className="h-[200px]">
+                            <div className="space-y-3">
+                              {cartItems.map(item => (
+                                <div key={item.product.id} className="flex items-center justify-between p-3 bg-white rounded-lg border">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
+                                      <img 
+                                        src={item.product.image} 
+                                        alt={item.product.name} 
+                                        className="w-full h-full object-contain"
+                                      />
+                                    </div>
+                                    <div>
+                                      <p className="font-medium text-sm">{item.product.name}</p>
+                                      <div className="text-xs text-gray-500">
+                                        <span>الكمية: {item.quantity}</span>
+                                        {item.color && <span className="mr-2">اللون: {item.color}</span>}
+                                      </div>
                                     </div>
                                   </div>
+                                  <p className="font-bold text-primary">${(item.product.price * item.quantity).toFixed(2)}</p>
                                 </div>
-                                <p className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</p>
-                              </div>)}
-                          </div>
-                        </ScrollArea>
-                      </div>
-                    </div>}
+                              ))}
+                            </div>
+                          </ScrollArea>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )}
                 </CardContent>
                 
-                <CardFooter className="flex justify-between">
-                  {currentStep > 1 && <Button variant="outline" onClick={prevStep}>
+                <CardFooter className="flex justify-between bg-gradient-to-r from-gray-50 to-blue-50 border-t">
+                  {currentStep > 1 && (
+                    <Button variant="outline" onClick={prevStep} className="px-8">
+                      <ChevronRight className="ml-2 h-4 w-4 rotate-180" />
                       العودة
-                    </Button>}
+                    </Button>
+                  )}
                   
-                  {currentStep < 3 ? <Button onClick={nextStep} className={currentStep === 1 ? 'w-full' : ''}>التالي</Button> : <Button disabled={isLoading} onClick={placeOrder}>
-                      {isLoading ? <>
-                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                 يرجى الانتظار....
-                        </> : ' الطلب'}
-                    </Button>}
+                  <div className="flex-1"></div>
+                  
+                  {currentStep < 3 ? (
+                    <Button onClick={nextStep} className="px-8">
+                      التالي
+                      <ChevronRight className="mr-2 h-4 w-4" />
+                    </Button>
+                  ) : (
+                    <Button 
+                      disabled={isLoading} 
+                      onClick={placeOrder}
+                      className="px-8 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+                    >
+                      {isLoading ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white ml-2"></div>
+                          يرجى الانتظار...
+                        </>
+                      ) : (
+                        <>
+                          <CreditCard className="ml-2 h-4 w-4" />
+                          تأكيد الطلب
+                        </>
+                      )}
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             </motion.div>
             
             {/* Order Summary */}
-            <motion.div initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.3,
-            delay: 0.2
-          }}>
-              <Card className="sticky top-24">
-                <CardHeader>
-                  <CardTitle>ملخص الطلب</CardTitle>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              <Card className="bg-white/90 backdrop-blur-sm shadow-2xl border-0 sticky top-24">
+                <CardHeader className="bg-gradient-to-r from-primary/5 to-blue-50 border-b">
+                  <CardTitle className="flex items-center">
+                    <CreditCard className="ml-2 h-5 w-5 text-primary" />
+                    ملخص الطلب
+                  </CardTitle>
                   <CardDescription>
                     {cartItems.length} {cartItems.length === 1 ? 'منتج' : 'منتجات'} بطلبك
                   </CardDescription>
                 </CardHeader>
                 
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    {cartItems.slice(0, 3).map(item => <div key={item.product.id} className="flex justify-between text-sm">
-                        <span className="flex-1 truncate">{item.product.name} x{item.quantity}</span>
-                        <span className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</span>
-                      </div>)}
+                <CardContent className="p-6 space-y-4">
+                  <ScrollArea className="max-h-[200px]">
+                    <div className="space-y-2">
+                      {cartItems.slice(0, 3).map(item => (
+                        <div key={item.product.id} className="flex justify-between text-sm py-2">
+                          <span className="flex-1 truncate">{item.product.name} x{item.quantity}</span>
+                          <span className="font-medium text-primary">${(item.product.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                      ))}
+                      
+                      {cartItems.length > 3 && (
+                        <div className="text-sm text-gray-500 italic py-2">
+                          + {cartItems.length - 3} منتجات أخرى
+                        </div>
+                      )}
+                    </div>
+                  </ScrollArea>
+                  
+                  <Separator />
+                  
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">المجموع الفرعي</span>
+                      <span className="font-medium">${cartTotal.toFixed(2)}</span>
+                    </div>
                     
-                    {cartItems.length > 3 && <div className="text-sm text-gray-500 italic">
-                        + {cartItems.length - 3} منتجات
-                      </div>}
-                  </div>
-                  
-                  <Separator />
-                  
-                  <div className="flex justify-between text-sm">
-                    <span>المجموع الفرعي</span>
-                    <span className="font-medium">${cartTotal.toFixed(2)}</span>
-                  </div>
-                  
-                  <div className="flex justify-between text-sm">
-                    <span>التوصيل</span>
-                    <span className="font-medium">
-                      {calculateDeliveryFee() === 0 ? "مجانا" : `$${calculateDeliveryFee().toFixed(2)}`}
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between text-sm">
-                    <span>الاجر (10%)</span>
-                    <span className="font-medium">${calculateTax().toFixed(2)}</span>
-                  </div>
-                  
-                  <Separator />
-                  
-                  <div className="flex justify-between font-bold">
-                    <span>المجموع</span>
-                    <span>${calculateTotal().toFixed(2)}</span>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">التوصيل</span>
+                      <span className="font-medium text-green-600">
+                        {calculateDeliveryFee() === 0 ? "مجاناً" : `$${calculateDeliveryFee().toFixed(2)}`}
+                      </span>
+                    </div>
+                    
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">الضريبة (10%)</span>
+                      <span className="font-medium">${calculateTax().toFixed(2)}</span>
+                    </div>
+                    
+                    <Separator />
+                    
+                    <div className="flex justify-between font-bold text-lg">
+                      <span>المجموع</span>
+                      <span className="text-primary text-xl">${calculateTotal().toFixed(2)}</span>
+                    </div>
                   </div>
                 </CardContent>
                 
-                <CardFooter className="flex flex-col space-y-4">
-                  <div className="flex items-center text-sm text-green-600">
-                    <Truck className="w-4 h-4 mr-2" />
-                    <span>شحن مجاني على الطلبات التي تزيد قيمتها عن 50 دولار</span>
-                  </div>
-                  
-                  <div className="flex items-center text-sm text-blue-600">
-                    <Box className="w-4 h-4 mr-2" />
-                    <span>الدفع نقداً عند الاستلام في العراق</span>
-                  </div>
-                  
-                  <div className="flex items-center text-sm text-purple-600">
-                    <Clock className="w-4 h-4 mr-2" />
-                    <span>التوصيل يتم بمدة لاتزيد عن 5 ايام</span>
+                <CardFooter className="flex flex-col space-y-4 bg-gradient-to-r from-gray-50 to-blue-50">
+                  <div className="w-full space-y-3 text-sm">
+                    <div className="flex items-center text-green-600">
+                      <Truck className="w-4 h-4 ml-2" />
+                      <span>شحن مجاني على الطلبات التي تزيد قيمتها عن 50 دولار</span>
+                    </div>
+                    
+                    <div className="flex items-center text-blue-600">
+                      <Shield className="w-4 h-4 ml-2" />
+                      <span>الدفع نقداً عند الاستلام في العراق</span>
+                    </div>
+                    
+                    <div className="flex items-center text-purple-600">
+                      <Clock className="w-4 h-4 ml-2" />
+                      <span>التوصيل يتم بمدة لا تزيد عن 5 أيام</span>
+                    </div>
                   </div>
                 </CardFooter>
               </Card>
@@ -522,6 +661,8 @@ const Checkout: React.FC = () => {
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Checkout;
